@@ -1,4 +1,4 @@
-import { Download, Github } from "lucide-react";
+import { Download, Github, Star } from "lucide-react";
 import Image from "next/image";
 
 const DOWNLOAD_URL = "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
@@ -29,9 +29,10 @@ function Nav() {
           href="https://github.com/Mopra/qgn.app"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-muted hover:text-foreground transition-colors"
+          className="group/star flex items-center gap-1.5 text-muted hover:text-foreground transition-colors"
         >
           <Github className="w-5 h-5" />
+          <Star className="w-3.5 h-3.5 transition-colors group-hover/star:fill-yellow-400 group-hover/star:text-yellow-400" />
         </a>
         <a
           href={DOWNLOAD_URL}

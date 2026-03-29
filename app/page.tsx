@@ -1,5 +1,5 @@
-import { Download, Github, Star } from "lucide-react";
-import Image from "next/image";
+import { Code, Download, Github } from "lucide-react";
+import { Nav } from "@/app/components/FeatureLayout";
 
 const DOWNLOAD_URL = "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
 
@@ -13,36 +13,6 @@ function LogoMark({ className = "w-8 h-8", color = "#AF226B" }: { className?: st
       <rect x="300.893" y="219.439" width="71.638" height="14.3276" rx="7.1638" transform="rotate(15 300.893 219.439)" fill={color} />
       <rect x="32.7581" y="147.593" width="71.638" height="14.3276" rx="7.1638" transform="rotate(15 32.7581 147.593)" fill={color} />
     </svg>
-  );
-}
-
-
-function Nav() {
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 py-5 flex justify-between items-center">
-      <a href="/" className="flex items-center gap-3 text-foreground">
-        <Image src="/logo/Logo Transparent BG.png" alt="Quick Gen" width={32} height={32} className="w-8 h-8" />
-        <span className="font-bold tracking-tight">Quick Gen</span>
-      </a>
-      <div className="flex items-center gap-4">
-        <a
-          href="https://github.com/Mopra/qgn.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group/star flex items-center gap-1.5 text-muted hover:text-foreground transition-colors"
-        >
-          <Github className="w-5 h-5" />
-          <Star className="w-3.5 h-3.5 transition-colors group-hover/star:fill-yellow-400 group-hover/star:text-yellow-400" />
-        </a>
-        <a
-          href={DOWNLOAD_URL}
-          className="group inline-flex items-center gap-2.5 px-5 py-2.5 bg-pink text-white font-bold text-sm rounded-full hover:bg-pink-light transition-all hover:scale-105"
-        >
-          <Download className="w-4 h-4 group-hover:animate-bounce" />
-          Download
-        </a>
-      </div>
-    </nav>
   );
 }
 
@@ -78,8 +48,17 @@ function Hero() {
             <Download className="w-5 h-5" />
             Download for Windows
           </a>
+          <a
+            href="https://github.com/Mopra/qgn.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2.5 px-6 py-4 border border-border text-foreground font-bold text-base rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03]"
+          >
+            <Code className="w-5 h-5 text-muted group-hover:text-pink transition-colors" />
+            View Source
+          </a>
           <span className="text-dim text-sm">
-            Free &middot; 85 MB &middot; No account needed
+            Free &middot; Open source &middot; &lt;100 MB &middot; No account
           </span>
         </div>
       </div>
@@ -102,6 +81,7 @@ function Hero() {
 
 function Marquee() {
   const items = [
+    "OPEN SOURCE",
     "NO CLOUD UPLOADS",
     "NO ACCOUNT",
     "NO SUBSCRIPTION",
@@ -231,35 +211,62 @@ function Versus() {
 }
 
 function Features() {
-  const features = [
+  const coreFeatures = [
     {
       label: "Clipboard-first",
-      text: "Every capture is on your clipboard before you can blink. PNG, JPG, WebP, base64. Paste anywhere.",
+      text: "Every capture lands on your clipboard instantly. PNG, JPG, WebP, or base64 Data URI — pick your format, paste anywhere.",
     },
     {
       label: "Floating previews",
-      text: "Screenshots appear as always-on-top cards. Pin them. Stack them. Reference while you build.",
+      text: "Screenshots appear as always-on-top cards. Pin them, stack them, drag them around, resize them. They survive restarts too.",
     },
     {
-      label: "Annotation",
-      text: "Arrows, text, highlights, drawings. Mark up screenshots without leaving the app.",
+      label: "Full annotation editor",
+      text: "Arrows, shapes, text, freehand drawing, numbered callouts, and a redaction tool for sensitive info. Six colors, three stroke widths, full undo. All keyboard-shortcut driven.",
     },
     {
       label: "Screen recording",
-      text: "Ctrl+Shift+Q. Record any region with mic input. Bug reports in 10 seconds.",
+      text: "Ctrl+Shift+Q. Select any region. Toggle mic input, pick your audio device. Export as MP4 or WebM. Bug reports in 10 seconds.",
     },
     {
+      label: "Multi-monitor support",
+      text: "Works seamlessly across multiple displays. The overlay appears on whichever screen your cursor is on. No extra setup.",
+    },
+    {
+      label: "Customizable hotkeys",
+      text: "Rebind capture and recording hotkeys to whatever works for your workflow. Your shortcuts, your rules.",
+    },
+  ];
+
+  const moreFeatures = [
+    {
       label: "Auto-save",
-      text: "Every capture saved to your folder. Or not. Your call.",
+      text: "Every capture saved to a folder of your choice with organized timestamps. Or clipboard-only. Your call.",
     },
     {
       label: "System tray",
-      text: "Invisible until you need it. No window to manage. No dock icon to ignore.",
+      text: "Lives quietly in your tray. No window to manage. No dock icon to ignore. Invisible until you need it.",
+    },
+    {
+      label: "Auto-updates",
+      text: "Checks for updates in the background. One-click install when a new version drops. Or it updates silently on quit.",
+    },
+    {
+      label: "Pixel dimensions",
+      text: "See exact pixel dimensions of your selection in real-time as you drag. Precision when you need it.",
+    },
+    {
+      label: "Pin & restore",
+      text: "Pinned previews persist across app restarts. Close the app, reboot, your pinned captures are still there.",
+    },
+    {
+      label: "Lightweight",
+      text: "Under 100 MB installed. Vanilla JS under the hood — no framework bloat. Starts with your system and stays out of your way.",
     },
   ];
 
   return (
-    <section className="px-6 md:px-10 py-32 border-t border-border">
+    <section id="features" className="px-6 md:px-10 py-32 border-t border-border">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-20">
           The full
@@ -268,7 +275,7 @@ function Features() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-          {features.map((f) => (
+          {coreFeatures.map((f) => (
             <div key={f.label} className="border-t border-border pt-6">
               <h3 className="text-xl font-black tracking-tight mb-2">
                 {f.label}
@@ -277,6 +284,105 @@ function Features() {
             </div>
           ))}
         </div>
+
+        <div className="mt-24">
+          <h3 className="text-sm font-bold text-dim uppercase tracking-widest mb-12">
+            And everything else
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10">
+            {moreFeatures.map((f) => (
+              <div key={f.label}>
+                <h4 className="text-base font-black tracking-tight mb-1.5">
+                  {f.label}
+                </h4>
+                <p className="text-muted text-sm leading-relaxed">{f.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Shortcuts() {
+  const shortcuts = [
+    { keys: "Ctrl+Q", action: "Capture screenshot" },
+    { keys: "Ctrl+Shift+Q", action: "Start screen recording" },
+    { keys: "D", action: "Draw tool" },
+    { keys: "A", action: "Arrow tool" },
+    { keys: "S", action: "Shape tool" },
+    { keys: "T", action: "Text tool" },
+    { keys: "X", action: "Redact / blur" },
+    { keys: "C", action: "Callout numbers" },
+    { keys: "Ctrl+Z", action: "Undo" },
+    { keys: "Esc", action: "Cancel" },
+  ];
+
+  return (
+    <section className="px-6 md:px-10 py-32 border-t border-border">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6">
+          Keyboard-driven.
+          <br />
+          <span className="text-pink">Mouse optional.</span>
+        </h2>
+        <p className="text-muted text-lg mb-16 max-w-lg">
+          Every annotation tool has a single-key shortcut. No toolbar hunting, no right-click menus. Just press and go.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {shortcuts.map((s) => (
+            <div
+              key={s.keys}
+              className="border border-border rounded-2xl p-5 hover:border-pink/30 transition-colors group"
+            >
+              <kbd className="block text-lg font-mono font-bold text-foreground group-hover:text-pink transition-colors mb-2">
+                {s.keys}
+              </kbd>
+              <span className="text-muted text-sm">{s.action}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OpenSource() {
+  return (
+    <section className="px-6 md:px-10 py-32 border-t border-border">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6">
+          Fully <span className="text-pink">open source.</span>
+        </h2>
+        <p className="text-muted text-lg leading-relaxed max-w-2xl mx-auto mb-12">
+          QGN is MIT-licensed. Read every line. Fork it. Improve it. Build something better.
+          No hidden code, no proprietary blobs, no server calls you can&apos;t inspect.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <a
+            href="https://github.com/Mopra/qgn.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-8 py-5 border border-border rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03] font-bold text-lg"
+          >
+            <Github className="w-5 h-5" />
+            View App Source
+          </a>
+          <a
+            href="https://github.com/Mopra/qgn.app.website"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-8 py-5 border border-border rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03] font-bold text-lg"
+          >
+            <Code className="w-5 h-5" />
+            View Website Source
+          </a>
+        </div>
+        <p className="mt-8 text-dim text-sm">
+          MIT License &middot; Free to use, modify, and distribute
+        </p>
       </div>
     </section>
   );
@@ -322,7 +428,7 @@ function FinalCTA() {
           Download for Windows
         </a>
         <p className="mt-5 text-dim text-sm">
-          Free &middot; Windows 10+ &middot; No account &middot; No cloud &middot; Just a damn good tool
+          Free &middot; Open source &middot; Windows 10+ &middot; No account &middot; No cloud
         </p>
       </div>
     </section>
@@ -332,13 +438,21 @@ function FinalCTA() {
 function Footer() {
   return (
     <footer className="px-6 md:px-10 py-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-dim w-full">
-      <span>&copy; {new Date().getFullYear()} Quick Gen</span>
-      <a
-        href="https://github.com/Mopra/qgn.app"
-        className="text-muted hover:text-foreground transition-colors"
-      >
-        GitHub
-      </a>
+      <span>&copy; {new Date().getFullYear()} Quick Gen &middot; MIT License</span>
+      <div className="flex items-center gap-4">
+        <a
+          href="https://github.com/Mopra/qgn.app"
+          className="text-muted hover:text-foreground transition-colors"
+        >
+          App Source
+        </a>
+        <a
+          href="https://github.com/Mopra/qgn.app.website"
+          className="text-muted hover:text-foreground transition-colors"
+        >
+          Website Source
+        </a>
+      </div>
     </footer>
   );
 }
@@ -352,6 +466,8 @@ export default function Home() {
       <TheFlow />
       <Versus />
       <Features />
+      <Shortcuts />
+      <OpenSource />
       <Manifesto />
       <FinalCTA />
       <Footer />

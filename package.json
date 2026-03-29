@@ -1,6 +1,13 @@
 {
   "name": "qgn-website",
   "version": "0.1.0",
+  "description": "Marketing website for QGN — the open-source screenshot tool for Windows. Built with Next.js, React, and Tailwind CSS.",
+  "license": "MIT",
+  "homepage": "https://qgn.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mopra/qgn.app.website.git"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",

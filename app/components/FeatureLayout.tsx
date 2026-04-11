@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Download, Github, Code, Star, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { DownloadButton } from "@/app/components/DownloadPopup";
 
 const DOWNLOAD_URL =
   "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
@@ -38,7 +39,7 @@ export const USE_CASES_NAV = [
   { href: "/use-cases/designers", label: "For Designers" },
 ];
 
-/* ── Desktop dropdown (hover) ── */
+/* ── Desktop dropdown (hover + focus) ── */
 function NavDropdown({
   label,
   items,
@@ -46,14 +47,39 @@ function NavDropdown({
   label: string;
   items: { href: string; label: string }[];
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="relative hidden md:block [&:hover>.nav-dropdown]:opacity-100 [&:hover>.nav-dropdown]:visible">
-      <button className="flex items-center gap-1 text-muted hover:text-foreground transition-colors text-sm font-medium">
+    <div
+      className="relative hidden md:block"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
+        onFocus={() => setOpen(true)}
+        className="flex items-center gap-1 text-muted hover:text-foreground transition-colors text-sm font-medium"
+      >
         {label}
         <ChevronDown className="w-3.5 h-3.5" />
       </button>
-      <div className="nav-dropdown absolute top-full left-0 pt-2 opacity-0 invisible transition-all duration-150">
-        <div className="bg-card border border-border rounded-xl p-2 min-w-[240px] shadow-2xl">
+      <div
+        className={`absolute top-full left-0 pt-2 transition-all duration-150 ${
+          open ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        <div
+          className="bg-card border border-border rounded-xl p-2 min-w-[240px] shadow-2xl"
+          onBlur={(e) => {
+            // Close when focus leaves the dropdown entirely
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+              setOpen(false);
+            }
+          }}
+        >
           {items.map((item) => (
             <Link
               key={item.href}
@@ -130,6 +156,7 @@ export function Nav() {
               width={32}
               height={32}
               className="w-8 h-8"
+              priority
             />
             <span className="font-bold tracking-tight">Quick Gen</span>
           </Link>
@@ -156,13 +183,12 @@ export function Nav() {
             <Github className="w-5 h-5" />
             <Star className="w-3.5 h-3.5 transition-colors group-hover/star:fill-yellow-400 group-hover/star:text-yellow-400" />
           </a>
-          <a
-            href={DOWNLOAD_URL}
+          <DownloadButton
             className="group hidden sm:inline-flex items-center gap-2.5 px-5 py-2.5 bg-pink text-white font-bold text-sm rounded-full hover:bg-pink-light transition-all hover:scale-105"
           >
             <Download className="w-4 h-4 group-hover:animate-bounce" />
             Download
-          </a>
+          </DownloadButton>
 
           {/* Mobile hamburger */}
           <button
@@ -207,13 +233,12 @@ export function Nav() {
           </Link>
 
           <div className="px-6 py-6 space-y-4">
-            <a
-              href={DOWNLOAD_URL}
+            <DownloadButton
               className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-pink text-white font-black text-base rounded-2xl hover:bg-pink-light transition-all"
             >
               <Download className="w-5 h-5" />
               Download for Windows
-            </a>
+            </DownloadButton>
             <a
               href="https://github.com/Mopra/qgn.app"
               target="_blank"
@@ -294,13 +319,12 @@ export function FeatureCTA() {
           no account needed.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href={DOWNLOAD_URL}
+          <DownloadButton
             className="group inline-flex items-center gap-3 px-10 py-6 bg-pink text-white font-black text-xl rounded-2xl hover:bg-pink-light transition-all hover:scale-[1.03] shadow-[0_0_100px_rgba(175,34,107,0.3)]"
           >
             <Download className="w-6 h-6" />
             Download for Windows
-          </a>
+          </DownloadButton>
           <a
             href="https://github.com/Mopra/qgn.app"
             target="_blank"

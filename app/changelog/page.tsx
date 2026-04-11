@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: "https://qgn.app/changelog",
     images: [
       {
-        url: "/logo/Logo Black BG.png",
+        url: "/logo/Logo%20Black%20BG.png",
         width: 1200,
         height: 630,
         alt: "Quick Gen — Screenshot tool for Windows",
@@ -65,6 +65,22 @@ function formatDate(dateStr: string): string {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function sanitizeHtml(html: string): string {
+  // Strip all HTML tags except safe ones
+  const ALLOWED_TAGS = /^(a|b|strong|i|em|code|pre|br|p|h[1-6]|ul|ol|li|blockquote|hr|span|div)$/i;
+  return html.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g, (match, tag) => {
+    if (ALLOWED_TAGS.test(tag)) {
+      // Strip event handlers and javascript: URLs from allowed tags
+      return match
+        .replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, "")
+        .replace(/\s+on\w+\s*=\s*\S+/gi, "")
+        .replace(/href\s*=\s*["']javascript:[^"']*["']/gi, 'href="#"');
+    }
+    return ""; // strip disallowed tags entirely
   });
 }
 
@@ -72,7 +88,7 @@ function parseMarkdown(body: string): string {
   if (!body) return "";
 
   // Convert markdown to simple HTML
-  return body
+  const html = body
     // Headers
     .replace(/^### (.+)$/gm, '<h4 class="text-base font-bold mt-6 mb-2">$1</h4>')
     .replace(/^## (.+)$/gm, '<h3 class="text-lg font-bold mt-6 mb-2">$1</h3>')
@@ -88,6 +104,8 @@ function parseMarkdown(body: string): string {
     .replace(/^(?!<[hul]|<li)(.+)$/gm, '<p class="mb-3">$1</p>')
     // Line breaks
     .replace(/\n\n/g, "");
+
+  return sanitizeHtml(html);
 }
 
 export default async function ChangelogPage() {

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     url: "https://qgn.app/features/snipping-tool-alternative",
     images: [
       {
-        url: "/logo/Logo Black BG.png",
+        url: "/logo/Logo%20Black%20BG.png",
         width: 1200,
         height: 630,
         alt: "Quick Gen — Screenshot tool for Windows",

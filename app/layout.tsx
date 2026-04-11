@@ -51,7 +51,7 @@ export const metadata: Metadata = {
       "Capture your screen in a single keystroke. Clipboard-first screenshots, floating previews, annotation, screen recording. Free, no account, no cloud.",
     images: [
       {
-        url: "/logo/Logo Black BG.png",
+        url: "/logo/Logo%20Black%20BG.png",
         width: 1200,
         height: 630,
         alt: "Quick Gen — Screenshot tool for builders",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "Quick Gen — Instant screenshot tool for Windows",
     description:
       "Capture your screen in a single keystroke. Clipboard-first screenshots, floating previews, annotation, screen recording. Free, no account, no cloud.",
-    images: ["/logo/Logo Black BG.png"],
+    images: ["/logo/Logo%20Black%20BG.png"],
   },
   robots: {
     index: true,
@@ -106,8 +106,6 @@ export default function RootLayout({
     downloadUrl:
       "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe",
     fileSize: "85MB",
-    softwareVersion: "0.1.7",
-    screenshot: "https://qgn.app/logo/Logo Black BG.png",
     featureList:
       "Instant screenshot capture, Clipboard-first workflow, Floating preview cards, Annotation editor, Screen recording with audio, Multi-monitor support, Customizable hotkeys, Auto-save, System tray integration",
   };

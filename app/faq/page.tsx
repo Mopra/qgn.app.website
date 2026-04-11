@@ -20,7 +20,7 @@ const FAQS = [
   {
     question: "How do I take a screenshot with Quick Gen?",
     answer:
-      "Press Ctrl+Q to activate the capture overlay, then click and drag to select a region. The screenshot is instantly copied to your clipboard. You can also use Ctrl+Shift+Q for fullscreen capture or Ctrl+Alt+Q to start recording.",
+      "Press Ctrl+Q to activate the capture overlay, then click and drag to select a region. The screenshot is instantly copied to your clipboard. You can also use Ctrl+Shift+Q to start screen recording.",
   },
   {
     question: "What image formats does Quick Gen support?",
@@ -45,7 +45,7 @@ const FAQS = [
   {
     question: "Can Quick Gen record my screen?",
     answer:
-      "Yes. Quick Gen includes screen recording with system audio and microphone support. Press Ctrl+Alt+Q to start recording a selected region, and press the same shortcut or Escape to stop. Videos are saved as MP4.",
+      "Yes. Quick Gen includes screen recording with system audio and microphone support. Press Ctrl+Shift+Q to start recording a selected region, and press the same shortcut or Escape to stop. Videos are saved as MP4 or WebM.",
   },
   {
     question: "Is Quick Gen open source?",
@@ -99,7 +99,7 @@ export const metadata: Metadata = {
     url: "https://qgn.app/faq",
     images: [
       {
-        url: "/logo/Logo Black BG.png",
+        url: "/logo/Logo%20Black%20BG.png",
         width: 1200,
         height: 630,
         alt: "Quick Gen — Screenshot tool for Windows",

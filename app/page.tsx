@@ -1,7 +1,56 @@
-import { Code, Download, Github } from "lucide-react";
+import { Code, Download, Github, MessageSquare, Star } from "lucide-react";
+import Link from "next/link";
 import { Nav } from "@/app/components/FeatureLayout";
+import { DownloadButton } from "@/app/components/DownloadPopup";
+import { SmartDownloadHero } from "@/app/components/SmartDownload";
 
 const DOWNLOAD_URL = "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
+const GITHUB_URL = "https://github.com/Mopra/qgn.app";
+
+/* ── GitHub API helpers ── */
+
+interface GitHubAsset {
+  download_count: number;
+}
+
+interface GitHubRelease {
+  tag_name: string;
+  name: string;
+  published_at: string;
+  draft: boolean;
+  assets: GitHubAsset[];
+}
+
+async function getReleasesData(): Promise<{ downloads: number; latestVersion: string | null; latestDate: string | null }> {
+  try {
+    const res = await fetch(
+      "https://api.github.com/repos/Mopra/qgn.app/releases?per_page=50",
+      {
+        headers: { Accept: "application/vnd.github.v3+json" },
+        next: { revalidate: 3600 },
+      }
+    );
+    if (!res.ok) return { downloads: 0, latestVersion: null, latestDate: null };
+
+    const releases: GitHubRelease[] = await res.json();
+    const published = releases.filter((r) => !r.draft);
+
+    const downloads = published.reduce(
+      (sum, r) => sum + r.assets.reduce((a, asset) => a + asset.download_count, 0),
+      0
+    );
+
+    const latest = published[0] ?? null;
+
+    return {
+      downloads,
+      latestVersion: latest?.name || latest?.tag_name || null,
+      latestDate: latest?.published_at || null,
+    };
+  } catch {
+    return { downloads: 0, latestVersion: null, latestDate: null };
+  }
+}
 
 /* Static logo for nav etc. */
 function LogoMark({ className = "w-8 h-8", color = "#AF226B" }: { className?: string; color?: string }) {
@@ -16,14 +65,31 @@ function LogoMark({ className = "w-8 h-8", color = "#AF226B" }: { className?: st
   );
 }
 
-function Hero() {
+function Hero({ downloads, latestVersion }: { downloads: number; latestVersion: string | null }) {
+  const downloadLabel = downloads > 0
+    ? downloads >= 1000
+      ? `${(downloads / 1000).toFixed(1).replace(/\.0$/, "")}k downloads`
+      : `${downloads.toLocaleString()} downloads`
+    : null;
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-10 pt-24">
       {/* Content */}
       <div className="relative max-w-6xl">
-        <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-          Ctrl+Q &mdash; that&apos;s it
-        </p>
+        {/* Top line with changelog teaser */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase">
+            Ctrl+Q &mdash; that&apos;s it
+          </p>
+          {latestVersion && (
+            <Link
+              href="/changelog"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full border border-pink/30 text-pink hover:bg-pink/10 transition-colors"
+            >
+              {latestVersion} just shipped &rarr;
+            </Link>
+          )}
+        </div>
 
         <h1 className="text-[clamp(3rem,9vw,8rem)] font-black leading-[0.88] tracking-[-0.05em]">
           Screenshot
@@ -40,27 +106,30 @@ function Hero() {
           We made something that just works.
         </p>
 
-        <div className="flex flex-wrap items-center gap-5 mt-12">
-          <a
-            href={DOWNLOAD_URL}
-            className="group inline-flex items-center gap-3 px-8 py-5 bg-pink text-white font-black text-lg rounded-2xl hover:bg-pink-light transition-all hover:scale-[1.03] shadow-[0_0_80px_rgba(175,34,107,0.25)]"
-          >
-            <Download className="w-5 h-5" />
-            Download for Windows
-          </a>
-          <a
-            href="https://github.com/Mopra/qgn.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2.5 px-6 py-4 border border-border text-foreground font-bold text-base rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03]"
-          >
-            <Code className="w-5 h-5 text-muted group-hover:text-pink transition-colors" />
-            View Source
-          </a>
-          <span className="text-dim text-sm">
-            Free &middot; Open source &middot; &lt;100 MB &middot; No account
-          </span>
-        </div>
+        <SmartDownloadHero
+          downloadButton={
+            <div className="flex flex-wrap items-center gap-5 mt-12">
+              <DownloadButton
+                className="group inline-flex items-center gap-3 px-8 py-5 bg-pink text-white font-black text-lg rounded-2xl hover:bg-pink-light transition-all hover:scale-[1.03] shadow-[0_0_80px_rgba(175,34,107,0.25)]"
+              >
+                <Download className="w-5 h-5" />
+                Download for Windows
+              </DownloadButton>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2.5 px-6 py-4 border border-border text-foreground font-bold text-base rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03]"
+              >
+                <Code className="w-5 h-5 text-muted group-hover:text-pink transition-colors" />
+                View Source
+              </a>
+              <span className="text-dim text-sm">
+                Free &middot; Open source &middot; &lt;100 MB{downloadLabel ? ` \u00b7 ${downloadLabel}` : " \u00b7 No account"}
+              </span>
+            </div>
+          }
+        />
       </div>
 
       {/* Keyboard visual at bottom */}
@@ -147,7 +216,7 @@ function TheFlow() {
 function Versus() {
   const theirs = [
     "Sign up with email",
-    "Choose a plan",
+    "Choose a plan ($63/yr for Snagit)",
     "Download 400 MB",
     "Create a project",
     "Take a screenshot",
@@ -161,9 +230,12 @@ function Versus() {
   return (
     <section className="px-6 md:px-10 py-32">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-20 text-center">
+        <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6 text-center">
           Them vs. <span className="text-pink">us.</span>
         </h2>
+        <p className="text-muted text-center mb-20 max-w-lg mx-auto">
+          Snagit charges $63/year. ShareX needs a PhD to configure. Lightshot uploads everything to their servers. There&apos;s a simpler way.
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Theirs */}
@@ -214,7 +286,7 @@ function Features() {
   const coreFeatures = [
     {
       label: "Clipboard-first",
-      text: "Every capture lands on your clipboard instantly. PNG, JPG, WebP, or base64 Data URI — pick your format, paste anywhere.",
+      text: "Every capture lands on your clipboard instantly. PNG, JPG, WebP, or base64 Data URI \u2014 pick your format, paste anywhere.",
     },
     {
       label: "Floating previews",
@@ -261,7 +333,7 @@ function Features() {
     },
     {
       label: "Lightweight",
-      text: "Under 100 MB installed. Vanilla JS under the hood — no framework bloat. Starts with your system and stays out of your way.",
+      text: "Under 100 MB installed. Vanilla JS under the hood \u2014 no framework bloat. Starts with your system and stays out of your way.",
     },
   ];
 
@@ -362,7 +434,7 @@ function OpenSource() {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a
-            href="https://github.com/Mopra/qgn.app"
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 px-8 py-5 border border-border rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03] font-bold text-lg"
@@ -408,6 +480,49 @@ function Manifesto() {
   );
 }
 
+function StayConnected() {
+  return (
+    <section className="px-6 md:px-10 py-20 border-t border-border">
+      <div className="max-w-4xl mx-auto text-center">
+        <h3 className="text-sm font-bold text-dim uppercase tracking-widest mb-10">
+          Stay in the loop
+        </h3>
+        <div className="flex flex-wrap justify-center gap-4">
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-4 border border-border rounded-2xl hover:border-yellow-500/40 transition-all hover:scale-[1.03] hover:bg-yellow-500/[0.04]"
+          >
+            <Star className="w-5 h-5 text-muted group-hover:fill-yellow-400 group-hover:text-yellow-400 transition-colors" />
+            <span className="font-bold">Star on GitHub</span>
+          </a>
+          <a
+            href={`${GITHUB_URL}/discussions`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-4 border border-border rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03] hover:bg-pink/[0.04]"
+          >
+            <MessageSquare className="w-5 h-5 text-muted group-hover:text-pink transition-colors" />
+            <span className="font-bold">Join the Discussion</span>
+          </a>
+          <a
+            href="https://x.com/m_prads"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-4 border border-border rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03] hover:bg-pink/[0.04]"
+          >
+            <svg className="w-5 h-5 text-muted group-hover:text-foreground transition-colors" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            <span className="font-bold">Follow on X</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FinalCTA() {
   return (
     <section className="px-6 md:px-10 py-32 border-t border-border">
@@ -420,13 +535,12 @@ function FinalCTA() {
           <span className="text-pink">We&apos;ll handle the screenshots.</span>
         </h2>
 
-        <a
-          href={DOWNLOAD_URL}
+        <DownloadButton
           className="group inline-flex items-center gap-3 mt-10 px-10 py-6 bg-pink text-white font-black text-xl rounded-2xl hover:bg-pink-light transition-all hover:scale-[1.03] shadow-[0_0_100px_rgba(175,34,107,0.3)]"
         >
           <Download className="w-6 h-6" />
           Download for Windows
-        </a>
+        </DownloadButton>
         <p className="mt-5 text-dim text-sm">
           Free &middot; Open source &middot; Windows 10+ &middot; No account &middot; No cloud
         </p>
@@ -437,39 +551,73 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="px-6 md:px-10 py-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-dim w-full">
-      <span>&copy; {new Date().getFullYear()} Quick Gen &middot; MIT License</span>
-      <div className="flex items-center gap-4">
-        <a
-          href="https://github.com/Mopra/qgn.app"
-          className="text-muted hover:text-foreground transition-colors"
-        >
-          App Source
-        </a>
-        <a
-          href="https://github.com/Mopra/qgn.app.website"
-          className="text-muted hover:text-foreground transition-colors"
-        >
-          Website Source
-        </a>
+    <footer className="px-6 md:px-10 py-10 border-t border-border w-full">
+      <div className="max-w-6xl mx-auto flex flex-col gap-6">
+        {/* Top row: nav links */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+            <Link href="/" className="text-muted hover:text-foreground transition-colors">Home</Link>
+            <Link href="/faq" className="text-muted hover:text-foreground transition-colors">FAQ</Link>
+            <Link href="/changelog" className="text-muted hover:text-foreground transition-colors">Changelog</Link>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-foreground transition-colors">GitHub</a>
+          </div>
+          <div className="flex items-center gap-x-5 text-sm">
+            <Link href="/privacy" className="text-dim hover:text-muted transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-dim hover:text-muted transition-colors">Terms</Link>
+          </div>
+        </div>
+
+        {/* Social links */}
+        <div className="flex items-center gap-4">
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-dim hover:text-foreground transition-colors"
+            aria-label="GitHub"
+          >
+            <Github className="w-4 h-4" />
+          </a>
+          <a
+            href="https://x.com/m_prads"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-dim hover:text-foreground transition-colors"
+            aria-label="X (Twitter)"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+        </div>
+
+        {/* Copyright */}
+        <div className="text-xs text-dim">
+          &copy; {new Date().getFullYear()} Quick Gen &middot; MIT License
+        </div>
       </div>
     </footer>
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const { downloads, latestVersion } = await getReleasesData();
+
   return (
     <div className="noise">
       <Nav />
-      <Hero />
-      <Marquee />
-      <TheFlow />
-      <Versus />
-      <Features />
-      <Shortcuts />
-      <OpenSource />
-      <Manifesto />
-      <FinalCTA />
+      <main>
+        <Hero downloads={downloads} latestVersion={latestVersion} />
+        <Marquee />
+        <TheFlow />
+        <Versus />
+        <Features />
+        <Shortcuts />
+        <OpenSource />
+        <Manifesto />
+        <StayConnected />
+        <FinalCTA />
+      </main>
       <Footer />
     </div>
   );

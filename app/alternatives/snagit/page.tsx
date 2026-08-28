@@ -82,13 +82,30 @@ export default function SnagitAlternativePage() {
             </div>
             {[
               ["Screenshot capture", "Yes", "Yes"],
-              ["Screen recording", "Yes", "Yes — with mic, MP4/WebM"],
-              ["Annotation editor", "Yes — comprehensive", "Yes — arrows, shapes, text, callouts, blur"],
+              ["Screen recording", "Yes", "Yes — mic + system audio"],
+              [
+                "Annotation editor",
+                "Yes — comprehensive",
+                "Yes — 9 tools, marks stay editable",
+              ],
+              ["Snap to window", "Yes", "Yes — with edge snapping"],
               ["Floating previews", "No", "Yes — pin, stack, resize"],
               ["Clipboard-first", "Optional", "Default — every capture"],
+              [
+                "Backgrounds & frames",
+                "Borders and effects",
+                "10 gradients, 6 wallpapers, browser frames",
+              ],
+              ["Video trimming", "Yes", "Yes — in and out points"],
+              [
+                "Recording zoom-ins",
+                "Manual",
+                "Generated from your clicks",
+              ],
+              ["Video export", "MP4, GIF", "MP4, WebM, GIF, animated WebP"],
               ["Scrolling capture", "Yes", "Not yet"],
+              ["OCR / grab text", "Yes", "Not yet"],
               ["Templates & stamps", "Yes — large library", "No"],
-              ["Video trimming", "Yes", "No"],
               ["Cloud integration", "Screencast.com, Google Drive", "None — local only"],
               ["Open source", "No", "Yes (MIT)"],
               ["Price", "$63 one-time", "Free"],

@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  // Static pages use a fixed date; only truly dynamic pages use current date
-  const staticDate = new Date("2025-04-01");
+  // Static pages use a fixed date; only truly dynamic pages use current date.
+  // Bump this when the page content is actually revised, so crawlers recrawl.
+  const staticDate = new Date("2026-08-28");
 
   return [
     {
@@ -15,6 +16,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Feature pages
     {
       url: "https://qgn.app/features/screenshot-tool",
+      lastModified: staticDate,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: "https://qgn.app/features/studio",
+      lastModified: staticDate,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: "https://qgn.app/features/screenshot-mockup-tool",
       lastModified: staticDate,
       changeFrequency: "monthly",
       priority: 0.9,

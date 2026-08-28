@@ -3,8 +3,16 @@ import Link from "next/link";
 import { Nav } from "@/app/components/FeatureLayout";
 import { DownloadButton } from "@/app/components/DownloadPopup";
 import { SmartDownloadHero } from "@/app/components/SmartDownload";
+import {
+  CaptureFlowVignette,
+  ComposeVignette,
+  MarkupVignette,
+  PreviewsVignette,
+  RecordVignette,
+  SnapWindowVignette,
+  VignetteCaption,
+} from "@/app/components/vignettes";
 
-const DOWNLOAD_URL = "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
 const GITHUB_URL = "https://github.com/Mopra/qgn.app";
 
 /* ── GitHub API helpers ── */
@@ -65,6 +73,29 @@ function LogoMark({ className = "w-8 h-8", color = "#AF226B" }: { className?: st
   );
 }
 
+/* Section heading, used by every feature section below the fold. */
+function SectionHead({
+  eyebrow,
+  children,
+  lede,
+}: {
+  eyebrow: string;
+  children: React.ReactNode;
+  lede: React.ReactNode;
+}) {
+  return (
+    <>
+      <p className="text-pink font-mono font-bold text-xs tracking-widest uppercase mb-6">
+        {eyebrow}
+      </p>
+      <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9]">
+        {children}
+      </h2>
+      <p className="max-w-2xl text-lg text-muted mt-8 leading-relaxed">{lede}</p>
+    </>
+  );
+}
+
 function Hero({ downloads, latestVersion }: { downloads: number; latestVersion: string | null }) {
   const downloadLabel = downloads > 0
     ? downloads >= 1000
@@ -73,8 +104,7 @@ function Hero({ downloads, latestVersion }: { downloads: number; latestVersion: 
     : null;
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-10 pt-24">
-      {/* Content */}
+    <section className="relative flex flex-col justify-center px-6 md:px-10 pt-32 pb-20">
       <div className="relative max-w-6xl">
         {/* Top line with changelog teaser */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -86,7 +116,7 @@ function Hero({ downloads, latestVersion }: { downloads: number; latestVersion: 
               href="/changelog"
               className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full border border-pink/30 text-pink hover:bg-pink/10 transition-colors"
             >
-              {latestVersion} just shipped &rarr;
+              {latestVersion}{" "}just shipped &rarr;
             </Link>
           )}
         </div>
@@ -99,11 +129,12 @@ function Hero({ downloads, latestVersion }: { downloads: number; latestVersion: 
           <span className="text-pink">broken.</span>
         </h1>
 
-        <p className="max-w-lg text-lg md:text-xl text-muted mt-8 leading-relaxed">
+        <p className="max-w-xl text-lg md:text-xl text-muted mt-8 leading-relaxed">
           They want your email. They want a subscription. They want to upload
           your screen to their cloud. For a <em>screenshot</em>.
           <br /><br />
-          We made something that just works.
+          We made something that just works. One hotkey to your clipboard, and a
+          real editor for the times you need one.
         </p>
 
         <SmartDownloadHero
@@ -125,24 +156,20 @@ function Hero({ downloads, latestVersion }: { downloads: number; latestVersion: 
                 View Source
               </a>
               <span className="text-dim text-sm">
-                Free &middot; Open source &middot; &lt;100 MB{downloadLabel ? ` \u00b7 ${downloadLabel}` : " \u00b7 No account"}
+                Free &middot; Open source &middot; &lt;100 MB{downloadLabel ? ` · ${downloadLabel}` : " · No account"}
               </span>
             </div>
           }
         />
       </div>
 
-      {/* Keyboard visual at bottom */}
-      <div className="flex items-center gap-3 mt-auto mb-12 pt-24">
-        <kbd className="key-animate px-5 py-3 bg-[#111] border border-border rounded-xl text-lg font-bold font-mono shadow-[0_4px_0_#1a1a1a]">
-          Ctrl
-        </kbd>
-        <span className="text-dim text-2xl font-light">+</span>
-        <kbd className="key-animate-delay px-5 py-3 bg-[#111] border border-border rounded-xl text-lg font-bold font-mono shadow-[0_4px_0_#1a1a1a]">
-          Q
-        </kbd>
-        <span className="text-dim mx-2">&rarr;</span>
-        <span className="text-muted text-sm">clipboard. done. move on.</span>
+      {/* The whole product, in eight seconds. */}
+      <div className="max-w-6xl w-full mt-20">
+        <CaptureFlowVignette />
+        <VignetteCaption label="Ctrl+Q">
+          Hotkey, drag, release. The capture is on your clipboard before the
+          overlay finishes closing.
+        </VignetteCaption>
       </div>
     </section>
   );
@@ -205,8 +232,252 @@ function TheFlow() {
           <span className="giant-number block mb-6 group-hover:[-webkit-text-stroke-color:#AF226B] transition-all">3</span>
           <h3 className="text-2xl font-black tracking-tight mb-3">Done</h3>
           <p className="text-muted leading-relaxed">
-            On your clipboard. Floating preview on screen. Paste it wherever. Pin it. Annotate it. Or just move on.
+            On your clipboard. Floating preview on screen. Paste it wherever. Pin it. Open it in Studio. Or just move on.
           </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Precision() {
+  const points = [
+    {
+      label: "Snap to window",
+      text: "Click a window and you get exactly that window. Hovering outlines it and names it, with its size and what clicking will do, and while you drag, edges snap to whatever is nearby. Hold Ctrl to ignore them.",
+    },
+    {
+      label: "Pixel loupe",
+      text: "A magnifier follows the cursor with a live coordinate and colour readout, for when the edge you want is one pixel wide.",
+    },
+    {
+      label: "Adjust before you commit",
+      text: "Hold Alt as you release and the selection settles instead of firing. Drag the edges, nudge with the arrow keys, then confirm with Enter. Or make that the default in settings.",
+    },
+  ];
+
+  return (
+    <section className="px-6 md:px-10 py-32 border-t border-border">
+      <div className="max-w-6xl mx-auto">
+        <SectionHead
+          eyebrow="The capture overlay"
+          lede={
+            <>
+              Fast is only useful if it is also right. The overlay knows where
+              your windows are, magnifies the pixel under your cursor, and will
+              wait if you ask it to.
+            </>
+          }
+        >
+          Gets the pixels
+          <br />
+          <span className="text-pink">right the first time.</span>
+        </SectionHead>
+
+        <div className="mt-16">
+          <SnapWindowVignette />
+          <VignetteCaption label="Snap &middot; loupe &middot; adjust">
+            Hover a window to outline it, sample any pixel through the loupe, and
+            hold Alt to fine-tune the edges before capturing.
+          </VignetteCaption>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10 mt-20">
+          {points.map((p) => (
+            <div key={p.label} className="border-t border-border pt-6">
+              <h3 className="text-lg font-black tracking-tight mb-2">{p.label}</h3>
+              <p className="text-muted leading-relaxed">{p.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Studio() {
+  return (
+    <section id="studio" className="px-6 md:px-10 py-32 border-t border-border">
+      <div className="max-w-6xl mx-auto">
+        <SectionHead
+          eyebrow="Studio"
+          lede={
+            <>
+              One window handles stills and clips, in two modes.{" "}
+              <strong className="text-foreground">Markup</strong> edits the
+              pixels and saves back over the original.{" "}
+              <strong className="text-foreground">Compose</strong> frames the
+              capture on a background and saves a new file. Every tool works in
+              both, and on recordings as well as screenshots.
+            </>
+          }
+        >
+          Then make it
+          <br />
+          <span className="text-pink">look deliberate.</span>
+        </SectionHead>
+
+        {/* Compose */}
+        <div className="mt-20">
+          <div className="flex flex-wrap items-baseline gap-4 mb-8">
+            <h3 className="text-2xl md:text-3xl font-black tracking-tight">Compose</h3>
+            <p className="text-muted">
+              A raw screenshot turned into something you can put in a deck.
+            </p>
+          </div>
+          <ComposeVignette />
+          <VignetteCaption label="Background &middot; frame &middot; layout">
+            Ten gradients, six wallpapers, solids, or your own image. Window and
+            browser frames, padding, rounding, shadow, and six aspect ratios.
+          </VignetteCaption>
+        </div>
+
+        {/* Markup */}
+        <div className="mt-24">
+          <div className="flex flex-wrap items-baseline gap-4 mb-8">
+            <h3 className="text-2xl md:text-3xl font-black tracking-tight">Markup</h3>
+            <p className="text-muted">
+              Point at the thing, hide what should stay private.
+            </p>
+          </div>
+          <MarkupVignette />
+          <VignetteCaption label="Annotate &middot; redact &middot; edit">
+            Arrows, shapes, text, freehand, numbered callouts and redaction. Pick
+            a mark back up with the pointer to move, resize, recolour or delete
+            it.
+          </VignetteCaption>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12 mt-24">
+          <div className="border-t border-border pt-6">
+            <h3 className="text-lg font-black tracking-tight mb-2">
+              Marks stay editable
+            </h3>
+            <p className="text-muted leading-relaxed">
+              Fixing one arrow no longer means undoing everything you drew after
+              it. Select it with the pointer, move it, resize it by its handles,
+              recolour it, or double-click a text label to fix a typo.
+            </p>
+          </div>
+          <div className="border-t border-border pt-6">
+            <h3 className="text-lg font-black tracking-tight mb-2">
+              Redaction that actually redacts
+            </h3>
+            <p className="text-muted leading-relaxed">
+              Solid block or pixelate, and pixelation samples what is already
+              painted underneath rather than the original image, so stacking a
+              blur over a black box cannot put the text back on screen.
+            </p>
+          </div>
+          <div className="border-t border-border pt-6">
+            <h3 className="text-lg font-black tracking-tight mb-2">
+              Crop you can change your mind about
+            </h3>
+            <p className="text-muted leading-relaxed">
+              Picking the crop tool arms a rect over the whole image and cuts
+              nothing until you say so. Drag the sides, watch the live pixel
+              readout, then Apply. It is on the same undo stack as everything
+              else.
+            </p>
+          </div>
+          <div className="border-t border-border pt-6">
+            <h3 className="text-lg font-black tracking-tight mb-2">
+              Real pixels, any scale
+            </h3>
+            <p className="text-muted leading-relaxed">
+              Marks are stored in original image coordinates, so they stay put
+              when you crop, change the aspect ratio, resize the window, or
+              export at a different size. Ctrl + wheel zooms in to work up close.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Recording() {
+  const points = [
+    {
+      label: "Zoom keyframes from your clicks",
+      text: "Every click during a take is logged, then turned into zoom-ins automatically. Keep them, retime them, or place your own with adjustable easing and a focus point.",
+    },
+    {
+      label: "Microphone and system audio",
+      text: "Record either or both, pick your input device, and if an audio source refuses to open you get a warning badge and a toast instead of a silent take you find out about later.",
+    },
+    {
+      label: "Renders faster than it plays",
+      text: "MP4 and WebM drive the encoder directly rather than running at playback speed, so a three-minute clip no longer takes three minutes. GIF and animated WebP too.",
+    },
+  ];
+
+  return (
+    <section className="px-6 md:px-10 py-32 border-t border-border">
+      <div className="max-w-6xl mx-auto">
+        <SectionHead
+          eyebrow="Screen recording"
+          lede={
+            <>
+              Ctrl+Shift+Q, drag a region, and a pulsing red border shows exactly
+              what is being captured. Optional 3-2-1 countdown, pause and resume,
+              and a styled cursor with click ripples layered over the result.
+            </>
+          }
+        >
+          Record it.
+          <br />
+          <span className="text-pink">Zoom it. Ship it.</span>
+        </SectionHead>
+
+        <div className="mt-16">
+          <RecordVignette />
+          <VignetteCaption label="Record &middot; trim &middot; export">
+            Trim with in and out points, keep the zoom-ins built from your
+            clicks, and export MP4, WebM, GIF or animated WebP with a size
+            estimate before you commit.
+          </VignetteCaption>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10 mt-20">
+          {points.map((p) => (
+            <div key={p.label} className="border-t border-border pt-6">
+              <h3 className="text-lg font-black tracking-tight mb-2">{p.label}</h3>
+              <p className="text-muted leading-relaxed">{p.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Previews() {
+  return (
+    <section className="px-6 md:px-10 py-32 border-t border-border">
+      <div className="max-w-6xl mx-auto">
+        <SectionHead
+          eyebrow="Floating previews"
+          lede={
+            <>
+              Captures land as always-on-top cards you can pin, stack, drag,
+              resize, or drag straight out into Slack. Pins survive a reboot, and
+              the last twelve captures wait in the tray even after their card has
+              timed out.
+            </>
+          }
+        >
+          Nothing you capture
+          <br />
+          <span className="text-pink">gets lost.</span>
+        </SectionHead>
+
+        <div className="mt-16">
+          <PreviewsVignette />
+          <VignetteCaption label="Pin &middot; stack &middot; restore">
+            Pin the one you need, let the rest expire, and pull any of the last
+            twelve back out of the tray.
+          </VignetteCaption>
         </div>
       </div>
     </section>
@@ -228,7 +499,7 @@ function Versus() {
   const ours = ["Ctrl+Q", "Select region", "Paste"];
 
   return (
-    <section className="px-6 md:px-10 py-32">
+    <section className="px-6 md:px-10 py-32 border-t border-border">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6 text-center">
           Them vs. <span className="text-pink">us.</span>
@@ -286,54 +557,62 @@ function Features() {
   const coreFeatures = [
     {
       label: "Clipboard-first",
-      text: "Every capture lands on your clipboard instantly. PNG, JPG, WebP, or base64 Data URI \u2014 pick your format, paste anywhere.",
+      text: "Every capture lands on your clipboard instantly. PNG, JPG, WebP, or base64 Data URI — pick your format and quality, paste anywhere.",
     },
     {
-      label: "Floating previews",
-      text: "Screenshots appear as always-on-top cards. Pin them, stack them, drag them around, resize them. They survive restarts too.",
+      label: "Snap to window",
+      text: "Click a window to capture exactly that window. Hovering previews what you would get, and edges snap to nearby windows while you drag.",
     },
     {
-      label: "Full annotation editor",
-      text: "Arrows, shapes, text, freehand drawing, numbered callouts, and a redaction tool for sensitive info. Six colors, three stroke widths, full undo. All keyboard-shortcut driven.",
+      label: "Studio",
+      text: "One editor for stills and clips. Markup edits the pixels; Compose frames the capture on a background. Switching modes keeps your framing.",
     },
     {
       label: "Screen recording",
-      text: "Ctrl+Shift+Q. Select any region. Toggle mic input, pick your audio device. Export as MP4 or WebM. Bug reports in 10 seconds.",
+      text: "Ctrl+Shift+Q. Any region, microphone and system audio, optional countdown, pause and resume. Export MP4, WebM, GIF or animated WebP.",
     },
     {
-      label: "Multi-monitor support",
-      text: "Works seamlessly across multiple displays. The overlay appears on whichever screen your cursor is on. No extra setup.",
+      label: "Recent captures",
+      text: "The last twelve captures stay in a ring, so a preview card that timed out is not gone. Restore any of them from the tray as an ordinary card.",
     },
     {
-      label: "Customizable hotkeys",
-      text: "Rebind capture and recording hotkeys to whatever works for your workflow. Your shortcuts, your rules.",
+      label: "Multi-monitor",
+      text: "Works across every display. The overlay appears on whichever screen your cursor is on, and window snapping knows about all of them.",
     },
   ];
 
   const moreFeatures = [
     {
+      label: "Pixel loupe",
+      text: "A magnifier at the cursor with live coordinates and the colour under it.",
+    },
+    {
+      label: "Adjustable selection",
+      text: "Hold Alt at release to settle the rect, then drag its edges or nudge with arrow keys.",
+    },
+    {
+      label: "Editable marks",
+      text: "Select any annotation with the pointer to move, resize, recolour or delete it.",
+    },
+    {
+      label: "Adjustable crop",
+      text: "Nothing is cut until you Apply, with thirds guides and a live pixel readout.",
+    },
+    {
+      label: "Customizable hotkeys",
+      text: "Rebind capture and recording, with conflict detection and a reset to defaults.",
+    },
+    {
       label: "Auto-save",
-      text: "Every capture saved to a folder of your choice with organized timestamps. Or clipboard-only. Your call.",
+      text: "Every capture written to a folder of your choice with organized timestamps. Or clipboard-only.",
     },
     {
       label: "System tray",
-      text: "Lives quietly in your tray. No window to manage. No dock icon to ignore. Invisible until you need it.",
-    },
-    {
-      label: "Auto-updates",
-      text: "Checks for updates in the background. One-click install when a new version drops. Or it updates silently on quit.",
-    },
-    {
-      label: "Pixel dimensions",
-      text: "See exact pixel dimensions of your selection in real-time as you drag. Precision when you need it.",
-    },
-    {
-      label: "Pin & restore",
-      text: "Pinned previews persist across app restarts. Close the app, reboot, your pinned captures are still there.",
+      text: "No main window to manage. Lives quietly in the tray until you press the hotkey.",
     },
     {
       label: "Lightweight",
-      text: "Under 100 MB installed. Vanilla JS under the hood \u2014 no framework bloat. Starts with your system and stays out of your way.",
+      text: "Under 100 MB installed. Vanilla JS under the hood — no framework bloat.",
     },
   ];
 
@@ -361,7 +640,7 @@ function Features() {
           <h3 className="text-sm font-bold text-dim uppercase tracking-widest mb-12">
             And everything else
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-x-12 gap-y-10">
             {moreFeatures.map((f) => (
               <div key={f.label}>
                 <h4 className="text-base font-black tracking-tight mb-1.5">
@@ -380,14 +659,24 @@ function Features() {
 function Shortcuts() {
   const shortcuts = [
     { keys: "Ctrl+Q", action: "Capture screenshot" },
-    { keys: "Ctrl+Shift+Q", action: "Start screen recording" },
-    { keys: "D", action: "Draw tool" },
-    { keys: "A", action: "Arrow tool" },
-    { keys: "S", action: "Shape tool" },
-    { keys: "T", action: "Text tool" },
-    { keys: "X", action: "Redact / blur" },
+    { keys: "Ctrl+Shift+Q", action: "Start recording" },
+    { keys: "Space", action: "Whole screen" },
+    { keys: "Shift", action: "Constrain to square" },
+    { keys: "Alt", action: "Adjust before capture" },
+    { keys: "V", action: "Pointer" },
+    { keys: "D", action: "Draw" },
+    { keys: "A", action: "Arrow" },
+    { keys: "S", action: "Shape" },
+    { keys: "T", action: "Text" },
+    { keys: "X", action: "Redact" },
     { keys: "C", action: "Callout numbers" },
+    { keys: "P", action: "Cursor stamp" },
+    { keys: "R", action: "Crop" },
+    { keys: "I / O", action: "Trim in / out" },
     { keys: "Ctrl+Z", action: "Undo" },
+    { keys: "Ctrl+0", action: "Fit to window" },
+    { keys: "Del", action: "Delete mark" },
+    { keys: "Enter", action: "Confirm" },
     { keys: "Esc", action: "Cancel" },
   ];
 
@@ -400,7 +689,7 @@ function Shortcuts() {
           <span className="text-pink">Mouse optional.</span>
         </h2>
         <p className="text-muted text-lg mb-16 max-w-lg">
-          Every annotation tool has a single-key shortcut. No toolbar hunting, no right-click menus. Just press and go.
+          Every tool has a single-key shortcut. No toolbar hunting, no right-click menus. Just press and go.
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -507,7 +796,7 @@ function StayConnected() {
             <span className="font-bold">Join the Discussion</span>
           </a>
           <a
-            href="https://x.com/m_prads"
+            href="https://x.com/pradslabs"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 px-6 py-4 border border-border rounded-2xl hover:border-pink/40 transition-all hover:scale-[1.03] hover:bg-pink/[0.04]"
@@ -579,7 +868,7 @@ function Footer() {
             <Github className="w-4 h-4" />
           </a>
           <a
-            href="https://x.com/m_prads"
+            href="https://x.com/pradslabs"
             target="_blank"
             rel="noopener noreferrer"
             className="text-dim hover:text-foreground transition-colors"
@@ -610,6 +899,10 @@ export default async function Home() {
         <Hero downloads={downloads} latestVersion={latestVersion} />
         <Marquee />
         <TheFlow />
+        <Precision />
+        <Studio />
+        <Recording />
+        <Previews />
         <Versus />
         <Features />
         <Shortcuts />

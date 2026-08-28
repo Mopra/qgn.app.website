@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import "./vignettes.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,15 +17,21 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Quick Gen — Instant screenshot tool for Windows",
   description:
-    "Open-source screenshot tool for Windows. Capture your screen in a single keystroke. Clipboard-first, floating previews, annotation, screen recording, multi-monitor support. Free, MIT-licensed, no account, no cloud.",
+    "Open-source screenshot and screen recording tool for Windows. One hotkey puts a capture on your clipboard, and a built-in Studio annotates it or frames it on a gradient background. Free, MIT-licensed, no account, no cloud.",
   keywords: [
     "screenshot tool",
     "screen capture",
     "Windows screenshot",
     "screen recording",
     "screenshot annotation",
+    "screenshot editor",
+    "screenshot mockup",
+    "screenshot background",
+    "screenshot beautifier",
+    "screen recorder with zoom",
     "clipboard screenshot",
     "floating preview",
+    "snap to window screenshot",
     "screen grab",
     "snipping tool alternative",
     "free screenshot tool",
@@ -101,13 +108,13 @@ export default function RootLayout({
       priceCurrency: "USD",
     },
     description:
-      "Lightweight desktop screenshot and screen recording tool for Windows. Capture screen regions instantly with a single hotkey. Clipboard-first, floating previews, annotation, screen recording.",
+      "Lightweight desktop screenshot and screen recording tool for Windows. Capture screen regions instantly with a single hotkey, then annotate them or frame them on a background in the built-in Studio.",
     url: "https://qgn.app",
     downloadUrl:
       "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe",
     fileSize: "85MB",
     featureList:
-      "Instant screenshot capture, Clipboard-first workflow, Floating preview cards, Annotation editor, Screen recording with audio, Multi-monitor support, Customizable hotkeys, Auto-save, System tray integration",
+      "Instant screenshot capture, Clipboard-first workflow, Snap to window capture, Pixel loupe, Adjustable selection, Floating preview cards, Recent captures, Studio editor for stills and clips, Editable annotations, Redaction, Adjustable crop, Gradient and wallpaper backgrounds, Window and browser frames, Screen recording with microphone and system audio, Automatic zoom keyframes from clicks, MP4 WebM GIF and WebP export, Multi-monitor support, Customizable hotkeys, Auto-save, System tray integration",
   };
 
   return (

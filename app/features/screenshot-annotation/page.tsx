@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Nav,
   Breadcrumbs,
@@ -6,11 +7,12 @@ import {
   FeatureFooter,
   RelatedFeatures,
 } from "@/app/components/FeatureLayout";
+import { MarkupVignette, VignetteCaption } from "@/app/components/vignettes";
 
 export const metadata: Metadata = {
-  title: "Screenshot Annotation Tool — Arrows, Shapes, Blur — Quick Gen",
+  title: "Screenshot Annotation Tool — Arrows, Callouts, Redaction — Quick Gen",
   description:
-    "Annotate screenshots with arrows, text, shapes, numbered callouts, freehand drawing, and a blur tool for redaction. Keyboard-shortcut driven. Free and open source.",
+    "Annotate screenshots with arrows, text, shapes, numbered callouts, freehand drawing and a redaction tool that actually holds. Every mark stays editable after you place it. Keyboard-shortcut driven, free and open source.",
   keywords: [
     "screenshot annotation",
     "annotate screenshot",
@@ -19,14 +21,16 @@ export const metadata: Metadata = {
     "screenshot editor",
     "blur screenshot",
     "redact screenshot",
+    "pixelate screenshot",
     "screenshot arrows",
+    "editable annotations",
     "Quick Gen",
   ],
   alternates: { canonical: "/features/screenshot-annotation" },
   openGraph: {
     title: "Screenshot Annotation Tool — Quick Gen",
     description:
-      "Mark up screenshots with arrows, text, shapes, callouts, and blur. Keyboard-driven annotation editor.",
+      "Arrows, text, shapes, callouts and redaction, every mark editable after you place it. Keyboard-driven markup inside Studio.",
     url: "https://qgn.app/features/screenshot-annotation",
     images: [
       {
@@ -49,7 +53,7 @@ export default function AnnotationPage() {
       ]} />
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
+      <section className="relative flex flex-col justify-center px-6 md:px-10 pt-8 pb-16">
         <div className="relative max-w-5xl">
           <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
             Annotation Editor
@@ -61,14 +65,34 @@ export default function AnnotationPage() {
           </h1>
           <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
             Arrows, shapes, text, numbered callouts, freehand drawing, and a
-            blur tool for sensitive info. Every tool has a single-key shortcut.
-            Annotate, copy to clipboard, paste — all in one flow.
+            redaction tool for sensitive info. Every tool has a single-key
+            shortcut, and every mark stays editable after you place it. It lives
+            in Markup mode inside{" "}
+            <Link
+              href="/features/studio"
+              className="text-pink hover:text-pink-light transition-colors"
+            >
+              Studio
+            </Link>
+            , so it works on recordings as well as screenshots.
           </p>
         </div>
       </section>
 
+      {/* Vignette */}
+      <section className="px-6 md:px-10 py-16 border-t border-border">
+        <div className="max-w-6xl mx-auto">
+          <MarkupVignette />
+          <VignetteCaption label="Annotate &middot; redact &middot; edit">
+            An arrow is drawn, callouts number themselves, an address is
+            redacted, then the arrow is picked back up with the pointer, moved
+            and recoloured.
+          </VignetteCaption>
+        </div>
+      </section>
+
       {/* Tools */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
+      <section className="px-6 md:px-10 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
             Every tool you need,
@@ -147,48 +171,108 @@ export default function AnnotationPage() {
                 <kbd className="px-2.5 py-1 bg-[#111] border border-border rounded-lg text-sm font-mono font-bold">
                   X
                 </kbd>
-                <h3 className="text-lg font-black">Redaction / blur</h3>
+                <h3 className="text-lg font-black">Redaction</h3>
               </div>
               <p className="text-muted leading-relaxed">
-                Drag over sensitive information to blur it out. Personal data,
-                API keys, email addresses — blur them before sharing. The
-                original pixels are destroyed, not just hidden.
+                Drag over sensitive information to cover it. Solid block is the
+                default and the safest; pixelate comes in fine, medium and heavy.
+                Pixelation samples what is already painted underneath rather than
+                the original image, so stacking a blur over a black box cannot
+                put the hidden text back on screen.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <kbd className="px-2.5 py-1 bg-[#111] border border-border rounded-lg text-sm font-mono font-bold">
+                  V
+                </kbd>
+                <h3 className="text-lg font-black">Pointer</h3>
+              </div>
+              <p className="text-muted leading-relaxed">
+                For when you want to look without drawing, and for picking marks
+                back up. Click a mark to select it, drag to move it, drag a
+                handle to resize it, recolour it from the row below, or delete it
+                with Del.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <kbd className="px-2.5 py-1 bg-[#111] border border-border rounded-lg text-sm font-mono font-bold">
+                  P
+                </kbd>
+                <h3 className="text-lg font-black">Cursor stamp</h3>
+              </div>
+              <p className="text-muted leading-relaxed">
+                Captures come through without the operating system cursor, which
+                is usually what you want and occasionally not. Stamp one back in
+                wherever it needs to be.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <kbd className="px-2.5 py-1 bg-[#111] border border-border rounded-lg text-sm font-mono font-bold">
+                  R
+                </kbd>
+                <h3 className="text-lg font-black">Crop</h3>
+              </div>
+              <p className="text-muted leading-relaxed">
+                Arms a rect over the whole image and cuts nothing until you say
+                so. Drag the sides or corners, watch the live pixel readout, then
+                Apply. Thirds guides and a dimmed surround show what you are
+                keeping, and it is undoable like everything else.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Workflow */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
+      {/* Editable marks */}
+      <section className="px-6 md:px-10 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Colors, strokes,
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6">
+            Nothing is
             <br />
-            <span className="text-pink">and full undo.</span>
+            <span className="text-pink">final until you save.</span>
           </h2>
+          <p className="max-w-2xl text-lg text-muted leading-relaxed mb-16">
+            Most annotation tools bake a mark into the image the moment you let
+            go of the mouse, which means fixing the second of five arrows costs
+            you the other three. Here every mark is an object until you save.
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div>
-              <h3 className="text-lg font-black mb-3">Six colors</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Pick a mark back up</h3>
               <p className="text-muted leading-relaxed">
-                Pick from six predefined colors that stand out on any
-                background. Switch colors between annotations to keep things
-                organized.
+                Press V, click the mark, and move it, resize it by its handles,
+                recolour it, or delete it. Double-click a text label to fix a
+                typo instead of redrawing it.
               </p>
             </div>
-            <div>
-              <h3 className="text-lg font-black mb-3">Three stroke widths</h3>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Stored in source pixels</h3>
               <p className="text-muted leading-relaxed">
-                Thin for subtle markups, medium for normal use, thick for
-                emphasis. Each tool respects the current stroke width setting.
+                Marks live in the original image&apos;s coordinates, so they stay
+                exactly where you put them through a crop, an aspect ratio
+                change, a window resize, or an export at a different scale.
               </p>
             </div>
-            <div>
-              <h3 className="text-lg font-black mb-3">Ctrl+Z to undo</h3>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Six colours and a palette</h3>
               <p className="text-muted leading-relaxed">
-                Made a mistake? Undo it. The full annotation history is
-                preserved so you can step back through every change you made.
+                Six defaults that stand out on any background, plus your own
+                saved solids and gradients. Stroke comes in three widths, and
+                sizes are a fraction of the source, so a mark on a 4K capture
+                matches one on 720p.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">One undo stack</h3>
+              <p className="text-muted leading-relaxed">
+                Ctrl+Z and Ctrl+Y step through annotations and crops together,
+                so there is no separate history to reason about. Ctrl+C copies
+                the result, Ctrl+S saves it, Ctrl+V pastes an image in to start
+                from.
               </p>
             </div>
           </div>

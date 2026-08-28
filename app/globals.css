@@ -34,33 +34,6 @@ body {
   color: white;
 }
 
-/* Animated gradient border */
-@property --angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.glow-border {
-  background: conic-gradient(from var(--angle), #AF226B, #050505, #AF226B) border-box;
-  animation: spin-border 4s linear infinite;
-}
-
-@keyframes spin-border {
-  to { --angle: 360deg; }
-}
-
-
-/* Float up on scroll */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-up {
-  animation: fade-up 0.8s ease-out both;
-}
-
 /* Marquee */
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -92,7 +65,9 @@ body {
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
-  z-index: 50;
+  /* Below the nav (z-50) and the mobile menu (z-40): this is a texture over
+     the page, not over the chrome. */
+  z-index: 30;
   opacity: 0.4;
 }
 
@@ -117,11 +92,9 @@ body {
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-fade-up,
   .key-animate,
   .key-animate-delay,
-  .animate-in,
-  .glow-border {
+  .animate-in {
     animation: none !important;
   }
 }

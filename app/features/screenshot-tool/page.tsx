@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Nav,
   Breadcrumbs,
@@ -6,11 +7,16 @@ import {
   FeatureFooter,
   RelatedFeatures,
 } from "@/app/components/FeatureLayout";
+import {
+  CaptureFlowVignette,
+  SnapWindowVignette,
+  VignetteCaption,
+} from "@/app/components/vignettes";
 
 export const metadata: Metadata = {
   title: "Free Screenshot Tool for Windows — Quick Gen",
   description:
-    "Capture any region of your screen instantly with a single hotkey. Screenshots are copied to your clipboard in PNG, JPG, WebP, or base64. Free, open-source, no account required.",
+    "Capture any region of your screen instantly with a single hotkey. Snap to a window, sample pixels through a loupe, and land the capture on your clipboard as PNG, JPG, WebP or base64. Free, open-source, no account required.",
   keywords: [
     "screenshot tool",
     "free screenshot tool",
@@ -18,6 +24,8 @@ export const metadata: Metadata = {
     "screen capture tool",
     "screenshot to clipboard",
     "hotkey screenshot",
+    "snap to window screenshot",
+    "pixel loupe",
     "region capture",
     "Quick Gen",
   ],
@@ -48,7 +56,7 @@ export default function ScreenshotToolPage() {
       ]} />
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
+      <section className="relative flex flex-col justify-center px-6 md:px-10 pt-8 pb-16">
         <div className="relative max-w-5xl">
           <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
             Screenshot Capture
@@ -64,10 +72,17 @@ export default function ScreenshotToolPage() {
             That&apos;s the entire workflow.
           </p>
         </div>
+
+        <div className="max-w-6xl w-full mt-16">
+          <CaptureFlowVignette />
+          <VignetteCaption label="Ctrl+Q">
+            Hotkey, drag, release. Nothing between you and the clipboard.
+          </VignetteCaption>
+        </div>
       </section>
 
       {/* How it works */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
+      <section className="px-6 md:px-10 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
             How it works
@@ -102,15 +117,98 @@ export default function ScreenshotToolPage() {
               <p className="text-muted leading-relaxed">
                 The moment you release, the screenshot lands on your clipboard.
                 Paste it into Slack, Figma, an email, a document — anywhere that
-                accepts images.
+                accepts images. A floating preview card also appears, in case you
+                want to pin it or open it in{" "}
+                <Link
+                  href="/features/studio"
+                  className="text-pink hover:text-pink-light transition-colors"
+                >
+                  Studio
+                </Link>
+                .
               </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Precision */}
+      <section className="px-6 md:px-10 py-24 border-t border-border">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6">
+            Fast, and still
+            <br />
+            <span className="text-pink">exactly right.</span>
+          </h2>
+          <p className="max-w-2xl text-lg text-muted leading-relaxed mb-14">
+            Speed is worth nothing if you have to do it twice. The overlay knows
+            where your windows are, magnifies the pixel under your cursor, and
+            will hold the selection if you ask it to.
+          </p>
+
+          <SnapWindowVignette />
+          <VignetteCaption label="Snap &middot; loupe &middot; adjust">
+            Hover a window to outline exactly what you would get, sample any
+            pixel through the loupe, and hold Alt to fine-tune the edges before
+            capturing.
+          </VignetteCaption>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10 mt-20">
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Snap to window</h3>
+              <p className="text-muted leading-relaxed">
+                Click a window and you get exactly that window, no fiddling with
+                edges. Hovering outlines it and names it, with its size and
+                &quot;Click to capture this window&quot; on the label, and it
+                picks the window actually in front rather than the smallest one
+                under the cursor. While you drag, the selection snaps to nearby
+                window edges; hold Ctrl to ignore them.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Pixel loupe</h3>
+              <p className="text-muted leading-relaxed">
+                A magnifier follows the cursor showing the pixels around it, with
+                a live coordinate readout and the colour underneath. For when the
+                edge you want is one pixel wide.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Adjust before you commit</h3>
+              <p className="text-muted leading-relaxed">
+                Releasing the mouse captures instantly. Hold Alt as you release
+                and that one capture settles for adjustment instead: drag the
+                edges, nudge with the arrow keys, confirm with Enter. Settings can
+                flip which one is the default.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-16 flex flex-wrap gap-x-8 gap-y-3 text-muted">
+            <span>
+              <kbd className="px-2 py-0.5 bg-[#111] border border-border rounded-md text-sm font-mono font-bold text-foreground mr-2">
+                Shift
+              </kbd>
+              constrains to a square
+            </span>
+            <span>
+              <kbd className="px-2 py-0.5 bg-[#111] border border-border rounded-md text-sm font-mono font-bold text-foreground mr-2">
+                Space
+              </kbd>
+              grabs the whole screen
+            </span>
+            <span>
+              <kbd className="px-2 py-0.5 bg-[#111] border border-border rounded-md text-sm font-mono font-bold text-foreground mr-2">
+                Esc
+              </kbd>
+              drops the selection, then cancels
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* Details */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
+      <section className="px-6 md:px-10 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
             Built for speed,

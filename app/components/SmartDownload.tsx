@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useSyncExternalStore, type ReactNode } from "react";
 
 type OS = "windows" | "mac" | "linux" | "mobile" | "unknown";
 
@@ -17,6 +17,13 @@ const DOWNLOAD_URL =
   "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
 const GITHUB_URL = "https://github.com/Mopra/qgn.app";
 
+/* The OS cannot change for the life of the page, so there is nothing to
+   subscribe to. useSyncExternalStore is still the right tool here: it reads a
+   client-only value with an explicit server snapshot, which keeps the first
+   paint identical to the server HTML instead of setting state in an effect. */
+const subscribe = () => () => {};
+const serverSnapshot = (): OS => "windows";
+
 /**
  * Shows download CTA on Windows, or a "not available yet" message on other platforms.
  * Falls back to the Windows download button during SSR / before hydration.
@@ -26,11 +33,7 @@ export function SmartDownloadHero({
 }: {
   downloadButton: ReactNode;
 }) {
-  const [os, setOS] = useState<OS>("windows");
-
-  useEffect(() => {
-    setOS(detectOS());
-  }, []);
+  const os = useSyncExternalStore(subscribe, detectOS, serverSnapshot);
 
   if (os === "windows" || os === "unknown") {
     return <>{downloadButton}</>;

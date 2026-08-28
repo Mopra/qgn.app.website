@@ -6,16 +6,19 @@ import {
   FeatureFooter,
   RelatedFeatures,
 } from "@/app/components/FeatureLayout";
+import { PreviewsVignette, VignetteCaption } from "@/app/components/vignettes";
 
 export const metadata: Metadata = {
   title: "Floating Screenshot Previews — Pin, Stack, Reference — Quick Gen",
   description:
-    "Screenshots appear as always-on-top floating cards. Pin them to your screen, stack them for reference, drag and resize them. Pinned cards persist across restarts.",
+    "Screenshots appear as always-on-top floating cards. Pin them to your screen, stack them for reference, drag and resize them. Pinned cards persist across restarts, and the last twelve captures wait in the tray.",
   keywords: [
     "floating screenshot",
     "screenshot preview",
     "pin screenshot",
     "always on top screenshot",
+    "screenshot history",
+    "recent captures",
     "screenshot reference",
     "screenshot overlay",
     "Quick Gen",
@@ -47,7 +50,7 @@ export default function FloatingPreviewsPage() {
       ]} />
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
+      <section className="relative flex flex-col justify-center px-6 md:px-10 pt-8 pb-16">
         <div className="relative max-w-5xl">
           <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
             Floating Previews
@@ -61,13 +64,66 @@ export default function FloatingPreviewsPage() {
             Every capture appears as a floating, always-on-top preview card. Pin
             it to your screen for reference. Stack multiple captures. Drag them
             around. Resize them. They stay visible on top of all your other
-            windows.
+            windows — and the last twelve wait in the tray even after their card
+            has gone.
           </p>
+        </div>
+
+        <div className="max-w-6xl w-full mt-16">
+          <PreviewsVignette />
+          <VignetteCaption label="Pin &middot; stack &middot; restore">
+            Captures stack up, one gets pinned so it survives the timeout that
+            clears the rest, and the tray puts an expired one back on screen.
+          </VignetteCaption>
+        </div>
+      </section>
+
+      {/* Recent captures */}
+      <section className="px-6 md:px-10 py-24 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6">
+            A card that timed out
+            <br />
+            <span className="text-pink">is not gone.</span>
+          </h2>
+          <p className="max-w-2xl text-lg text-muted leading-relaxed mb-16">
+            Preview cards dismiss themselves after 5, 10 or 20 seconds, or never,
+            whichever you prefer. Whatever the setting, every capture is also kept
+            in a small ring, so letting one disappear is no longer a decision you
+            have to make in five seconds.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10">
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">The last twelve</h3>
+              <p className="text-muted leading-relaxed">
+                A Recent captures menu in the tray puts any of the last twelve
+                back on screen as an ordinary card, ready to pin, copy, or open in
+                Studio.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Off if you prefer</h3>
+              <p className="text-muted leading-relaxed">
+                &quot;Keep recent captures&quot; can be switched off in settings,
+                which also forgets whatever is already stored. There is a Clear
+                recent captures item in the tray too.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">Still local</h3>
+              <p className="text-muted leading-relaxed">
+                The ring lives on your machine like everything else. Nothing is
+                uploaded, nothing is synced, and quitting cleans up the temporary
+                files created by dragging a capture out.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
+      <section className="px-6 md:px-10 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
             Your visual

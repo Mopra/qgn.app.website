@@ -6,11 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { DownloadButton } from "@/app/components/DownloadPopup";
 
-const DOWNLOAD_URL =
-  "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";
-
 export const FEATURES_NAV = [
   { href: "/features/screenshot-tool", label: "Screenshot Tool" },
+  { href: "/features/studio", label: "Studio" },
+  {
+    href: "/features/screenshot-mockup-tool",
+    label: "Screenshot Mockups",
+  },
   { href: "/features/screen-recording", label: "Screen Recording" },
   { href: "/features/screenshot-annotation", label: "Annotation Editor" },
   { href: "/features/floating-previews", label: "Floating Previews" },

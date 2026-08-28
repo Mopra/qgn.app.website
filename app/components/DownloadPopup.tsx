@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
-import { Github, Star, MessageSquare, X, Heart, Download } from "lucide-react";
+import { Github, Star, MessageSquare, X, Heart } from "lucide-react";
 
 const DOWNLOAD_URL =
   "https://github.com/Mopra/qgn.app/releases/latest/download/QGN-Setup.exe";

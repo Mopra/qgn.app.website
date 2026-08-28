@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Nav,
   Breadcrumbs,
@@ -10,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "CleanShot X Alternative for Windows — Quick Gen",
   description:
-    "CleanShot X is Mac-only. Quick Gen brings the same fast, polished screenshot experience to Windows — floating previews, annotation, screen recording, clipboard-first. Free and open source.",
+    "CleanShot X is Mac-only. Quick Gen brings the same experience to Windows: floating previews, snap to window, gradient backgrounds and frames, annotation, and screen recording with automatic zoom-ins. Free and open source.",
   keywords: [
     "CleanShot X alternative",
     "CleanShot X for Windows",
@@ -84,8 +85,21 @@ export default function CleanShotAlternativePage() {
               ["Platform", "Mac only", "Windows"],
               ["Floating previews", "Yes", "Yes — pin, stack, resize"],
               ["Clipboard-first", "Yes", "Yes"],
-              ["Annotation", "Yes", "Yes — arrows, shapes, text, callouts, blur"],
-              ["Screen recording", "Yes", "Yes — with mic, MP4/WebM"],
+              ["Snap to window", "Yes", "Yes — with edge snapping"],
+              ["Annotation", "Yes", "Yes — 9 tools, marks stay editable"],
+              [
+                "Backgrounds & frames",
+                "Yes",
+                "Yes — 10 gradients, 6 wallpapers, browser frames",
+              ],
+              ["Screen recording", "Yes", "Yes — mic + system audio"],
+              [
+                "Recording zoom-ins",
+                "Yes",
+                "Yes — generated from your clicks",
+              ],
+              ["Video export", "MP4, GIF", "MP4, WebM, GIF, animated WebP"],
+              ["Capture history", "Yes", "Yes — last 12 in the tray"],
               ["Cloud upload", "CleanShot Cloud (paid)", "None — local only"],
               ["Scrolling capture", "Yes", "Not yet"],
               ["OCR", "Yes", "Not yet"],
@@ -140,10 +154,45 @@ export default function CleanShotAlternativePage() {
             <div className="border-t border-border pt-6">
               <h3 className="text-lg font-black mb-2">Quick annotation</h3>
               <p className="text-muted leading-relaxed">
-                Open the annotation editor from any preview card. Add arrows,
-                text, shapes, numbered callouts, or blur sensitive areas. The
-                keyboard-driven workflow is fast enough to use in the middle of a
-                conversation.
+                Open{" "}
+                <Link
+                  href="/features/studio"
+                  className="text-pink hover:text-pink-light transition-colors"
+                >
+                  Studio
+                </Link>{" "}
+                from any preview card. Arrows, text, shapes, numbered callouts,
+                freehand and redaction, each on a single key, and every mark
+                stays editable after you place it. Fast enough to use in the
+                middle of a conversation.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">
+                Backgrounds and frames
+              </h3>
+              <p className="text-muted leading-relaxed">
+                The other thing CleanShot X is loved for. Quick Gen&apos;s{" "}
+                <Link
+                  href="/features/screenshot-mockup-tool"
+                  className="text-pink hover:text-pink-light transition-colors"
+                >
+                  Compose mode
+                </Link>{" "}
+                frames a capture on one of ten gradients or six wallpapers, wraps
+                it in a window or browser frame, and gives you padding, rounding,
+                shadow and six aspect ratios.
+              </p>
+            </div>
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-black mb-2">
+                Recordings that zoom themselves
+              </h3>
+              <p className="text-muted leading-relaxed">
+                Clicks during a take become zoom keyframes automatically, and
+                Studio layers a styled cursor with click ripples over the result.
+                Trim on the timeline, then export to MP4, WebM, GIF or animated
+                WebP faster than the clip&apos;s own length.
               </p>
             </div>
             <div className="border-t border-border pt-6">

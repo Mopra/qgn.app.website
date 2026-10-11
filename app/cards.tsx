@@ -24,12 +24,11 @@ export function cardHeight(s: Shot) {
 
 export function Cards({ shots, onClose, onCopy }: { shots: Shot[]; onClose: (id: number) => void; onCopy: (s: Shot) => void }) {
   // The newest card sits at the bottom, the older ones above it.
-  let offset = 0;
-  const placed = [...shots].reverse().map((s) => {
-    const bottom = MARGIN + offset;
-    offset += cardHeight(s) + GAP;
-    return { s, bottom };
-  });
+  const newest = [...shots].reverse();
+  const placed = newest.map((s, i) => ({
+    s,
+    bottom: newest.slice(0, i).reduce((sum, o) => sum + cardHeight(o) + GAP, MARGIN),
+  }));
   return (
     <>
       {placed.map(({ s, bottom }) => (

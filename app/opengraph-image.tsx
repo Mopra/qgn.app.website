@@ -22,7 +22,7 @@ export default function Image() {
         <div style={{ position: "absolute", left: 90, top: 200, display: "flex", flexDirection: "column", color: "#e8e9ed" }}>
           <div style={{ fontSize: 72 }}>qgn</div>
           <div style={{ fontSize: 32, color: "#6b6f78", marginTop: 20, maxWidth: 480, lineHeight: 1.35 }}>
-            Screenshots for Windows. Ctrl+Q, drag, it's on your clipboard.
+            {"Screenshots for Windows. Ctrl+Q, drag, it's on your clipboard."}
           </div>
         </div>
       </div>

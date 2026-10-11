@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Cards, ToastPill, type Shot, type Toast } from "./cards";
 
 // The hero is a small copy of QGN's capture overlay. Drag a region and it is
@@ -25,7 +25,13 @@ export default function Capture({ children }: { children: React.ReactNode }) {
   const [shots, setShots] = useState<Shot[]>([]);
   const [toast, setToast] = useState<Toast | null>(null);
   const ids = useRef(0);
-  const [touch, setTouch] = useState(false);
+  // A phone or tablet: no demo, the page scrolls as normal. Read with an
+  // explicit server value, so the first paint matches the server HTML.
+  const touch = useSyncExternalStore(
+    () => () => {},
+    () => matchMedia("(pointer: coarse)").matches,
+    () => false,
+  );
   const drag = useRef<{ x: number; y: number; id: number } | null>(null);
 
   // The dots: dim everywhere, brighter near the cursor, like the loupe.
@@ -50,30 +56,6 @@ export default function Capture({ children }: { children: React.ReactNode }) {
     return () => { cancelAnimationFrame(raf); removeEventListener("resize", onResize); };
   }, [cursor]);
 
-  useEffect(() => {
-    setTouch(matchMedia("(pointer: coarse)").matches);
-  }, []);
-
-  // Ctrl+Q anywhere on the page: back to the top, dimmed and waiting.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "q") {
-        e.preventDefault();
-        scrollTo({ top: 0, behavior: "smooth" });
-        setArmed(true);
-      } else if (e.key === "Escape") {
-        setArmed(false);
-        setSel(null);
-        drag.current = null;
-      } else if (e.key === " " && armed) {
-        e.preventDefault();
-        const r = hero.current!.getBoundingClientRect();
-        take({ x: 0, y: 0, w: r.width, h: r.height });
-      }
-    };
-    addEventListener("keydown", onKey);
-    return () => removeEventListener("keydown", onKey);
-  });
 
   const local = (e: React.PointerEvent) => {
     const r = hero.current!.getBoundingClientRect();
@@ -170,6 +152,27 @@ export default function Capture({ children }: { children: React.ReactNode }) {
       old.filter((o) => o.id === id).forEach((o) => URL.revokeObjectURL(o.url));
       return old.filter((o) => o.id !== id);
     });
+
+  // Ctrl+Q anywhere on the page: back to the top, dimmed and waiting.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "q") {
+        e.preventDefault();
+        scrollTo({ top: 0, behavior: "smooth" });
+        setArmed(true);
+      } else if (e.key === "Escape") {
+        setArmed(false);
+        setSel(null);
+        drag.current = null;
+      } else if (e.key === " " && armed) {
+        e.preventDefault();
+        const r = hero.current!.getBoundingClientRect();
+        take({ x: 0, y: 0, w: r.width, h: r.height });
+      }
+    };
+    addEventListener("keydown", onKey);
+    return () => removeEventListener("keydown", onKey);
+  });
 
   return (
     <section

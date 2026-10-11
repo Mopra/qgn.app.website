@@ -1,204 +1,118 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedAlternatives,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Free Snagit Alternative for Windows — Quick Gen",
-  description:
-    "Looking for a free Snagit alternative? Quick Gen offers screenshot capture, annotation, screen recording, and floating previews — without the $63 price tag. Open source and MIT-licensed.",
-  keywords: [
-    "Snagit alternative",
-    "free Snagit alternative",
-    "alternative to Snagit",
-    "Snagit replacement",
-    "screenshot tool like Snagit",
-    "Snagit vs Quick Gen",
-    "free screenshot annotation tool",
-    "TechSmith Snagit alternative",
+export const metadata = meta(
+  "/alternatives/snagit",
+  "Free Snagit alternative for Windows, open source: QGN",
+  "QGN is a free, open source Snagit alternative for Windows. Region and window capture, an editor, frames and screen recording, with no subscription and no account.",
+);
+
+const qa: [string, string][] = [
+  [
+    "How much does Snagit cost?",
+    "Snagit is sold as an annual subscription. TechSmith lists Snagit Individual at about $39 a year, with team, business and education plans on top. QGN is free.",
   ],
-  alternates: { canonical: "/alternatives/snagit" },
-  openGraph: {
-    title: "Free Snagit Alternative for Windows — Quick Gen",
-    description:
-      "Screenshot capture, annotation, and screen recording without the $63 price tag. Free and open source.",
-    url: "https://qgn.app/alternatives/snagit",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Is QGN a full replacement for Snagit?",
+    "For capture, annotation, framing and short recordings, for many people, yes. Snagit has scrolling capture, text grabbing (OCR), webcam in recordings, templates and a Mac version. QGN has none of those.",
+  ],
+  [
+    "Does QGN need an account?",
+    "No. There is no account, no licence key and no sign-in. Install it and press Ctrl+Q.",
+  ],
+  [
+    "Is QGN on Mac?",
+    "No. Snagit runs on Windows and macOS. QGN is Windows 10 and 11 only.",
+  ],
+];
 
-export default function SnagitAlternativePage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Alternatives" },
-        { label: "Snagit Alternative" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "vs" }, { label: "snagit" }]}
+      title="A free Snagit alternative for Windows."
+      lede="Snagit is the professional screenshot tool, and it is priced like one, every year. QGN covers the everyday part of it for nothing."
+      ld={faqLd(qa)}
+    >
+      <p>
+        Snagit by TechSmith is a serious product. It captures regions, windows and scrolling pages, grabs text out of
+        images, records video with your webcam, and has a big editor with templates and stamps. It runs on Windows 10
+        and 11 and on macOS. If your job is writing training material all day, it may well be worth the money.
+      </p>
+      <p>
+        The money is the thing. Snagit is now an annual subscription: Snagit Individual is listed at about $39 a year,
+        per user, and it is non-transferable. That is fine for a company. It is a lot for someone who mostly wants an
+        arrow on a screenshot and the odd screen recording.
+      </p>
+      <p>
+        QGN is free and MIT licensed. No trial, no licence key, no account. Most days you press{" "}
+        <kbd>ctrl</kbd>+<kbd>q</kbd>, drag, and paste. On the days you need more, the editor is one click away.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            Snagit Alternative
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Snagit features.
-            <br />
-            <span className="text-pink">Zero cost.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Snagit by TechSmith is a solid tool, but at $63 per license
-            it&apos;s hard to justify when free alternatives cover most of the
-            same ground. Quick Gen gives you screenshot capture, annotation, and
-            screen recording — for free, forever.
-          </p>
-        </div>
-      </section>
+      <h2>side by side</h2>
+      <Compare
+        cols={["Snagit", "QGN"]}
+        rows={[
+          ["capture", "region, window, full screen, scrolling", "region, window, or full display"],
+          ["editor", "large, with stamps and templates", "arrows, shapes, text, callouts, redaction, crop, all editable later"],
+          ["backgrounds and frames", "borders, shadows, effects", "gradients, wallpapers, browser and window frames"],
+          ["screen recording", "yes, with webcam", "yes, with mic and system audio, no webcam"],
+          ["recording export", "MP4, GIF", "MP4, WebM, GIF, animated WebP"],
+          ["text grab (OCR)", "yes", "no"],
+          ["account", "TechSmith account for the licence", "none"],
+          ["source", "closed", "open, MIT"],
+          ["price", "about $39 a year, per user", "free"],
+          ["platforms", "Windows, Mac", "Windows only"],
+        ]}
+      />
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Side by side
-          </h2>
+      <h2>what you gain</h2>
+      <ul>
+        <li>
+          <b>No bill.</b> Not this year, not next year. MIT licensed, so nobody can take it away either.
+        </li>
+        <li>
+          <b>Speed.</b> Release the mouse and the capture is on your clipboard before the overlay closes. Instant is the
+          default. Hold <kbd>alt</kbd> as you release if you want to adjust first.
+        </li>
+        <li>
+          <b>The polished-screenshot part.</b> Compose puts a capture on a gradient or wallpaper, in a browser or
+          window frame, at the aspect ratio you need. See <Link href="/features/screenshot-mockup-tool">mockups</Link>.
+        </li>
+        <li>
+          <b>Recordings that look edited.</b> Trim, then let QGN make zoom keyframes from your own clicks. MP4 and WebM
+          encode faster than real time. See <Link href="/features/screen-recording">screen recording</Link>.
+        </li>
+        <li>
+          <b>Nothing leaves your machine.</b> The app talks to one server, GitHub, to check for updates. It has no
+          analytics.
+        </li>
+      </ul>
 
-          <div className="border border-border rounded-3xl overflow-hidden">
-            <div className="grid grid-cols-3 border-b border-border text-sm font-bold">
-              <div className="p-5 text-dim">Feature</div>
-              <div className="p-5 text-dim border-l border-border">Snagit</div>
-              <div className="p-5 text-pink border-l border-border">
-                Quick Gen
-              </div>
-            </div>
-            {[
-              ["Screenshot capture", "Yes", "Yes"],
-              ["Screen recording", "Yes", "Yes — mic + system audio"],
-              [
-                "Annotation editor",
-                "Yes — comprehensive",
-                "Yes — 9 tools, marks stay editable",
-              ],
-              ["Snap to window", "Yes", "Yes — with edge snapping"],
-              ["Floating previews", "No", "Yes — pin, stack, resize"],
-              ["Clipboard-first", "Optional", "Default — every capture"],
-              [
-                "Backgrounds & frames",
-                "Borders and effects",
-                "10 gradients, 6 wallpapers, browser frames",
-              ],
-              ["Video trimming", "Yes", "Yes — in and out points"],
-              [
-                "Recording zoom-ins",
-                "Manual",
-                "Generated from your clicks",
-              ],
-              ["Video export", "MP4, GIF", "MP4, WebM, GIF, animated WebP"],
-              ["Scrolling capture", "Yes", "Not yet"],
-              ["OCR / grab text", "Yes", "Not yet"],
-              ["Templates & stamps", "Yes — large library", "No"],
-              ["Cloud integration", "Screencast.com, Google Drive", "None — local only"],
-              ["Open source", "No", "Yes (MIT)"],
-              ["Price", "$63 one-time", "Free"],
-              ["Account required", "TechSmith account", "None"],
-            ].map(([feature, snagit, qgn], i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 border-b border-border last:border-b-0 text-sm"
-              >
-                <div className="p-4 text-foreground font-medium">
-                  {feature}
-                </div>
-                <div className="p-4 text-muted border-l border-border">
-                  {snagit}
-                </div>
-                <div className="p-4 text-foreground border-l border-border">
-                  {qgn}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <h2>what you give up</h2>
+      <ul>
+        <li>Scrolling capture. Snagit can stitch a long page. QGN captures what is on screen.</li>
+        <li>Text grabbing. Snagit can pull text out of a capture. QGN cannot.</li>
+        <li>Webcam. Snagit can put your face in a recording. QGN records screen and audio only.</li>
+        <li>Templates, stamps and step guides. Snagit&apos;s editor is much bigger.</li>
+        <li>A Mac version, support from a company, and years of polish. QGN is one person&apos;s project at 0.1.x.</li>
+      </ul>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Why people switch
-            <br />
-            <span className="text-pink">from Snagit.</span>
-          </h2>
+      <h2>who should switch</h2>
+      <p>
+        If your Snagit renewal is coming up and you mostly capture, annotate and paste, try QGN for a week first. If you
+        build documentation with scrolling captures and templates every day, Snagit earns its price and you should keep
+        it.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Price</h3>
-              <p className="text-muted leading-relaxed">
-                Snagit costs $63 per license plus annual maintenance fees for
-                major upgrades. Quick Gen is free — not freemium, not a trial.
-                Free forever, MIT-licensed, open source.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">No account required</h3>
-              <p className="text-muted leading-relaxed">
-                Snagit requires a TechSmith account for activation. Quick Gen
-                has no account, no license key, no activation. Download, install,
-                capture.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Floating previews</h3>
-              <p className="text-muted leading-relaxed">
-                Snagit captures go into its editor tray. Quick Gen shows every
-                capture as a floating card on your desktop — pin it, annotate it,
-                or reference it while you work in other apps.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Lighter weight</h3>
-              <p className="text-muted leading-relaxed">
-                Snagit is a full application suite with a persistent editor
-                window, a library, templates, and cloud integrations. Quick Gen
-                lives in your system tray and only appears when you need it.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            When Snagit is the better choice
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              If you need scrolling capture, video editing, template stamps,
-              step-by-step guides, or deep integration with tools like
-              Camtasia, Snagit offers more. It&apos;s a mature enterprise tool
-              with a decade of features.
-            </p>
-            <p>
-              Quick Gen is for people who need fast screenshots, annotation, and
-              screen recording without the overhead or cost. If your workflow is
-              capture → annotate → share, Quick Gen covers it.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <RelatedAlternatives current="/alternatives/snagit" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

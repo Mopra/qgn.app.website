@@ -1,161 +1,115 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedUseCases,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Screenshot Tool for Developers — Quick Gen",
-  description:
-    "A screenshot tool built for developer workflows. Hotkey capture, clipboard-first, floating previews for reference, annotation for code reviews, screen recording for demos. Free and open source.",
-  keywords: [
-    "screenshot tool for developers",
-    "developer screenshot tool",
-    "screenshot tool for coding",
-    "programmer screenshot tool",
-    "screenshot for code review",
-    "developer screen capture",
-    "Quick Gen",
+export const metadata = meta(
+  "/use-cases/developers",
+  "Screenshot tool for developers on Windows: QGN",
+  "QGN is a free, open source screenshot tool for developers on Windows. Ctrl+Q to the clipboard, paste into a PR, an issue or a coding agent. GIFs for pull requests, base64 for HTML, no account.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Can QGN copy a screenshot as base64?",
+    "Yes. Set the copy format to base64 data URI in Settings, and every capture lands on the clipboard as a data: URI you can paste into HTML, CSS or a test fixture.",
   ],
-  alternates: { canonical: "/use-cases/developers" },
-  openGraph: {
-    title: "Screenshot Tool for Developers — Quick Gen",
-    description:
-      "Built for developer workflows. Hotkey capture, clipboard-first, floating previews, annotation for code reviews.",
-    url: "https://qgn.app/use-cases/developers",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Can I make a GIF for a pull request?",
+    "Yes. Record a region with Ctrl+Shift+Q, trim it in Studio, and export GIF, animated WebP, MP4 or WebM. Studio shows the output size before you export.",
+  ],
+  [
+    "Is the source available?",
+    "Yes, MIT licensed on GitHub. Electron, vanilla JavaScript, one main.js. Pull requests are welcome.",
+  ],
+];
 
-export default function DevelopersPage() {
+const CLONE = `git clone https://github.com/Mopra/qgn.app.git
+cd qgn.app
+npm install
+npm start`;
+
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Use Cases" },
-        { label: "For Developers" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "for" }, { label: "developers" }]}
+      title="A screenshot tool that gets out of your editor's way."
+      lede="You live in an editor, a terminal and a browser. A screenshot should cost one key and zero windows. That is what QGN is for."
+      ld={faqLd(qa)}
+    >
+      <p>
+        Most of a developer&apos;s screenshots go one place: pasted somewhere else, ten seconds later. A pull request.
+        An issue. A Slack thread. A chat with a coding agent that takes images. QGN is built around that. Press{" "}
+        <kbd>ctrl</kbd>+<kbd>q</kbd>, drag, and the image is on your clipboard before the overlay closes. No save
+        dialog, no editor popping up, no file to clean up later.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            For Developers
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Screenshot tool
-            <br />
-            <span className="text-pink">built for devs.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            You&apos;re deep in a debugging session. You need a screenshot for a
-            PR comment. Ctrl+Q, select, paste. You never leave your editor. No
-            window switching, no file management, no upload waiting.
-          </p>
-        </div>
-      </section>
+      <h2>the loop</h2>
+      <ol>
+        <li>
+          <kbd>ctrl</kbd>+<kbd>q</kbd> from anywhere. Your editor keeps focus until you press it.
+        </li>
+        <li>Drag a region, or click a window to get exactly that window.</li>
+        <li>
+          <kbd>ctrl</kbd>+<kbd>v</kbd> into the PR, the issue or the chat. GitHub takes pasted images directly.
+        </li>
+      </ol>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Your daily workflow,
-            <br />
-            <span className="text-pink">accelerated.</span>
-          </h2>
+      <h2>things that matter when you code</h2>
+      <ul>
+        <li>
+          <b>Window capture.</b> Hover a terminal or a browser and it is outlined and named with its size. Click it.
+          You get its exact edges, no wallpaper creeping in.
+        </li>
+        <li>
+          <b>Pixel loupe.</b> A magnifier follows the cursor with live coordinates and the colour under it. Handy when
+          a layout is off by two pixels and you want to know which two.
+        </li>
+        <li>
+          <b>Sizes as you drag.</b> Width and height show while you select. Hold <kbd>shift</kbd> for a square, or{" "}
+          <kbd>alt</kbd> as you release to nudge the edges with the arrow keys before it is taken.
+        </li>
+        <li>
+          <b>Copy formats.</b> PNG by default. JPG or WebP with a quality slider when size matters. A base64 data URI
+          when you are pasting into code.
+        </li>
+        <li>
+          <b>Redaction that sticks.</b> Tokens and emails get a solid block, not a blur someone can undo. See{" "}
+          <Link href="/features/screenshot-annotation">annotation</Link>.
+        </li>
+        <li>
+          <b>GIFs for pull requests.</b> <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd> records a region. Trim it, let
+          Studio zoom in on your clicks, export a GIF or MP4. See{" "}
+          <Link href="/features/screen-recording">screen recording</Link>.
+        </li>
+        <li>
+          <b>Already copied something?</b> The tray menu opens whatever image is on your clipboard in Studio, so a
+          screenshot from anywhere gets the same tools.
+        </li>
+      </ul>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">PR and code reviews</h3>
-              <p className="text-muted leading-relaxed">
-                Capture a UI state, annotate the issue with arrows and callout
-                numbers, paste into a GitHub comment. Reviewers see exactly what
-                you mean instead of reading a paragraph of description.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Debugging with floating refs
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Capture an error message or a stack trace and pin it as a
-                floating preview. It stays on top of your editor while you dig
-                through the code. No more switching between windows to re-read
-                the error.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Base64 for embedding
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Set the output format to base64 Data URI and your screenshot
-                goes to clipboard as an embeddable string. Paste directly into
-                markdown, HTML, or CSS without saving a file.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Redact before sharing
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Capture a screen that shows API keys, tokens, or personal data?
-                Open the annotation editor and blur the sensitive parts before
-                pasting into a public channel or issue tracker.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Quick demos</h3>
-              <p className="text-muted leading-relaxed">
-                Need to show a colleague how a feature works? Ctrl+Shift+Q to
-                record a screen region with your mic. Export as MP4 and drop it
-                in Slack. Ten seconds from hotkey to posted.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Keyboard-first</h3>
-              <p className="text-muted leading-relaxed">
-                No mouse-first UI. Global hotkey to capture, single-key
-                shortcuts for every annotation tool. The entire workflow stays
-                on your keyboard, just like your editor.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>what it is made of</h2>
+      <p>
+        Electron, vanilla JavaScript, plain HTML for each window. The main process is one <code>main.js</code>. No
+        framework, no UI build step. Sharp for images, WebCodecs for video. MIT licensed, and the source is on{" "}
+        <a href="https://github.com/Mopra/qgn.app">GitHub</a>, so if something bugs you, you can read why.
+      </p>
+      <pre>{CLONE}</pre>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Why developers prefer local tools
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              Cloud screenshot tools upload your screen to third-party servers.
-              That means your codebase, your terminal output, your env files,
-              and your internal dashboards could end up on someone else&apos;s
-              infrastructure.
-            </p>
-            <p>
-              Quick Gen never makes a network request (except for update
-              checks). Your screenshots stay on your machine. The code is
-              open source so you can verify that yourself.
-            </p>
-          </div>
-        </div>
-      </section>
+      <h2>what it doesn&apos;t do</h2>
+      <ul>
+        <li>No upload to a link. If you want a URL, paste into a GitHub comment and let GitHub host it.</li>
+        <li>No scrolling capture of long pages.</li>
+        <li>No command line or scripting API for automated screenshots.</li>
+        <li>No Mac or Linux build.</li>
+      </ul>
 
-      <RelatedUseCases current="/use-cases/developers" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

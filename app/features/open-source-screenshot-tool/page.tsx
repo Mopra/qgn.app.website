@@ -1,227 +1,122 @@
-import type { Metadata } from "next";
-import { Github, Code } from "lucide-react";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedFeatures,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
+import { REPO } from "@/app/release";
 
-export const metadata: Metadata = {
-  title: "Open Source Screenshot Tool for Windows — MIT Licensed — Quick Gen",
-  description:
-    "Quick Gen is a fully open-source screenshot tool for Windows, licensed under MIT. View the source code, fork it, modify it, distribute it. No hidden code, no telemetry, no proprietary components.",
-  keywords: [
-    "open source screenshot tool",
-    "MIT license screenshot",
-    "free open source screen capture",
-    "open source Windows screenshot",
-    "screenshot tool source code",
-    "FOSS screenshot tool",
-    "Quick Gen",
+export const metadata = meta(
+  "/features/open-source-screenshot-tool",
+  "QGN: open source screenshot tool for Windows, MIT licensed",
+  "QGN is an open source screenshot and screen recording tool for Windows under the MIT license. Electron, vanilla JavaScript, one main.js. Read the code, build it yourself, send a pull request.",
+);
+
+const qa: [string, string][] = [
+  [
+    "What license is QGN under?",
+    "MIT. Use it, change it, ship it in something else. Keep the copyright notice.",
   ],
-  alternates: { canonical: "/features/open-source-screenshot-tool" },
-  openGraph: {
-    title: "Open Source Screenshot Tool for Windows — Quick Gen",
-    description:
-      "Fully open-source, MIT-licensed screenshot tool. Read every line. Fork it. No telemetry, no hidden code.",
-    url: "https://qgn.app/features/open-source-screenshot-tool",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Does the app phone home?",
+    "It checks GitHub for updates. That is the only network request it makes. There are no analytics in the app.",
+  ],
+  [
+    "Why Electron?",
+    "Because it let one person ship a capture overlay, an editor and a video encoder in plain JavaScript and HTML. The cost is size: the installer is about 85 MB.",
+  ],
+  [
+    "Can I build QGN myself?",
+    "Yes. Clone the repo, run npm install and npm start. npm run build produces the Windows installer.",
+  ],
+];
 
-export default function OpenSourcePage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Features" },
-        { label: "Open Source" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "features" }, { label: "open source" }]}
+      title="Open source, and small enough to actually read."
+      lede="QGN is MIT licensed. The whole app is one main.js and a handful of HTML files. No framework, no transpiler. You can read what it does with your screen in an afternoon."
+      ld={faqLd(qa)}
+    >
+      <p>
+        A screenshot tool sees everything on your screen. Passwords, private messages, the customer record you have open.
+        &quot;Trust us&quot; is a weak answer for software in that position. Source you can read is a better one.
+      </p>
+      <p>
+        So here it is: <a href={REPO}>github.com/Mopra/qgn.app</a>. MIT licensed. Every release is built by GitHub Actions from that
+        repo and published on its releases page, with the notes taken straight from <code>CHANGELOG.md</code>.
+      </p>
 
-      {/* Hero */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            Open Source
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Read every line.
-            <br />
-            <span className="text-pink">We have nothing to hide.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Quick Gen is fully open source under the MIT license. The entire
-            codebase — the desktop app and this website — is on GitHub. Fork it,
-            modify it, learn from it, build something better.
-          </p>
-        </div>
-      </section>
+      <h2>what it talks to</h2>
+      <p>
+        One server: GitHub, to check for a new version every few hours and when the machine wakes up. No analytics, no
+        crash reporting service, no account, no upload feature. Captures go to your clipboard and, if you turn on
+        auto-save, to a folder you choose.
+      </p>
 
-      {/* Repos */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            The source code
-          </h2>
+      <h2>the stack</h2>
+      <Compare
+        cols={["what"]}
+        rows={[
+          ["shell", "Electron"],
+          ["ui", "vanilla HTML, CSS and JavaScript. each window is one self contained HTML file"],
+          ["main process", "one main.js, plus small pure modules in lib/ that are unit tested"],
+          ["images", "Sharp"],
+          ["video", "WebCodecs, muxed by two vendored container writers for MP4 and WebM"],
+          ["window edges", "a small PowerShell helper for snap to window"],
+          ["installer", "electron-builder, NSIS"],
+          ["updates", "electron-updater, from GitHub releases"],
+        ]}
+      />
+      <p>
+        Yes, it is Electron, so the installer is about 85 MB. That is the honest cost. In return there is no build step for
+        the UI and nothing between you and the code but a text editor.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <a
-              href="https://github.com/Mopra/qgn.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block border border-border rounded-3xl p-8 md:p-10 hover:border-pink/30 transition-colors group"
-            >
-              <Github className="w-8 h-8 mb-4 text-muted group-hover:text-foreground transition-colors" />
-              <h3 className="text-xl font-black mb-2">
-                qgn.app
-              </h3>
-              <p className="text-muted leading-relaxed mb-4">
-                The desktop application. Electron, Sharp, vanilla JavaScript.
-                All the capture logic, annotation editor, preview cards, screen
-                recording, and system tray integration.
-              </p>
-              <span className="text-pink text-sm font-bold">
-                View on GitHub &rarr;
-              </span>
-            </a>
-            <a
-              href="https://github.com/Mopra/qgn.app.website"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block border border-border rounded-3xl p-8 md:p-10 hover:border-pink/30 transition-colors group"
-            >
-              <Code className="w-8 h-8 mb-4 text-muted group-hover:text-foreground transition-colors" />
-              <h3 className="text-xl font-black mb-2">
-                qgn.app.website
-              </h3>
-              <p className="text-muted leading-relaxed mb-4">
-                This website. Next.js, React, Tailwind CSS, TypeScript. The
-                landing page, feature pages, and everything you&apos;re looking
-                at right now.
-              </p>
-              <span className="text-pink text-sm font-bold">
-                View on GitHub &rarr;
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
+      <h2>build it yourself</h2>
+      <pre>{`git clone https://github.com/Mopra/qgn.app.git
+cd qgn.app
+npm install
+npm start        # run it
+npm run build    # make the Windows installer in dist/`}</pre>
+      <p>You need Node.js 18 or later, and Windows to build the installer.</p>
 
-      {/* What open source means */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            What MIT license
-            <br />
-            <span className="text-pink">means for you.</span>
-          </h2>
+      <h2>tests</h2>
+      <ul>
+        <li>
+          <code>npm run check</code>: syntax, inline scripts in the HTML, unit tests for lib/, and a boot of the main
+          process. Needs no display, runs on every push.
+        </li>
+        <li>
+          <code>npm run smoke</code>: boots a hidden Studio window and drives it end to end, including a real encoded
+          export.
+        </li>
+        <li>
+          <code>npm run smoke:overlay</code>: boots the capture overlay and drives a real selection with synthetic mouse
+          and key events.
+        </li>
+      </ul>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Use it freely</h3>
-              <p className="text-muted leading-relaxed">
-                Use Quick Gen for personal or commercial purposes. No usage
-                restrictions, no license keys, no activation. Download it, use
-                it, done.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Modify it</h3>
-              <p className="text-muted leading-relaxed">
-                Want to change something? Fork the repo, make your changes, and
-                build your own version. Add features, remove features, make it
-                yours.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Distribute it</h3>
-              <p className="text-muted leading-relaxed">
-                Share Quick Gen or your modified version with anyone. Include it
-                in your team&apos;s toolkit, bundle it, or publish your own
-                fork. The MIT license allows it.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Audit it</h3>
-              <p className="text-muted leading-relaxed">
-                Every line of code is public. No hidden telemetry, no analytics
-                beacons, no network calls you can&apos;t see. Verify for
-                yourself that the app does exactly what it says.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>contributing</h2>
+      <p>
+        Fixes, performance work, new annotation tools and documentation are all welcome. Read{" "}
+        <a href={`${REPO}/blob/main/CONTRIBUTING.md`}>CONTRIBUTING.md</a> first. The short version: vanilla JavaScript,
+        keep it simple, run the checks, and add a line to the changelog if the change is visible.
+      </p>
 
-      {/* No telemetry */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Zero telemetry.
-            <br />
-            <span className="text-pink">Verify it yourself.</span>
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              Quick Gen makes no network requests except to check for updates
-              from GitHub Releases. No analytics, no crash reporting, no usage
-              tracking. Your screenshots never leave your machine.
-            </p>
-            <p>
-              This isn&apos;t just a promise — it&apos;s a verifiable fact. The
-              entire codebase is public. Search for &quot;fetch&quot;,
-              &quot;http&quot;, or &quot;analytics&quot; in the source. The only
-              outbound call is the update check, and you can disable that too.
-            </p>
-            <p>
-              We believe tools should do their job and get out of the way.
-              Screenshot tools shouldn&apos;t know your name, your email, or
-              what you&apos;re capturing.
-            </p>
-          </div>
-        </div>
-      </section>
+      <h2>compared</h2>
+      <p>
+        <Link href="/alternatives/sharex">ShareX</Link> and <Link href="/alternatives/greenshot">Greenshot</Link> are
+        open source too, and both are good. QGN is the smaller one with an opinion: clipboard first, one hotkey, a
+        modern editor. <Link href="/alternatives/lightshot">Lightshot</Link> and{" "}
+        <Link href="/alternatives/snagit">Snagit</Link> are closed source.
+      </p>
 
-      {/* Contributing */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Contribute
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              Found a bug? Want to add a feature? Contributions are welcome. The
-              codebase is straightforward — vanilla JavaScript, no framework
-              overhead, clean separation between windows.
-            </p>
-            <p>
-              Check out the{" "}
-              <a
-                href="https://github.com/Mopra/qgn.app/blob/main/CONTRIBUTING.md"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-pink hover:underline"
-              >
-                contributing guidelines
-              </a>{" "}
-              to get started.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <RelatedFeatures current="/features/open-source-screenshot-tool" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

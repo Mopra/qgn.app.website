@@ -1,228 +1,106 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedFeatures,
-} from "@/app/components/FeatureLayout";
-import { ComposeVignette, VignetteCaption } from "@/app/components/vignettes";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Free Screenshot Mockup Tool — Gradient Backgrounds & Frames — Quick Gen",
-  description:
-    "Put a screenshot on a gradient background, wrap it in a browser frame, add padding, rounded corners and a shadow. Built into a free, open-source Windows capture tool. No web upload, no subscription, no watermark.",
-  keywords: [
-    "screenshot mockup tool",
-    "screenshot background generator",
-    "screenshot beautifier",
-    "add background to screenshot",
-    "gradient background screenshot",
-    "browser frame screenshot",
-    "screenshot padding shadow",
-    "free mockup generator",
-    "shots.so alternative",
-    "pika alternative",
-    "screenshot pretty",
+export const metadata = meta(
+  "/features/screenshot-mockup-tool",
+  "QGN: free screenshot beautifier for Windows, backgrounds and frames",
+  "Put a screenshot on a gradient or wallpaper, in a browser or window frame, with padding, rounded corners and a shadow. QGN's Compose mode does it offline on Windows, free and open source.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Do I need to upload my screenshot to a website to frame it?",
+    "No. Compose runs inside QGN on your machine. The capture never leaves it.",
   ],
-  alternates: { canonical: "/features/screenshot-mockup-tool" },
-  openGraph: {
-    title: "Free Screenshot Mockup Tool — Quick Gen",
-    description:
-      "Gradient backgrounds, browser frames, padding, rounding and shadows. Offline, free, no watermark.",
-    url: "https://qgn.app/features/screenshot-mockup-tool",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Can I use my own background image?",
+    "Yes. Besides the gradients, wallpapers and solid colours, you can pick any image of your own.",
+  ],
+  [
+    "Does it work on recordings too?",
+    "Yes. Compose frames clips the same way as stills, and the export keeps the frame, padding and background.",
+  ],
+  [
+    "Which aspect ratios are there?",
+    "Auto, 16:9, 4:3, 1:1, 9:16 and 3:2.",
+  ],
+];
 
-export default function ScreenshotMockupPage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs
-        items={[{ label: "Features" }, { label: "Screenshot Mockups" }]}
+    <Doc
+      crumbs={[{ label: "features" }, { label: "mockups" }]}
+      title="Make a screenshot presentable without a browser tab."
+      lede="Compose puts a capture on a background, in a window or browser frame, with padding and a shadow, at the ratio the place you are posting wants. On your machine, offline."
+      ld={faqLd(qa)}
+    >
+      <p>
+        A raw screenshot in a README or a launch post looks like a raw screenshot. The usual fix is a web beautifier:
+        upload, fiddle, download, paste. That is four steps and a stranger&apos;s server for something your screenshot
+        tool should just do.
+      </p>
+      <p>
+        In QGN you open the capture from its preview card, switch Studio to <b>Compose</b>, and it is already framed
+        with sensible defaults: a window frame, a little padding, rounded corners, a soft shadow. Change what you want,
+        save a new file.
+      </p>
+
+      <h2>the controls</h2>
+      <Compare
+        cols={["options"]}
+        rows={[
+          ["background", "10 gradients, 6 wallpapers, solid colour, or your own image"],
+          ["saved palettes", "keep your own gradients and colours, up to 24 each"],
+          ["frame", "none, a plain window, or browser chrome with an address bar"],
+          ["layout", "padding, corner rounding, shadow depth"],
+          ["aspect ratio", "auto, 16:9, 4:3, 1:1, 9:16, 3:2"],
+        ]}
       />
 
-      {/* Hero */}
-      <section className="relative flex flex-col justify-center px-6 md:px-10 pt-8 pb-16">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            Screenshot Mockups
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Make a screenshot
-            <br />
-            <span className="text-pink">look intentional.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            A bare screenshot dropped into a changelog or a landing page looks
-            like a bare screenshot. Framed on a background with a little padding
-            and a soft shadow, the same image looks like you meant it. Quick Gen
-            does that in the app you already captured with, offline, for free.
-          </p>
-        </div>
-      </section>
+      <h2>what people make with it</h2>
+      <ul>
+        <li>The hero image in a GitHub README.</li>
+        <li>A 16:9 shot for a launch post, or 1:1 for a feed that crops everything square.</li>
+        <li>9:16 for a phone shaped story.</li>
+        <li>Screenshots for docs that all share one look, thanks to a saved palette.</li>
+        <li>A framed screen recording for a changelog, exported as MP4 or animated WebP.</li>
+      </ul>
 
-      {/* The vignette */}
-      <section className="px-6 md:px-10 py-16 border-t border-border">
-        <div className="max-w-6xl mx-auto">
-          <ComposeVignette />
-          <VignetteCaption label="Compose mode">
-            Background, frame, padding, rounding and shadow, then Save as new.
-            The original capture is left untouched.
-          </VignetteCaption>
-        </div>
-      </section>
+      <h2>annotate in the same place</h2>
+      <p>
+        Every annotation tool works in Compose too. Add an arrow, a callout, a redaction, then frame it, in one window.
+        Switch back to Markup and your framing is kept. See <Link href="/features/screenshot-annotation">annotation</Link>.
+      </p>
 
-      {/* What you get */}
-      <section className="px-6 md:px-10 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Everything the
-            <br />
-            <span className="text-pink">paid ones charge for.</span>
-          </h2>
+      <h2>versus a web beautifier</h2>
+      <Compare
+        cols={["web beautifier", "QGN compose"]}
+        rows={[
+          ["where it runs", "a website", "your machine"],
+          ["steps from capture", "save, upload, edit, download", "click the card, compose"],
+          ["works offline", "no", "yes"],
+          ["video", "usually not", "yes"],
+          ["account or watermark", "often", "never"],
+        ]}
+      />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Ten gradients</h3>
-              <p className="text-muted leading-relaxed">
-                Indigo, blush, ocean, lime, peach, grape, sky, slate, coral and
-                night, each with an adjustable angle. Save your own gradients and
-                solid colours to a palette that holds twenty-four of each.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Six wallpapers</h3>
-              <p className="text-muted leading-relaxed">
-                Soft multi-blob glows in the style of a modern desktop wallpaper:
-                aurora, sequoia, mint, bigsur, ember and bloom. Or use a solid
-                colour, or upload an image of your own.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Window and browser frames</h3>
-              <p className="text-muted leading-relaxed">
-                Wrap the capture in a plain window or a browser frame with an
-                address bar, in a light or dark theme. Or leave it unframed and
-                let the padding do the work.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Padding, rounding, shadow</h3>
-              <p className="text-muted leading-relaxed">
-                Three sliders that do most of the work. Breathing room around the
-                capture, softened corners, and a shadow that lifts it off the
-                background.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Aspect ratios that fit</h3>
-              <p className="text-muted leading-relaxed">
-                Auto, 16:9, 4:3, 1:1, 9:16 and 3:2, so the export drops straight
-                into a blog header, a social post, or a phone-shaped slot without
-                a second crop.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Annotations come along</h3>
-              <p className="text-muted leading-relaxed">
-                Arrows, callouts and redactions work in Compose too, and
-                switching to Markup and back keeps the framing you set up. The
-                marks are stored in source pixels, so they stay put at any export
-                size.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>what it is not</h2>
+      <ul>
+        <li>No device mockups. There are no phone or laptop frames, only window and browser frames.</li>
+        <li>No templates with text and layouts. It frames one capture well.</li>
+      </ul>
+      <p>
+        Compose is part of <Link href="/features/studio">Studio</Link>.
+      </p>
 
-      {/* Why not a web tool */}
-      <section className="px-6 md:px-10 py-24 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Why not a web tool?
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              The usual way to get this look is to capture a screenshot, open a
-              browser tab, upload the image to somebody else&apos;s server, drag
-              some sliders, download the result, and find the watermark. That is
-              five steps and a stranger&apos;s hard drive for something your
-              capture tool should already do.
-            </p>
-            <p>
-              In Quick Gen it is the same window you were already in. Press
-              Ctrl+Q, click{" "}
-              <strong className="text-foreground">Open in Studio</strong> on the
-              preview card, switch to Compose, and save. Nothing leaves your
-              machine, there is no account, and there is no watermark on the way
-              out.
-            </p>
-            <p>
-              It is also the reason this is worth comparing against{" "}
-              <Link
-                href="/alternatives/cleanshot-x"
-                className="text-pink hover:text-pink-light transition-colors"
-              >
-                CleanShot X
-              </Link>
-              , which does backgrounds beautifully and only runs on a Mac, and
-              against{" "}
-              <Link
-                href="/alternatives/snagit"
-                className="text-pink hover:text-pink-light transition-colors"
-              >
-                Snagit
-              </Link>
-              , which wants $63 a year.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Use cases */}
-      <section className="px-6 md:px-10 py-24 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Good for
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              <strong className="text-foreground">Changelogs and release notes</strong>{" "}
-              — one framed capture per entry, consistent background, done in the
-              time it takes to write the paragraph.
-            </p>
-            <p>
-              <strong className="text-foreground">Landing pages</strong> — a
-              product shot that sits on the page instead of floating on it, at
-              the exact aspect ratio your layout wants.
-            </p>
-            <p>
-              <strong className="text-foreground">Social posts</strong> — 1:1 or
-              9:16 with padding, so the interesting part is not cropped away by
-              somebody else&apos;s thumbnail logic.
-            </p>
-            <p>
-              <strong className="text-foreground">Docs and tutorials</strong> — a
-              framed screenshot with numbered callouts reads as a step, not as a
-              stray image.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <RelatedFeatures current="/features/screenshot-mockup-tool" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

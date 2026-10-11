@@ -1,179 +1,80 @@
-import type { Metadata } from "next";
-import { Nav, Breadcrumbs, FeatureFooter } from "@/app/components/FeatureLayout";
+import { Doc, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy — Quick Gen",
-  description:
-    "Quick Gen is a privacy-first screenshot tool. No accounts, no cloud uploads, no telemetry. Read our full privacy policy.",
-  alternates: { canonical: "/privacy" },
-  openGraph: {
-    title: "Privacy Policy — Quick Gen",
-    description: "Quick Gen is a privacy-first screenshot tool. No accounts, no cloud uploads, no telemetry.",
-    url: "https://qgn.app/privacy",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+export const metadata = meta(
+  "/privacy",
+  "QGN privacy: the app collects nothing, the website uses Google Analytics",
+  "QGN, the screenshot tool, collects no data and only talks to GitHub to check for updates. This website uses Google Analytics 4. Here is exactly what each one does.",
+);
 
-export default function PrivacyPage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Privacy Policy" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "privacy" }]}
+      title="The app collects nothing. The website counts visits."
+      lede="Last updated 11 October 2026. Two different things live under the name QGN: the app on your computer and this website. They are handled differently, so they are described separately."
+    >
+      <h2>the app</h2>
+      <p>
+        QGN does not collect, store or send any personal data. There is no account, no cloud storage, no analytics, no
+        crash reporter and no advertising code. Your captures never leave your computer unless you paste or send them
+        somewhere yourself.
+      </p>
+      <ul>
+        <li>
+          <b>Captures</b> go to your clipboard. If you turn on auto-save, they are also written to a folder you choose
+          (Pictures\qgn by default).
+        </li>
+        <li>
+          <b>Pinned cards and recent captures</b> are kept in the app&apos;s data folder on your machine, so they
+          survive a restart. Switching recent captures off deletes what is stored.
+        </li>
+        <li>
+          <b>Settings</b> are a local file. Not synced, not backed up anywhere.
+        </li>
+      </ul>
+      <p>
+        The app makes one kind of network request: it asks GitHub&apos;s public releases for a newer version, every four
+        hours and shortly after your computer wakes. If there is one, it downloads it from GitHub. GitHub sees that
+        request like any web request (your IP address, for one). It contains nothing about you or your captures.
+        GitHub&apos;s own privacy statement covers what they do with it.
+      </p>
+      <p>
+        You don&apos;t have to trust this page. The app is open source under the MIT license, and every line is at{" "}
+        <a href="https://github.com/Mopra/qgn.app">github.com/Mopra/qgn.app</a>.
+      </p>
 
-      <article className="max-w-3xl mx-auto px-6 md:px-10 pt-8 pb-24">
-        <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-          Privacy Policy
-        </p>
+      <h2>this website</h2>
+      <p>
+        qgn.app uses <b>Google Analytics 4</b> to see how many people visit, which pages they land on, and where they
+        came from. Google collects things like pages viewed, the referring site, rough location, device and browser,
+        and sets cookies to do it.
+      </p>
+      <p>
+        On top of page views the site sends one event of its own: <b>download</b>, when you click a link to the
+        installer or a release on GitHub. It records which link and which page you were on. That is how I find out
+        which pages lead to people actually trying QGN.
+      </p>
+      <p>
+        The capture demo at the top of the home page runs entirely in your browser. The image it makes goes to your
+        clipboard and nowhere else.
+      </p>
+      <p>
+        To opt out, use an ad or tracker blocker, or{" "}
+        <a href="https://tools.google.com/dlpage/gaoptout">Google&apos;s opt-out add-on</a>. The site works the same
+        either way. Google&apos;s use of the data is covered by{" "}
+        <a href="https://policies.google.com/privacy">Google&apos;s privacy policy</a>.
+      </p>
 
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-black tracking-[-0.04em] leading-[0.9] mb-10">
-          Your screenshots<br />stay <span className="text-pink">yours.</span>
-        </h1>
+      <h2>children</h2>
+      <p>The app collects no data from anyone, children included.</p>
 
-        <p className="text-muted text-sm mb-12">
-          Last updated: March 2026
-        </p>
+      <h2>changes</h2>
+      <p>If any of this changes, this page and the date at the top change with it.</p>
 
-        <div className="space-y-12 text-muted leading-relaxed">
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">The short version</h2>
-            <p>
-              Quick Gen does not collect, store, or transmit any personal data. Your screenshots
-              never leave your computer. There is no account system, no cloud storage, no analytics
-              baked into the app, and no telemetry of any kind. We built Quick Gen to be a tool
-              you can trust with sensitive content on your screen.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">What data does Quick Gen collect?</h2>
-            <p className="mb-4">
-              <strong className="text-foreground">None.</strong> Quick Gen runs entirely on your
-              local machine. Here is exactly what happens with your data:
-            </p>
-            <div className="space-y-4 pl-4 border-l-2 border-border">
-              <div>
-                <p className="text-foreground font-semibold">Screenshots &amp; recordings</p>
-                <p>Stored locally on your computer in the location you configure. Never uploaded anywhere.</p>
-              </div>
-              <div>
-                <p className="text-foreground font-semibold">Clipboard data</p>
-                <p>Screenshots are copied to your system clipboard. This stays on your device and follows your OS clipboard behavior.</p>
-              </div>
-              <div>
-                <p className="text-foreground font-semibold">Settings &amp; preferences</p>
-                <p>Stored in a local config file on your machine. Not synced, not backed up to any server.</p>
-              </div>
-              <div>
-                <p className="text-foreground font-semibold">Usage analytics</p>
-                <p>There are none. We don&apos;t track feature usage, session duration, crash reports, or anything else.</p>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">Network requests</h2>
-            <p>
-              Quick Gen makes <strong className="text-foreground">no network requests</strong> during
-              normal operation. The only time the app connects to the internet is when it checks for
-              updates via GitHub&apos;s public releases API — and this is optional. No personal
-              information is included in that request.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">This website</h2>
-            <p className="mb-4">
-              The Quick Gen website (qgn.app) uses Google Analytics to understand how visitors
-              find and use the site. This is standard web analytics and applies only to the
-              marketing website — not the desktop application.
-            </p>
-            <p>
-              Google Analytics may collect anonymized data such as page views, referral sources,
-              and general geographic region. You can opt out of Google Analytics using a browser
-              extension or ad blocker. See{" "}
-              <a
-                href="https://tools.google.com/dlpage/gaoptout"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-pink hover:text-pink-light underline underline-offset-2"
-              >
-                Google&apos;s opt-out tool
-              </a>
-              .
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">Open source transparency</h2>
-            <p>
-              Quick Gen is open source under the MIT license. You can inspect every line of code
-              to verify these claims yourself. The source code is available at{" "}
-              <a
-                href="https://github.com/Mopra/qgn.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-pink hover:text-pink-light underline underline-offset-2"
-              >
-                github.com/Mopra/qgn.app
-              </a>
-              .
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">Third-party services</h2>
-            <p>
-              Quick Gen does not integrate with, send data to, or receive data from any third-party
-              service. There are no embedded SDKs, advertising libraries, crash reporters, or
-              analytics frameworks in the desktop application.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">Children&apos;s privacy</h2>
-            <p>
-              Quick Gen does not collect any data from anyone, including children under 13.
-              Since no personal data is collected or stored, there is no COPPA applicability.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">Changes to this policy</h2>
-            <p>
-              If we ever change our data practices, we will update this page and the
-              &quot;last updated&quot; date above. Given our core philosophy of local-only
-              operation, we do not anticipate significant changes.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-bold mb-4">Contact</h2>
-            <p>
-              Questions about this policy? Open an issue on{" "}
-              <a
-                href="https://github.com/Mopra/qgn.app/issues"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-pink hover:text-pink-light underline underline-offset-2"
-              >
-                GitHub
-              </a>
-              .
-            </p>
-          </section>
-        </div>
-      </article>
-
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      <p>
+        Open an issue on <a href="https://github.com/Mopra/qgn.app/issues">GitHub</a>.
+      </p>
+    </Doc>
   );
 }

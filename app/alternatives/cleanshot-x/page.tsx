@@ -1,238 +1,117 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedAlternatives,
-} from "@/app/components/FeatureLayout";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "CleanShot X Alternative for Windows — Quick Gen",
-  description:
-    "CleanShot X is Mac-only. Quick Gen brings the same experience to Windows: floating previews, snap to window, gradient backgrounds and frames, annotation, and screen recording with automatic zoom-ins. Free and open source.",
-  keywords: [
-    "CleanShot X alternative",
-    "CleanShot X for Windows",
-    "CleanShot alternative Windows",
-    "Windows alternative to CleanShot",
-    "screenshot tool like CleanShot",
-    "CleanShot X vs Quick Gen",
-    "floating screenshot Windows",
+export const metadata = meta(
+  "/alternatives/cleanshot-x",
+  "CleanShot X for Windows? The closest thing is QGN, free",
+  "CleanShot X is Mac only, with no Windows version planned. QGN is a free, open source CleanShot alternative for Windows: instant capture, floating previews, backgrounds and frames, and screen recording.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Is there a CleanShot X for Windows?",
+    "No. CleanShot's own FAQ says there is no Windows version and no plans to release one. It requires macOS 13 or newer.",
   ],
-  alternates: { canonical: "/alternatives/cleanshot-x" },
-  openGraph: {
-    title: "CleanShot X Alternative for Windows — Quick Gen",
-    description:
-      "CleanShot X is Mac-only. Quick Gen brings that same polished experience to Windows. Free and open source.",
-    url: "https://qgn.app/alternatives/cleanshot-x",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "What is the closest CleanShot X alternative on Windows?",
+    "QGN was built for that gap: one hotkey to the clipboard, a floating preview card after every capture, an editor with backgrounds and frames, and screen recording with zooms. It is free and open source.",
+  ],
+  [
+    "Does QGN have a cloud like CleanShot Cloud?",
+    "No. QGN has no cloud and no upload feature. Captures stay on your machine.",
+  ],
+  [
+    "How much does CleanShot X cost compared to QGN?",
+    "CleanShot X Basic is $35 once, with a year of updates and optional renewals at $19 a year. CleanShot Pro is $10 per user per month, billed yearly. QGN is free.",
+  ],
+];
 
-export default function CleanShotAlternativePage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Alternatives" },
-        { label: "CleanShot X Alternative" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "vs" }, { label: "cleanshot x" }]}
+      title="CleanShot X doesn't run on Windows. This does."
+      lede="If you moved from a Mac to a Windows machine and miss CleanShot X, start here."
+      ld={faqLd(qa)}
+    >
+      <p>
+        CleanShot X is the screenshot tool Mac people talk about. Capture, a little preview in the corner, a quick
+        annotate, a nice background, a recording when you need one. It is very good.
+      </p>
+      <p>
+        It is also Mac only. It needs macOS 13 or newer, and CleanShot&apos;s FAQ says plainly that there is no Windows
+        version and no plans for one. So people search for &quot;CleanShot X for Windows&quot; and find a list of tools
+        that each do a third of it.
+      </p>
+      <p>
+        QGN covers most of that flow on Windows 10 and 11. It is not a clone and it does not look like one. But the
+        shape is the same: press a key, drag, the capture is on your clipboard and on a card in the corner, and the
+        editor is one click away.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            CleanShot X Alternative
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            CleanShot X,
-            <br />
-            <span className="text-pink">but for Windows.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            CleanShot X set the standard for polished screenshot tools on Mac —
-            floating previews, quick annotation, clean workflow. Quick Gen
-            brings that same philosophy to Windows. And it&apos;s free.
-          </p>
-        </div>
-      </section>
+      <h2>side by side</h2>
+      <Compare
+        cols={["CleanShot X", "QGN"]}
+        rows={[
+          ["platforms", "macOS 13 and newer", "Windows 10 and 11"],
+          ["capture", "region, window, full screen, scrolling", "region, window, or full display"],
+          ["preview after capture", "overlay in the corner", "a floating card: drag out, pin, copy again"],
+          ["editor", "annotate, blur, highlight, crop", "arrows, shapes, text, callouts, redaction, crop, all editable later"],
+          ["backgrounds", "yes", "gradients, wallpapers, browser and window frames"],
+          ["screen recording", "yes, video and GIF", "yes, with mic and system audio, MP4, WebM, GIF, WebP"],
+          ["text grab (OCR)", "yes", "no"],
+          ["cloud sharing", "CleanShot Cloud", "none"],
+          ["source", "closed", "open, MIT"],
+          ["price", "$35 once, or Pro at $10 a month", "free"],
+        ]}
+      />
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Side by side
-          </h2>
+      <h2>what carries over</h2>
+      <ul>
+        <li>
+          <b>The corner card.</b> Every capture appears on a small card. Drag it into Slack, Figma or an email. Pin it and
+          it stays, even across a reboot. The last twelve are in the tray menu. See{" "}
+          <Link href="/features/floating-previews">floating previews</Link>.
+        </li>
+        <li>
+          <b>The pretty screenshot.</b> Compose frames a capture on a gradient or wallpaper, in a browser or window
+          frame, with padding, rounding, shadow and a fixed aspect ratio. See{" "}
+          <Link href="/features/screenshot-mockup-tool">mockups</Link>.
+        </li>
+        <li>
+          <b>Annotation that stays editable.</b> Arrows, shapes, text, numbered callouts, redaction and crop, every mark
+          movable after you place it. See <Link href="/features/screenshot-annotation">annotation</Link>.
+        </li>
+        <li>
+          <b>Recordings with zoom.</b> Record a region with mic and system audio, trim it, and let QGN make zoom
+          keyframes from your clicks. Export MP4, WebM, GIF or animated WebP. See{" "}
+          <Link href="/features/screen-recording">screen recording</Link>.
+        </li>
+      </ul>
 
-          <div className="border border-border rounded-3xl overflow-hidden">
-            <div className="grid grid-cols-3 border-b border-border text-sm font-bold">
-              <div className="p-5 text-dim">Feature</div>
-              <div className="p-5 text-dim border-l border-border">
-                CleanShot X
-              </div>
-              <div className="p-5 text-pink border-l border-border">
-                Quick Gen
-              </div>
-            </div>
-            {[
-              ["Platform", "Mac only", "Windows"],
-              ["Floating previews", "Yes", "Yes — pin, stack, resize"],
-              ["Clipboard-first", "Yes", "Yes"],
-              ["Snap to window", "Yes", "Yes — with edge snapping"],
-              ["Annotation", "Yes", "Yes — 9 tools, marks stay editable"],
-              [
-                "Backgrounds & frames",
-                "Yes",
-                "Yes — 10 gradients, 6 wallpapers, browser frames",
-              ],
-              ["Screen recording", "Yes", "Yes — mic + system audio"],
-              [
-                "Recording zoom-ins",
-                "Yes",
-                "Yes — generated from your clicks",
-              ],
-              ["Video export", "MP4, GIF", "MP4, WebM, GIF, animated WebP"],
-              ["Capture history", "Yes", "Yes — last 12 in the tray"],
-              ["Cloud upload", "CleanShot Cloud (paid)", "None — local only"],
-              ["Scrolling capture", "Yes", "Not yet"],
-              ["OCR", "Yes", "Not yet"],
-              ["Open source", "No", "Yes (MIT)"],
-              ["Price", "$29 one-time or $8/mo", "Free"],
-              ["Account required", "License key", "None"],
-            ].map(([feature, cleanshot, qgn], i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 border-b border-border last:border-b-0 text-sm"
-              >
-                <div className="p-4 text-foreground font-medium">
-                  {feature}
-                </div>
-                <div className="p-4 text-muted border-l border-border">
-                  {cleanshot}
-                </div>
-                <div className="p-4 text-foreground border-l border-border">
-                  {qgn}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <h2>what you give up</h2>
+      <ul>
+        <li>Scrolling capture and OCR. CleanShot X has both. QGN has neither.</li>
+        <li>Cloud links. CleanShot Cloud gives you a URL to share. QGN uploads nothing.</li>
+        <li>Mac polish. CleanShot X is native and small. QGN is Electron, about 85 MB.</li>
+        <li>A company behind it. QGN is a one-person open source project, still at 0.1.x.</li>
+        <li>Code signing. QGN isn&apos;t signed yet, so SmartScreen warns on first install.</li>
+      </ul>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            The CleanShot experience
-            <br />
-            <span className="text-pink">on Windows.</span>
-          </h2>
+      <h2>the keys</h2>
+      <p>
+        <kbd>ctrl</kbd>+<kbd>q</kbd> captures. Click a window to take exactly that window. <kbd>space</kbd> takes the
+        whole display. <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd> records. All of them can be rebound.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Floating previews</h3>
-              <p className="text-muted leading-relaxed">
-                The feature that made CleanShot X famous — captures that float
-                on your screen for quick reference. Quick Gen has the same
-                concept: always-on-top preview cards that you can pin, stack,
-                drag, and resize.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Instant clipboard</h3>
-              <p className="text-muted leading-relaxed">
-                Like CleanShot X, every capture goes straight to your clipboard.
-                No extra steps, no file dialogs. Capture, paste, done.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Quick annotation</h3>
-              <p className="text-muted leading-relaxed">
-                Open{" "}
-                <Link
-                  href="/features/studio"
-                  className="text-pink hover:text-pink-light transition-colors"
-                >
-                  Studio
-                </Link>{" "}
-                from any preview card. Arrows, text, shapes, numbered callouts,
-                freehand and redaction, each on a single key, and every mark
-                stays editable after you place it. Fast enough to use in the
-                middle of a conversation.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Backgrounds and frames
-              </h3>
-              <p className="text-muted leading-relaxed">
-                The other thing CleanShot X is loved for. Quick Gen&apos;s{" "}
-                <Link
-                  href="/features/screenshot-mockup-tool"
-                  className="text-pink hover:text-pink-light transition-colors"
-                >
-                  Compose mode
-                </Link>{" "}
-                frames a capture on one of ten gradients or six wallpapers, wraps
-                it in a window or browser frame, and gives you padding, rounding,
-                shadow and six aspect ratios.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Recordings that zoom themselves
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Clicks during a take become zoom keyframes automatically, and
-                Studio layers a styled cursor with click ripples over the result.
-                Trim on the timeline, then export to MP4, WebM, GIF or animated
-                WebP faster than the clip&apos;s own length.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Free and open source
-              </h3>
-              <p className="text-muted leading-relaxed">
-                CleanShot X costs $29 one-time or $8/month for the cloud plan.
-                Quick Gen is completely free under the MIT license. No trial
-                periods, no feature gates, no subscription.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            What Quick Gen doesn&apos;t have yet
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              CleanShot X has scrolling capture and OCR text recognition. Quick
-              Gen doesn&apos;t have those features yet. If those are essential
-              to your workflow, CleanShot X (on Mac) is still the more complete
-              tool.
-            </p>
-            <p>
-              But if you&apos;re on Windows and want the core CleanShot
-              experience — fast capture, floating previews, quick annotation,
-              and clean design — Quick Gen delivers that for free.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <RelatedAlternatives current="/alternatives/cleanshot-x" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

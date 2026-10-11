@@ -1,168 +1,95 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedUseCases,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Screenshot Tool for Designers — Quick Gen",
-  description:
-    "Capture design references, pin them to your screen, annotate feedback with precision. Floating previews for visual comparison, pixel dimensions for accuracy. Free and open source.",
-  keywords: [
-    "screenshot tool for designers",
-    "design screenshot tool",
-    "screenshot for design feedback",
-    "UI screenshot tool",
-    "screenshot reference tool",
-    "pin screenshot to screen",
-    "design comparison tool",
-    "Quick Gen",
+export const metadata = meta(
+  "/use-cases/designers",
+  "Screenshot tool for designers on Windows: QGN",
+  "Pixel loupe with coordinates and colour, exact sizes as you drag, and a Compose mode for framing shots on gradients and in browser frames. A free, open source screenshot tool for designers on Windows.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Can QGN show the colour of a pixel?",
+    "Yes. While you aim, a magnifier follows the cursor with its coordinates and the colour underneath.",
   ],
-  alternates: { canonical: "/use-cases/designers" },
-  openGraph: {
-    title: "Screenshot Tool for Designers — Quick Gen",
-    description:
-      "Pin design references to your screen, annotate feedback, compare before/after. Floating previews for visual workflows.",
-    url: "https://qgn.app/use-cases/designers",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Can I make a screenshot look good for a portfolio or a post?",
+    "Yes. Compose in Studio puts the capture on a gradient, wallpaper, solid colour or your own image, in a window or browser frame, with padding, rounded corners, a shadow and a fixed aspect ratio.",
+  ],
+  [
+    "What formats can I export?",
+    "Stills copy as PNG, JPG, WebP or a base64 data URI. Recordings export as MP4, WebM, GIF or animated WebP.",
+  ],
+];
 
-export default function DesignersPage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Use Cases" },
-        { label: "For Designers" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "for" }, { label: "designers" }]}
+      title="Exact pixels in, good-looking shots out."
+      lede="Designers screenshot for two reasons: to check something precisely, and to show something off. QGN does both."
+      ld={faqLd(qa)}
+    >
+      <h2>checking</h2>
+      <ul>
+        <li>
+          <b>Pixel loupe.</b> A magnifier follows the cursor while you aim, with live coordinates and the colour under
+          it. Check a spacing or a hex value against the spec without opening anything.
+        </li>
+        <li>
+          <b>Sizes as you drag.</b> Width and height update live. <kbd>shift</kbd> makes it a square.
+        </li>
+        <li>
+          <b>Adjust before taking.</b> Hold <kbd>alt</kbd> as you release and the selection stays open. Drag edges and
+          corners, nudge with the arrow keys, confirm with <kbd>enter</kbd>.
+        </li>
+        <li>
+          <b>Pin for reference.</b> Pin a capture&apos;s card and it floats on top while you work, even across a reboot.
+          Good for keeping the spec next to the build.
+        </li>
+      </ul>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            For Designers
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Your screen is
-            <br />
-            <span className="text-pink">your mood board.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Capture inspiration, pin references to your screen, compare designs
-            side by side, annotate feedback with precision. Quick Gen turns
-            your desktop into a visual workspace.
-          </p>
-        </div>
-      </section>
+      <h2>showing</h2>
+      <p>
+        Open a capture in Studio and switch to <b>Compose</b>. Put it on a gradient, a wallpaper, a solid colour or your
+        own image. Wrap it in a plain window frame or browser chrome with an address bar. Set padding, corner rounding
+        and shadow depth. Lock an aspect ratio so it fits the post or the slide. Save your gradients and colours, and
+        the next shot matches.
+      </p>
+      <p>
+        Compose saves a new file and leaves the original alone. More in{" "}
+        <Link href="/features/screenshot-mockup-tool">mockups</Link>.
+      </p>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Built for
-            <br />
-            <span className="text-pink">visual workflows.</span>
-          </h2>
+      <h2>motion</h2>
+      <p>
+        Prototypes move. <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd> records a region, and Studio adds zoom keyframes
+        from your clicks, with easing and a focus point you can change. Put the clip on the same backgrounds and frames
+        as a still. Export MP4 or WebM for the case study, GIF or animated WebP for places that only take images.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Pin references to your screen
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Capture a design spec, a client&apos;s mockup, or an
-                inspiration screenshot and pin it as a floating card. It stays
-                on top of Figma, Sketch, or your browser while you work — no
-                tab switching.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Before and after comparison
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Take a screenshot before your change, pin it. Make the change.
-                Take another screenshot. Now you have both floating on your
-                screen for a direct visual comparison.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Annotate design feedback
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Capture the current UI, open the annotation editor, and mark
-                exactly what needs to change. Arrows point to specific elements,
-                text labels describe the fix, callout numbers order the
-                priorities.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Pixel dimensions</h3>
-              <p className="text-muted leading-relaxed">
-                The selection overlay shows real-time pixel dimensions as you
-                drag. Useful for verifying element sizes, spacing, or checking
-                if an implementation matches the spec.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Drag and resize previews
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Move pinned previews anywhere on your screen and resize them.
-                Arrange your reference material exactly where you need it —
-                alongside your canvas, above your toolbars, or on a second
-                monitor.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Record design walkthroughs
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Walk through a prototype or interaction flow with a screen
-                recording. Narrate your feedback over the recording, send the
-                MP4 to the team. Faster than writing a review document.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>markup for feedback</h2>
+      <p>
+        Arrows, shapes, text and numbered callouts in six colours, each on one key. Every mark stays editable after you
+        place it, so feedback rounds don&apos;t mean starting the image over. See{" "}
+        <Link href="/features/screenshot-annotation">annotation</Link>.
+      </p>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Fast enough to not break your flow
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              Designers are visual thinkers. Switching to a screenshot app,
-              saving a file, opening an editor, and sharing a link kills the
-              creative flow. Quick Gen collapses all of that into a hotkey and
-              a paste.
-            </p>
-            <p>
-              The floating previews are the key. Instead of screenshots
-              disappearing into a folder, they stay visible on your screen as
-              reference material. Your captures become part of your workspace.
-            </p>
-          </div>
-        </div>
-      </section>
+      <h2>what it doesn&apos;t do</h2>
+      <ul>
+        <li>No colour picker that copies the hex. The loupe shows the colour; it does not copy it.</li>
+        <li>No device mockups (phones, laptops). Frames are a window or a browser.</li>
+        <li>No Mac version, so it won&apos;t replace CleanShot X on a Mac. On Windows, it is the closest thing.</li>
+      </ul>
 
-      <RelatedUseCases current="/use-cases/designers" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

@@ -1,194 +1,117 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedAlternatives,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "ShareX Alternative — Simpler Screenshot Tool — Quick Gen",
-  description:
-    "Looking for a simpler ShareX alternative? Quick Gen is a lightweight, focused screenshot tool for Windows. One hotkey, clipboard-first, no configuration needed. Open source and free.",
-  keywords: [
-    "ShareX alternative",
-    "alternative to ShareX",
-    "ShareX replacement",
-    "simpler than ShareX",
-    "screenshot tool like ShareX",
-    "ShareX vs Quick Gen",
-    "lightweight screenshot tool",
+export const metadata = meta(
+  "/alternatives/sharex",
+  "ShareX alternative for Windows with fewer settings: QGN",
+  "QGN is a free, open source ShareX alternative for Windows. One hotkey to the clipboard, a clean editor and screen recording, without the hundreds of settings and upload destinations.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Is QGN as powerful as ShareX?",
+    "No, and it is not trying to be. ShareX has scrolling capture, OCR, workflows and dozens of upload destinations. QGN does capture, recording, a few good editing tools and nothing else.",
   ],
-  alternates: { canonical: "/alternatives/sharex" },
-  openGraph: {
-    title: "ShareX Alternative — Simpler Screenshot Tool — Quick Gen",
-    description:
-      "A simpler, focused alternative to ShareX. One hotkey, clipboard-first screenshots, no configuration maze.",
-    url: "https://qgn.app/alternatives/sharex",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Are both free and open source?",
+    "Yes. ShareX is GPL-3.0. QGN is MIT. Neither has a paid tier.",
+  ],
+  [
+    "Can QGN upload to Imgur, S3 or a custom server like ShareX?",
+    "No. QGN has no upload feature. Captures go to your clipboard, and to a folder if you turn on auto-save.",
+  ],
+  [
+    "Can I run QGN next to ShareX?",
+    "Yes. QGN uses Ctrl+Q and Ctrl+Shift+Q, which ShareX does not take by default, and both hotkeys can be rebound.",
+  ],
+];
 
-export default function ShareXAlternativePage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Alternatives" },
-        { label: "ShareX Alternative" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "vs" }, { label: "sharex" }]}
+      title="A ShareX alternative for people who just want the screenshot."
+      lede="ShareX can do almost anything. That is its strength and its cost. QGN does a handful of things, with almost nothing to configure."
+      ld={faqLd(qa)}
+    >
+      <p>
+        ShareX is one of the best pieces of free software on Windows. It has been in active development for well over a
+        decade, it is open source under GPL-3.0, and version 21.0.0 shipped in July 2026. If you live in its workflows,
+        with after-capture tasks that watermark, upload and shorten a link in one go, nothing here will replace that.
+        Keep it.
+      </p>
+      <p>
+        But plenty of people install ShareX, open the settings once, see the tree of capture modes, tasks, destinations
+        and hotkeys, and close it again. They wanted a screenshot on the clipboard. QGN is for them.
+      </p>
+      <p>
+        QGN has one hotkey for stills and one for recordings. Release the mouse and the picture is on your clipboard. A
+        small card shows it in the corner. That is the whole default flow. There is no destination to pick, because
+        there is no destination at all.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            ShareX Alternative
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            ShareX is powerful.
-            <br />
-            <span className="text-pink">Maybe too powerful.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            ShareX can do everything — OCR, uploads, GIF creation, scrolling
-            capture, color picker, and dozens more. But if all you need is fast
-            screenshots and screen recording, that complexity gets in the way.
-            Quick Gen does fewer things, but does them faster.
-          </p>
-        </div>
-      </section>
+      <h2>side by side</h2>
+      <Compare
+        cols={["ShareX", "QGN"]}
+        rows={[
+          ["capture", "region, window, monitor, full screen, scrolling, auto capture", "region, window, or full display"],
+          ["to clipboard", "yes, as an after-capture task", "always, the moment you release"],
+          ["editor", "yes, with many tools", "arrows, shapes, text, callouts, redaction, crop, all editable later"],
+          ["screen recording", "yes, video and GIF", "yes, with mic and system audio, MP4, WebM, GIF, WebP"],
+          ["OCR, scrolling capture", "yes", "no"],
+          ["upload destinations", "a long list, plus custom uploaders", "none"],
+          ["settings", "hundreds", "a short page"],
+          ["source", "open, GPL-3.0", "open, MIT"],
+          ["price", "free", "free"],
+          ["platforms", "Windows", "Windows"],
+        ]}
+      />
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Side by side
-          </h2>
+      <h2>what you gain</h2>
+      <ul>
+        <li>
+          <b>Nothing to set up.</b> Install, press <kbd>ctrl</kbd>+<kbd>q</kbd>, drag. The defaults are the product.
+        </li>
+        <li>
+          <b>Floating cards.</b> Each capture waits in the corner. Drag it into Slack, pin it so it survives a reboot,
+          copy it again. The last twelve stay in the tray menu. See{" "}
+          <Link href="/features/floating-previews">floating previews</Link>.
+        </li>
+        <li>
+          <b>A calmer editor.</b> Studio has two modes. Markup draws on the pixels. Compose frames the capture on a
+          background for a README or a tweet. Every mark stays editable. See <Link href="/features/studio">Studio</Link>.
+        </li>
+        <li>
+          <b>Recordings that look edited.</b> Trim, then let QGN make zoom keyframes from where you clicked. Export
+          MP4 or WebM faster than real time, or a GIF for the pull request. See{" "}
+          <Link href="/features/screen-recording">screen recording</Link>.
+        </li>
+      </ul>
 
-          <div className="border border-border rounded-3xl overflow-hidden">
-            <div className="grid grid-cols-3 border-b border-border text-sm font-bold">
-              <div className="p-5 text-dim">Feature</div>
-              <div className="p-5 text-dim border-l border-border">ShareX</div>
-              <div className="p-5 text-pink border-l border-border">
-                Quick Gen
-              </div>
-            </div>
-            {[
-              ["Screenshot capture", "Yes", "Yes"],
-              ["Time to first capture", "Configure first", "Instant — Ctrl+Q"],
-              ["Learning curve", "Steep — many menus", "None — one hotkey"],
-              ["Floating previews", "No", "Yes — pin, stack, resize"],
-              ["Annotation", "Yes — separate editor", "Yes — one key per tool, marks stay editable"],
-              ["Screen recording", "Yes — GIF and video", "Yes — mic + system audio"],
-              ["Video editing", "No", "Trim + zoom-ins from your clicks"],
-              [
-                "Backgrounds & frames",
-                "No",
-                "10 gradients, 6 wallpapers, browser frames",
-              ],
-              ["Cloud upload", "Built-in (Imgur, etc.)", "None — local only"],
-              ["Settings pages", "20+ tabs", "One page"],
-              ["Install size", "~30 MB + .NET", "~85 MB standalone"],
-              ["Open source", "Yes (GPL)", "Yes (MIT)"],
-              ["Price", "Free", "Free"],
-            ].map(([feature, sharex, qgn], i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 border-b border-border last:border-b-0 text-sm"
-              >
-                <div className="p-4 text-foreground font-medium">
-                  {feature}
-                </div>
-                <div className="p-4 text-muted border-l border-border">
-                  {sharex}
-                </div>
-                <div className="p-4 text-foreground border-l border-border">
-                  {qgn}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <h2>what you give up</h2>
+      <ul>
+        <li>Uploading. No Imgur, no S3, no custom uploader, no short links.</li>
+        <li>Scrolling capture and OCR. ShareX has both. QGN has neither.</li>
+        <li>Automation. ShareX can chain tasks after every capture. QGN copies, and optionally saves to a folder.</li>
+        <li>Size. QGN is an Electron app, and the installer is about 85 MB.</li>
+        <li>Age. ShareX has years of edge cases behind it. QGN is younger and still at 0.1.x.</li>
+      </ul>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Why people switch
-            <br />
-            <span className="text-pink">from ShareX.</span>
-          </h2>
+      <h2>who should switch</h2>
+      <p>
+        If you use ShareX for region to clipboard and the odd arrow, QGN does that with less in the way. If you use
+        ShareX as a pipeline, stay. Try both: they can run side by side, since QGN&apos;s hotkeys are{" "}
+        <kbd>ctrl</kbd>+<kbd>q</kbd> and <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd>, and both can be rebound.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Simplicity</h3>
-              <p className="text-muted leading-relaxed">
-                ShareX has dozens of settings tabs, after-capture tasks, upload
-                destinations, and workflow configurations. Quick Gen has one
-                hotkey and one settings page. It does what you need without
-                asking you to configure anything first.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Floating previews</h3>
-              <p className="text-muted leading-relaxed">
-                ShareX captures go to files or the clipboard — then
-                they&apos;re gone from your screen. Quick Gen keeps every
-                capture visible as a floating card you can pin, stack, and
-                reference while you work.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">No cloud upload</h3>
-              <p className="text-muted leading-relaxed">
-                ShareX encourages cloud uploads to Imgur, Dropbox, and other
-                services. Quick Gen is entirely local. Your screenshots stay on
-                your machine. No API keys to configure, no upload failures.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Speed</h3>
-              <p className="text-muted leading-relaxed">
-                With ShareX, you often need to decide what happens after
-                capture: save, upload, open editor, copy, or run through a task
-                chain. Quick Gen always does the same thing — clipboard, preview,
-                done.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            When to stay with ShareX
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              If you rely on ShareX&apos;s cloud uploads, OCR, scrolling
-              capture, GIF creation, or automated workflow chains, ShareX is
-              still the right tool for you. It does a lot of things well.
-            </p>
-            <p>
-              Quick Gen is for people who want the opposite: fewer features,
-              less configuration, faster capture. If your workflow is
-              &quot;screenshot → clipboard → paste&quot;, Quick Gen does it with
-              less friction.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <RelatedAlternatives current="/alternatives/sharex" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

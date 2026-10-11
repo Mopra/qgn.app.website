@@ -1,305 +1,126 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedFeatures,
-} from "@/app/components/FeatureLayout";
-import {
-  CaptureFlowVignette,
-  SnapWindowVignette,
-  VignetteCaption,
-} from "@/app/components/vignettes";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Free Screenshot Tool for Windows — Quick Gen",
-  description:
-    "Capture any region of your screen instantly with a single hotkey. Snap to a window, sample pixels through a loupe, and land the capture on your clipboard as PNG, JPG, WebP or base64. Free, open-source, no account required.",
-  keywords: [
-    "screenshot tool",
-    "free screenshot tool",
-    "Windows screenshot tool",
-    "screen capture tool",
-    "screenshot to clipboard",
-    "hotkey screenshot",
-    "snap to window screenshot",
-    "pixel loupe",
-    "region capture",
-    "Quick Gen",
+export const metadata = meta(
+  "/features/screenshot-tool",
+  "QGN: a free screenshot tool for Windows that copies on release",
+  "QGN is a free, open source screenshot tool for Windows 10 and 11. Ctrl+Q, drag, and the capture is on your clipboard. Window capture, edge snapping, a pixel loupe and full screen with Space.",
+);
+
+const qa: [string, string][] = [
+  [
+    "How do I take a screenshot with QGN?",
+    "Press Ctrl+Q, drag over the part of the screen you want, and let go. The capture is on your clipboard. Paste it anywhere with Ctrl+V.",
   ],
-  alternates: { canonical: "/features/screenshot-tool" },
-  openGraph: {
-    title: "Free Screenshot Tool for Windows — Quick Gen",
-    description:
-      "Capture any region of your screen instantly with a single hotkey. Clipboard-first, multiple formats, pixel-precise selection.",
-    url: "https://qgn.app/features/screenshot-tool",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Can QGN capture a single window?",
+    "Yes. After Ctrl+Q, hover a window and it is outlined and named with its size. Click it and you get exactly that window.",
+  ],
+  [
+    "Can I change the hotkey?",
+    "Yes. Both the capture and the recording hotkey can be rebound in Settings, with conflict detection and a reset.",
+  ],
+  [
+    "Does QGN work with several monitors?",
+    "Yes. It works across every connected display, and Space on the overlay takes a whole display.",
+  ],
+  [
+    "What format does the clipboard get?",
+    "PNG by default. You can switch to JPG, WebP or a base64 data URI, with adjustable quality for JPG and WebP.",
+  ],
+];
 
-export default function ScreenshotToolPage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Features" },
-        { label: "Screenshot Tool" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "features" }, { label: "screenshot tool" }]}
+      title="A screenshot tool that is done when you let go."
+      lede="Ctrl+Q, drag, release. The capture is on your clipboard before the overlay has finished closing. That is the whole tool, until you want more."
+      ld={faqLd(qa)}
+    >
+      <p>
+        Most screenshot tools make you finish a ritual. Select, then a toolbar, then copy or save, then close the
+        thing. QGN skips all of it. The moment you release the mouse, the picture is on the clipboard. You paste it and
+        get on with your day.
+      </p>
+      <p>
+        It runs in the tray. There is no main window to keep open. Launching it again does not start a second copy, it
+        just starts a capture.
+      </p>
 
-      {/* Hero */}
-      <section className="relative flex flex-col justify-center px-6 md:px-10 pt-8 pb-16">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            Screenshot Capture
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Free screenshot tool
-            <br />
-            <span className="text-pink">for Windows.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Press Ctrl+Q. A fullscreen overlay drops. Drag to select any region.
-            Your screenshot is on your clipboard before you lift your finger.
-            That&apos;s the entire workflow.
-          </p>
-        </div>
+      <h2>the keys</h2>
+      <Compare
+        cols={["does"]}
+        rows={[
+          ["ctrl+q", "start a capture. drag a region, release, copied."],
+          ["click", "capture the window under the cursor, exactly its edges."],
+          ["space", "capture the whole display."],
+          ["shift", "constrain the selection to a square."],
+          ["ctrl while dragging", "ignore the window edges the selection snaps to."],
+          ["alt on release", "keep the selection open to adjust it first."],
+          ["esc", "cancel."],
+        ]}
+      />
 
-        <div className="max-w-6xl w-full mt-16">
-          <CaptureFlowVignette />
-          <VignetteCaption label="Ctrl+Q">
-            Hotkey, drag, release. Nothing between you and the clipboard.
-          </VignetteCaption>
-        </div>
-      </section>
+      <h2>aiming</h2>
+      <ul>
+        <li>
+          <b>Window capture.</b> Hover a window and it gets outlined, named and measured. Click and you get that window,
+          not the desktop around it. Overlapping windows name the one actually in front.
+        </li>
+        <li>
+          <b>Edge snapping.</b> While you drag, the selection snaps to the edges of nearby windows. Hold{" "}
+          <kbd>ctrl</kbd> when you want a free hand.
+        </li>
+        <li>
+          <b>Pixel loupe.</b> A magnifier follows the cursor with a live coordinate and colour readout. For the times
+          the edge you want is one pixel wide.
+        </li>
+        <li>
+          <b>Live size.</b> Width and height in pixels as you drag.
+        </li>
+      </ul>
 
-      {/* How it works */}
-      <section className="px-6 md:px-10 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            How it works
-          </h2>
+      <h2>adjusting, when you want to</h2>
+      <p>
+        Instant is the default because instant is the point. When one capture needs care, hold <kbd>alt</kbd> as you
+        release. The selection stays up with handles. Drag the edges or corners, drag the middle to move it, nudge it
+        with the arrow keys, then confirm with <kbd>enter</kbd> or a double click.
+      </p>
+      <p>
+        If you would rather always adjust, flip it in Settings. Then <kbd>alt</kbd> on release means capture instantly.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div>
-              <span className="text-pink font-mono font-bold text-sm">01</span>
-              <h3 className="text-xl font-black mt-2 mb-3">Press Ctrl+Q</h3>
-              <p className="text-muted leading-relaxed">
-                A transparent overlay covers your entire screen. Your cursor
-                becomes a crosshair. No windows open, no menus appear — just the
-                overlay on top of whatever you&apos;re looking at.
-              </p>
-            </div>
-            <div>
-              <span className="text-pink font-mono font-bold text-sm">02</span>
-              <h3 className="text-xl font-black mt-2 mb-3">
-                Drag to select
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Click and drag to draw a rectangle around what you want to
-                capture. Pixel dimensions appear in real time so you always know
-                the exact size of your selection.
-              </p>
-            </div>
-            <div>
-              <span className="text-pink font-mono font-bold text-sm">03</span>
-              <h3 className="text-xl font-black mt-2 mb-3">
-                It&apos;s on your clipboard
-              </h3>
-              <p className="text-muted leading-relaxed">
-                The moment you release, the screenshot lands on your clipboard.
-                Paste it into Slack, Figma, an email, a document — anywhere that
-                accepts images. A floating preview card also appears, in case you
-                want to pin it or open it in{" "}
-                <Link
-                  href="/features/studio"
-                  className="text-pink hover:text-pink-light transition-colors"
-                >
-                  Studio
-                </Link>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>after the capture</h2>
+      <p>
+        A small card shows the capture in the corner. Drag it into Slack or an email, pin it, copy it again, or open it
+        in Studio. The last twelve captures stay in the tray menu. More on{" "}
+        <Link href="/features/floating-previews">floating previews</Link>.
+      </p>
+      <p>
+        Turn on auto-save and every capture is also written to a folder with a timestamp. Off by default, because the
+        clipboard is usually where it needs to go.
+      </p>
+      <p>
+        Need arrows, a blurred password or a crop? Open it in <Link href="/features/studio">Studio</Link>. Need it to
+        look good in a README? <Link href="/features/screenshot-mockup-tool">Compose</Link> puts it on a background.
+      </p>
 
-      {/* Precision */}
-      <section className="px-6 md:px-10 py-24 border-t border-border">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-6">
-            Fast, and still
-            <br />
-            <span className="text-pink">exactly right.</span>
-          </h2>
-          <p className="max-w-2xl text-lg text-muted leading-relaxed mb-14">
-            Speed is worth nothing if you have to do it twice. The overlay knows
-            where your windows are, magnifies the pixel under your cursor, and
-            will hold the selection if you ask it to.
-          </p>
+      <h2>what it is not</h2>
+      <ul>
+        <li>Not a scrolling capture tool. It takes what is on screen.</li>
+        <li>Not a sharing service. There is no upload and no link.</li>
+        <li>Not on Mac or Linux. Windows 10 and 11 only.</li>
+      </ul>
 
-          <SnapWindowVignette />
-          <VignetteCaption label="Snap &middot; loupe &middot; adjust">
-            Hover a window to outline exactly what you would get, sample any
-            pixel through the loupe, and hold Alt to fine-tune the edges before
-            capturing.
-          </VignetteCaption>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10 mt-20">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Snap to window</h3>
-              <p className="text-muted leading-relaxed">
-                Click a window and you get exactly that window, no fiddling with
-                edges. Hovering outlines it and names it, with its size and
-                &quot;Click to capture this window&quot; on the label, and it
-                picks the window actually in front rather than the smallest one
-                under the cursor. While you drag, the selection snaps to nearby
-                window edges; hold Ctrl to ignore them.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Pixel loupe</h3>
-              <p className="text-muted leading-relaxed">
-                A magnifier follows the cursor showing the pixels around it, with
-                a live coordinate readout and the colour underneath. For when the
-                edge you want is one pixel wide.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Adjust before you commit</h3>
-              <p className="text-muted leading-relaxed">
-                Releasing the mouse captures instantly. Hold Alt as you release
-                and that one capture settles for adjustment instead: drag the
-                edges, nudge with the arrow keys, confirm with Enter. Settings can
-                flip which one is the default.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-16 flex flex-wrap gap-x-8 gap-y-3 text-muted">
-            <span>
-              <kbd className="px-2 py-0.5 bg-[#111] border border-border rounded-md text-sm font-mono font-bold text-foreground mr-2">
-                Shift
-              </kbd>
-              constrains to a square
-            </span>
-            <span>
-              <kbd className="px-2 py-0.5 bg-[#111] border border-border rounded-md text-sm font-mono font-bold text-foreground mr-2">
-                Space
-              </kbd>
-              grabs the whole screen
-            </span>
-            <span>
-              <kbd className="px-2 py-0.5 bg-[#111] border border-border rounded-md text-sm font-mono font-bold text-foreground mr-2">
-                Esc
-              </kbd>
-              drops the selection, then cancels
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* Details */}
-      <section className="px-6 md:px-10 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Built for speed,
-            <br />
-            <span className="text-pink">not for menus.</span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Clipboard-first</h3>
-              <p className="text-muted leading-relaxed">
-                Every capture is immediately placed on your clipboard. No
-                &quot;save as&quot; dialog, no file picker, no extra clicks. The
-                screenshot is ready to paste the instant you finish selecting.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Multiple formats</h3>
-              <p className="text-muted leading-relaxed">
-                Choose your clipboard format in settings: PNG for lossless
-                quality, JPG for smaller size, WebP for modern compression, or
-                base64 Data URI for embedding directly in code.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Pixel-precise selection
-              </h3>
-              <p className="text-muted leading-relaxed">
-                The crosshair cursor and real-time dimension display let you
-                capture exactly the region you need. No guessing, no cropping
-                after the fact.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Multi-monitor</h3>
-              <p className="text-muted leading-relaxed">
-                The overlay appears on whichever display your cursor is on.
-                Multiple monitors just work — no configuration, no &quot;select
-                which screen&quot; dialog.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Auto-save optional</h3>
-              <p className="text-muted leading-relaxed">
-                Want a copy on disk too? Point Quick Gen at a folder and every
-                capture is automatically saved with a timestamp. Or keep it
-                clipboard-only — your choice.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Custom hotkeys</h3>
-              <p className="text-muted leading-relaxed">
-                Ctrl+Q is the default, but you can rebind the capture hotkey to
-                any combination that fits your workflow. The shortcut is global —
-                it works from any application.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Why another screenshot tool?
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              Most screenshot tools want you to create an account, choose a
-              subscription plan, and upload your images to their cloud. Quick Gen
-              does none of that. It&apos;s a local tool that captures your screen
-              and puts the image on your clipboard.
-            </p>
-            <p>
-              The entire app runs on your machine. No network requests, no
-              telemetry, no analytics. Your screenshots never leave your
-              computer unless you choose to share them.
-            </p>
-            <p>
-              Quick Gen is open source under the MIT license. You can read every
-              line of code, fork it, modify it, and distribute it freely.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <RelatedFeatures current="/features/screenshot-tool" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

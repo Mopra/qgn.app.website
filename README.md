@@ -8,7 +8,7 @@
 
 <p align="center">
   <strong>The marketing site behind <a href="https://qgn.app">qgn.app</a></strong><br />
-  Screenshot tools are broken. This site explains why — and what we built instead.
+  The website for QGN. The homepage is a working demo of the app.
 </p>
 
 <p align="center">
@@ -38,45 +38,22 @@ The website is designed to convert visitors into users through clear, direct mes
 | **Use Cases** | [Developers](https://qgn.app/use-cases/developers), [Bug Reports](https://qgn.app/use-cases/bug-reports), [Documentation](https://qgn.app/use-cases/documentation), [Designers](https://qgn.app/use-cases/designers) | Audience-specific landing pages |
 | **Support** | [FAQ](https://qgn.app/faq), [Changelog](https://qgn.app/changelog), [Privacy](https://qgn.app/privacy), [Terms](https://qgn.app/terms) | Trust and transparency |
 
-## Feature vignettes
+## The hero is the product
 
-Instead of screenshots or video, the site shows each feature as a looping
-animated recreation of the app's interface, built from divs and CSS keyframes.
-The app is vanilla HTML and CSS, so its surfaces can be rebuilt exactly: same
-glass values, same colours, same system font stack. They stay crisp at any
-density, cost nothing to load, and are updated by editing CSS rather than by
-re-recording anything.
+The homepage hero is a working copy of the app's capture overlay, in
+[`app/capture.tsx`](app/capture.tsx). Drag a region and it is cut out of
+the page and put on the clipboard as a real PNG, then shown on a floating
+card. Click takes the whole hero, `Ctrl+Q` dims it, `Space` takes all of it.
 
-Six of them live in [`app/components/vignettes.tsx`](app/components/vignettes.tsx),
-with all the animation in [`app/vignettes.css`](app/vignettes.css):
+The page is drawn twice: the browser draws the HTML, and the component paints
+the same dots and text onto a canvas, word by word where the browser placed
+them. A capture cuts from that canvas, and the clipboard write starts inside
+the pointer gesture with the image still to come, which is what browsers ask
+for.
 
-| Vignette | Shows |
-|---|---|
-| `CaptureFlowVignette` | Ctrl+Q, drag, release, copied to clipboard |
-| `SnapWindowVignette` | Window outlining and naming, pixel loupe, Alt to adjust |
-| `ComposeVignette` | Studio Compose: background, frame, padding, rounding, shadow |
-| `MarkupVignette` | Studio Markup: arrow, callouts, redaction, editable marks |
-| `RecordVignette` | Countdown, region recording, zoom keyframes, trim, fast export |
-| `PreviewsVignette` | Preview cards stacking, pinning, and the recent-captures ring |
-
-How they work, if you need to add or change one:
-
-- Geometry is in **container query units** against the nearest surface, so a
-  vignette scales as one piece and the same fake screenshot works full-size or
-  as a thumbnail. Each surface that holds a miniature interface (`.vg-win`,
-  `.cp-frame`, `.mk-canvas-shot`, `.fp-card-img`) is its own query container.
-- Every element in one vignette shares a `--cycle`, and choreography lives in
-  **keyframe percentages** rather than per-element delays. That keeps the beats
-  in sync and lets reduced motion hold one coherent frame.
-- `--freeze` picks which fraction of the cycle that held frame is. Under
-  `prefers-reduced-motion: reduce`, everything pauses at a negative delay of
-  `--cycle * --freeze`, so the vignette renders its most informative moment
-  instead of a blank first frame.
-- [`Vignette.tsx`](app/components/Vignette.tsx) is the only client component: an
-  IntersectionObserver that sets `data-idle` to pause the loops off screen. CSS
-  runs by default, so a vignette still animates if that never hydrates.
-
-Screen-record one and you have a GIF for a post; see `marketing/posting-strategy.md`.
+Everything else is plain CSS in [`app/globals.css`](app/globals.css), shared
+page pieces in [`app/site.tsx`](app/site.tsx), and GitHub release data in
+[`app/release.ts`](app/release.ts), cached for an hour.
 
 ## Tech Stack
 
@@ -84,9 +61,8 @@ Screen-record one and you have a GIF for a post; see `marketing/posting-strategy
 |-------|-----------|
 | Framework | **Next.js 16** (App Router) |
 | UI | **React 19** |
-| Styling | **Tailwind CSS 4** |
+| Styling | Plain CSS in `app/globals.css` |
 | Icons | **Lucide React** |
-| Animation | Hand-written CSS keyframes — no animation library |
 | Language | **TypeScript** |
 
 ## Getting Started
@@ -98,7 +74,7 @@ npm install
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000) — the site runs with hot reload out of the box.
+Open [localhost:3000](http://localhost:3000). It runs with hot reload.
 
 ### Build for production
 
@@ -141,7 +117,7 @@ public/
 | Repository | Description |
 |-----------|-------------|
 | **[qgn.app](https://github.com/Mopra/qgn.app)** | Desktop application (Electron) |
-| **[qgn.app.website](https://github.com/Mopra/qgn.app.website)** | Marketing website — this repo |
+| **[qgn.app.website](https://github.com/Mopra/qgn.app.website)** | Marketing website, this repo |
 
 ## Contributing
 
@@ -155,4 +131,4 @@ Found a typo? Have an idea for a new comparison page or use case? PRs are welcom
 
 ## License
 
-[MIT](LICENSE) — free to use, modify, and distribute.
+[MIT](LICENSE): free to use, modify, and distribute.

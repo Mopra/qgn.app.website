@@ -1,162 +1,107 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedUseCases,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Screenshot Tool for Bug Reports — Quick Gen",
-  description:
-    "File better bug reports in seconds. Capture the issue, annotate with arrows and callouts, record a video reproduction, paste into your issue tracker. Free and open source.",
-  keywords: [
-    "screenshot for bug reports",
-    "bug report screenshot tool",
-    "screenshot for issue tracker",
-    "bug report screen recording",
-    "annotate bug screenshot",
-    "JIRA screenshot tool",
-    "GitHub issues screenshot",
-    "Quick Gen",
+export const metadata = meta(
+  "/use-cases/bug-reports",
+  "Screenshots and recordings for bug reports on Windows: QGN",
+  "Make bug reports people can act on: numbered steps on a screenshot, redaction that can't be undone, and a trimmed screen recording that zooms in on your clicks. Free and open source for Windows.",
+);
+
+const qa: [string, string][] = [
+  [
+    "How do I record a bug with QGN?",
+    "Press Ctrl+Shift+Q, drag over the area, and reproduce the bug. Microphone and system audio can be on or off. Stop, trim it in Studio, and export MP4 or GIF.",
   ],
-  alternates: { canonical: "/use-cases/bug-reports" },
-  openGraph: {
-    title: "Screenshot Tool for Bug Reports — Quick Gen",
-    description:
-      "File better bug reports. Capture, annotate, record reproductions, paste into your tracker. Seconds, not minutes.",
-    url: "https://qgn.app/use-cases/bug-reports",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "How do I hide personal data in a bug screenshot?",
+    "Use the redaction tool in Studio. The default is a solid block that replaces the pixels, so nobody can recover what was under it. Pixelate is there too.",
+  ],
+  [
+    "Does QGN upload my bug reports anywhere?",
+    "No. Everything stays on your machine until you paste or attach it yourself.",
+  ],
+];
 
-export default function BugReportsPage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Use Cases" },
-        { label: "For Bug Reports" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "for" }, { label: "bug reports" }]}
+      title="Bug reports people can act on."
+      lede="&quot;It's broken&quot; gets a reply asking what you mean. A screenshot with numbered steps, or a short clip, gets the bug fixed."
+      ld={faqLd(qa)}
+    >
+      <p>
+        A good bug report shows three things: what you did, what you expected, what happened. QGN makes the showing part
+        fast, and it keeps the private bits out of the ticket.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            For Bug Reports
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Better bug reports
-            <br />
-            <span className="text-pink">in 10 seconds.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            A screenshot is worth a thousand words in a bug report. A
-            screenshot with annotations is worth even more. A screen recording
-            with narration? That&apos;s the bug report that actually gets fixed.
-          </p>
-        </div>
-      </section>
+      <h2>a screenshot with steps</h2>
+      <ol>
+        <li>
+          <kbd>ctrl</kbd>+<kbd>q</kbd> and drag over the broken part, or click the window to take all of it.
+        </li>
+        <li>
+          Open it in Studio from the card in the corner. Press <kbd>c</kbd> for numbered callouts and click 1, 2, 3 on
+          the steps. Press <kbd>a</kbd> for an arrow at the thing that is wrong.
+        </li>
+        <li>
+          Press <kbd>x</kbd> and drag over emails, names or tokens. The default is a solid block that replaces the
+          pixels. Nobody can unblur it.
+        </li>
+        <li>
+          <kbd>ctrl</kbd>+<kbd>c</kbd> copies the result. Paste it into the ticket.
+        </li>
+      </ol>
+      <p>
+        Every mark stays editable. Click it with the pointer (<kbd>v</kbd>) to move it, resize it or delete it.{" "}
+        <kbd>ctrl</kbd>+<kbd>z</kbd> undoes anything, crops included.
+      </p>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            From bug to ticket
-            <br />
-            <span className="text-pink">in three steps.</span>
-          </h2>
+      <h2>a clip of the bug happening</h2>
+      <ol>
+        <li>
+          <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd> and drag over the area. An optional 3, 2, 1 countdown gives you
+          a moment to get ready.
+        </li>
+        <li>Reproduce the bug. Narrate with the microphone if it helps. Pause if you need to set something up.</li>
+        <li>
+          In Studio, set the trim with <kbd>i</kbd> and <kbd>o</kbd>. QGN makes zoom keyframes from your clicks, so the viewer sees what you
+          clicked, not a tiny cursor in a big frame.
+        </li>
+        <li>
+          Export MP4 for a ticket, or GIF where only images play inline. Studio estimates the file size before you
+          export.
+        </li>
+      </ol>
+      <p>
+        More in <Link href="/features/screen-recording">screen recording</Link>.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div>
-              <span className="text-pink font-mono font-bold text-sm">01</span>
-              <h3 className="text-xl font-black mt-2 mb-3">Capture</h3>
-              <p className="text-muted leading-relaxed">
-                Press Ctrl+Q and select the area showing the bug. For visual
-                issues, a screenshot is instant. For behavioral bugs, press
-                Ctrl+Shift+Q to record a video reproduction with your narration.
-              </p>
-            </div>
-            <div>
-              <span className="text-pink font-mono font-bold text-sm">02</span>
-              <h3 className="text-xl font-black mt-2 mb-3">Annotate</h3>
-              <p className="text-muted leading-relaxed">
-                Open the annotation editor. Circle the broken element with a
-                shape. Add an arrow pointing to the incorrect value. Use
-                numbered callouts to label steps. Blur any sensitive data.
-              </p>
-            </div>
-            <div>
-              <span className="text-pink font-mono font-bold text-sm">03</span>
-              <h3 className="text-xl font-black mt-2 mb-3">Paste</h3>
-              <p className="text-muted leading-relaxed">
-                The annotated screenshot is on your clipboard. Paste directly
-                into GitHub Issues, Jira, Linear, Notion, Slack — anywhere that
-                accepts images. No file upload step, no link sharing.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>small things that help</h2>
+      <ul>
+        <li>
+          <b>Window capture</b> gives you exact edges, and the window in front, not the one behind it.
+        </li>
+        <li>
+          <b>The cursor stamp.</b> Captures are taken without the cursor. Drop one in where it matters, on purpose.
+        </li>
+        <li>
+          <b>Recent captures.</b> The last twelve stay in the tray menu. Closed the card and now the ticket wants it?
+          It is still there.
+        </li>
+        <li>
+          <b>Auto-save</b> to a folder, if you want a trail of every capture with a timestamp.
+        </li>
+      </ul>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Why visual bug reports
-            <br />
-            <span className="text-pink">get fixed faster.</span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">No ambiguity</h3>
-              <p className="text-muted leading-relaxed">
-                &quot;The button is misaligned&quot; could mean anything.
-                A screenshot with an arrow pointing at the exact pixel removes
-                all guesswork. The developer sees exactly what you see.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Numbered callouts for steps
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Use Quick Gen&apos;s callout tool to place numbered markers on
-                the screenshot. &quot;Click 1, then 2, observe 3&quot; is
-                clearer than a paragraph of reproduction steps.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Video reproductions</h3>
-              <p className="text-muted leading-relaxed">
-                Some bugs only show up in motion — hover states, animations,
-                race conditions. Record a screen region with narration to show
-                the exact sequence of events that triggers the issue.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Redact before sharing
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Bug reports often show internal data, user emails, or API
-                responses. Use the blur tool to redact sensitive information
-                before pasting into a shared channel or public issue tracker.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <RelatedUseCases current="/use-cases/bug-reports" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

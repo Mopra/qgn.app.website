@@ -1,192 +1,113 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedAlternatives,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Lightshot Alternative — More Features, Same Simplicity — Quick Gen",
-  description:
-    "Looking for a Lightshot alternative with more features? Quick Gen adds floating previews, full annotation, screen recording, and multi-format clipboard — while staying just as simple. Free and open source.",
-  keywords: [
-    "Lightshot alternative",
-    "alternative to Lightshot",
-    "Lightshot replacement",
-    "screenshot tool like Lightshot",
-    "better than Lightshot",
-    "Lightshot vs Quick Gen",
-    "Lightshot privacy",
+export const metadata = meta(
+  "/alternatives/lightshot",
+  "Lightshot alternative for Windows, open source and local: QGN",
+  "QGN is a free, open source Lightshot alternative for Windows. Just as quick: one key, drag, done. No upload button, no public links, plus window capture, recording and a real editor.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Is QGN as simple as Lightshot?",
+    "Yes. Press Ctrl+Q, drag, release, and the capture is on your clipboard. There is nothing to confirm and no toolbar to dismiss. The editor is there when you open it, not before.",
   ],
-  alternates: { canonical: "/alternatives/lightshot" },
-  openGraph: {
-    title: "Lightshot Alternative — Quick Gen",
-    description:
-      "Lightshot simplicity with more features. Floating previews, annotation, screen recording. No cloud uploads. Open source.",
-    url: "https://qgn.app/alternatives/lightshot",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Does QGN upload screenshots like Lightshot's prnt.sc?",
+    "No. QGN has no upload feature and no server to upload to. Captures go to your clipboard, and to a folder if you turn on auto-save.",
+  ],
+  [
+    "Is QGN free like Lightshot?",
+    "Yes, and it is also open source under the MIT license. There is no paid tier.",
+  ],
+  [
+    "Does QGN run on Mac?",
+    "No. Lightshot has a Mac version, QGN is Windows 10 and 11 only.",
+  ],
+];
 
-export default function LightshotAlternativePage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Alternatives" },
-        { label: "Lightshot Alternative" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "vs" }, { label: "lightshot" }]}
+      title="A Lightshot alternative that never uploads."
+      lede="Lightshot got one thing very right: press a key, drag, done. QGN keeps that, drops the upload button, and adds what Lightshot never did."
+      ld={faqLd(qa)}
+    >
+      <p>
+        Lightshot is popular for a good reason. It is fast and it stays out of the way. If that is all you need and you
+        never touch the upload button, keep it.
+      </p>
+      <p>
+        The trouble is that button. Upload a capture and it gets a short public link on prnt.sc. Anyone with the link
+        can open it, and those links are short enough that people have made a hobby of guessing them. That is a bad
+        place for a screenshot of a dashboard, an invoice or a chat.
+      </p>
+      <p>
+        QGN has no upload feature at all. There is nothing to click by mistake, because there is nowhere for the image
+        to go except your clipboard and, if you want, a folder on your disk.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            Lightshot Alternative
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Lightshot&apos;s simplicity.
-            <br />
-            <span className="text-pink">More features. More privacy.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Lightshot is popular because it&apos;s simple — press a key, select
-            a region, done. Quick Gen keeps that same simplicity but adds
-            floating previews, a full annotation editor, screen recording, and
-            doesn&apos;t upload anything to the cloud.
-          </p>
-        </div>
-      </section>
+      <h2>side by side</h2>
+      <Compare
+        cols={["Lightshot", "QGN"]}
+        rows={[
+          ["capture", "region, by hotkey", "region, window, or full display"],
+          ["to clipboard", "after you confirm", "the moment you release"],
+          ["editor", "pen, line, arrow, box, marker, text", "arrows, shapes, text, callouts, redaction, crop, all editable later"],
+          ["backgrounds and frames", "no", "gradients, wallpapers, browser and window frames"],
+          ["screen recording", "no", "yes, with mic and system audio, MP4 to GIF"],
+          ["cloud upload", "yes, public prnt.sc links", "none"],
+          ["source", "closed", "open, MIT"],
+          ["price", "free", "free"],
+          ["platforms", "Windows, Mac", "Windows only"],
+        ]}
+      />
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Side by side
-          </h2>
+      <h2>what you gain</h2>
+      <ul>
+        <li>
+          <b>Window capture.</b> Hover a window, it gets outlined and named. Click it and you get exactly that window, no
+          sloppy edges. Edges snap while you drag, too.
+        </li>
+        <li>
+          <b>Floating cards.</b> Each capture sits in the corner for a moment. Drag it straight into Slack or an email,
+          pin it, copy it again. See <Link href="/features/floating-previews">floating previews</Link>.
+        </li>
+        <li>
+          <b>An editor that keeps your marks editable.</b> Place an arrow, move it later. Redact with a solid block
+          that can&apos;t be peeled back. See <Link href="/features/screenshot-annotation">annotation</Link>.
+        </li>
+        <li>
+          <b>Recording.</b> <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd> records a region. Trim it, add zooms from
+          your own clicks, export a GIF for the pull request. See <Link href="/features/screen-recording">screen recording</Link>.
+        </li>
+      </ul>
 
-          <div className="border border-border rounded-3xl overflow-hidden">
-            <div className="grid grid-cols-3 border-b border-border text-sm font-bold">
-              <div className="p-5 text-dim">Feature</div>
-              <div className="p-5 text-dim border-l border-border">
-                Lightshot
-              </div>
-              <div className="p-5 text-pink border-l border-border">
-                Quick Gen
-              </div>
-            </div>
-            {[
-              ["Screenshot capture", "Yes", "Yes"],
-              ["Simplicity", "Very simple", "Equally simple — one hotkey"],
-              ["Floating previews", "No", "Yes — pin, stack, resize"],
-              [
-                "Annotation",
-                "Basic — pen, line, arrow, text",
-                "Full — 9 tools, marks stay editable",
-              ],
-              [
-                "Backgrounds & frames",
-                "No",
-                "10 gradients, 6 wallpapers, browser frames",
-              ],
-              ["Screen recording", "No", "Yes — mic + system audio"],
-              ["Cloud upload", "prnt.sc (public by default)", "None — local only"],
-              ["Output formats", "PNG, JPG", "PNG, JPG, WebP, base64"],
-              ["Multi-monitor", "Limited", "Seamless across displays"],
-              ["Open source", "No (closed source)", "Yes (MIT)"],
-              ["Telemetry", "Yes", "None"],
-              ["Price", "Free", "Free"],
-            ].map(([feature, lightshot, qgn], i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 border-b border-border last:border-b-0 text-sm"
-              >
-                <div className="p-4 text-foreground font-medium">
-                  {feature}
-                </div>
-                <div className="p-4 text-muted border-l border-border">
-                  {lightshot}
-                </div>
-                <div className="p-4 text-foreground border-l border-border">
-                  {qgn}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <h2>what you give up</h2>
+      <ul>
+        <li>Sharing by link. If you want a URL to paste, Lightshot gives you one and QGN does not.</li>
+        <li>A Mac version. QGN is Windows only.</li>
+        <li>
+          A small download. QGN is an Electron app, about 85 MB. Lightshot is far smaller.
+        </li>
+        <li>&quot;Search similar images on Google&quot;. QGN has nothing like it.</li>
+      </ul>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Why people switch
-            <br />
-            <span className="text-pink">from Lightshot.</span>
-          </h2>
+      <h2>switching</h2>
+      <p>
+        Lightshot takes <kbd>PrtSc</kbd>. QGN uses <kbd>ctrl</kbd>+<kbd>q</kbd>, so both can run side by side while you
+        decide. Any hotkey can be rebound in QGN&apos;s settings.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Privacy</h3>
-              <p className="text-muted leading-relaxed">
-                Lightshot uploads screenshots to prnt.sc by default, where
-                they&apos;re publicly accessible with a guessable URL.
-                Quick Gen never uploads anything anywhere. Your screenshots
-                stay on your machine.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Open source</h3>
-              <p className="text-muted leading-relaxed">
-                Lightshot is closed-source software. You can&apos;t verify what
-                it sends, what it tracks, or what it does in the background.
-                Quick Gen is MIT-licensed — read every line of code on GitHub.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Floating previews</h3>
-              <p className="text-muted leading-relaxed">
-                Lightshot shows an overlay editor and then the screenshot is
-                gone. Quick Gen keeps your capture visible as a floating card —
-                pin it, stack it, reference it while you work.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Screen recording</h3>
-              <p className="text-muted leading-relaxed">
-                Lightshot is screenshots only. Quick Gen adds screen recording
-                with microphone support — no need for a second tool when you
-                need a video.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Better annotation</h3>
-              <p className="text-muted leading-relaxed">
-                Lightshot has basic markup — a pen, a line, an arrow, a text
-                tool. Quick Gen adds shapes, numbered callouts, and a blur tool
-                for redacting sensitive information.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">No ads or bundled software</h3>
-              <p className="text-muted leading-relaxed">
-                Lightshot&apos;s installer has been known to bundle additional
-                software. Quick Gen&apos;s installer is a clean NSIS setup — no
-                bundleware, no toolbars, no surprises.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <RelatedAlternatives current="/alternatives/lightshot" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

@@ -1,181 +1,121 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedFeatures,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Snipping Tool Alternative for Windows — Quick Gen",
-  description:
-    "A faster, more powerful alternative to Windows Snipping Tool. Global hotkey capture, clipboard-first workflow, floating previews, annotation, screen recording. Free and open source.",
-  keywords: [
-    "snipping tool alternative",
-    "Windows snipping tool replacement",
-    "better than snipping tool",
-    "screenshot tool Windows",
-    "snip and sketch alternative",
-    "screen snip tool",
-    "Quick Gen",
+export const metadata = meta(
+  "/features/snipping-tool-alternative",
+  "Snipping Tool alternative for Windows 10 and 11, free: QGN",
+  "QGN is a free, open source alternative to the Snipping Tool on Windows 10 and 11. Ctrl+Q to the clipboard, click to capture a window, floating previews, an editor with editable marks and frames, and screen recording.",
+);
+
+const qa: [string, string][] = [
+  [
+    "Is QGN better than the Snipping Tool?",
+    "It depends on what you need. The Snipping Tool is built in, small and good enough for plenty of people. QGN adds window snapping, floating cards you can drag out, marks that stay editable, backgrounds and frames, and recordings with zoom and GIF export.",
   ],
-  alternates: { canonical: "/features/snipping-tool-alternative" },
-  openGraph: {
-    title: "Snipping Tool Alternative for Windows — Quick Gen",
-    description:
-      "A faster, more powerful alternative to Windows Snipping Tool. Hotkey capture, floating previews, annotation, screen recording.",
-    url: "https://qgn.app/features/snipping-tool-alternative",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Does QGN work on Windows 10?",
+    "Yes. QGN runs on Windows 10 and 11. On Windows 10 the Snipping Tool has no video recording, and QGN does.",
+  ],
+  [
+    "Can I keep Win+Shift+S?",
+    "Yes. QGN uses Ctrl+Q and Ctrl+Shift+Q, so the Snipping Tool shortcuts keep working. QGN's hotkeys can be rebound.",
+  ],
+  [
+    "Is QGN free?",
+    "Yes. Free and open source under the MIT license, with no account and no subscription.",
+  ],
+];
 
-export default function SnippingToolAlternativePage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Features" },
-        { label: "Snipping Tool Alternative" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "vs" }, { label: "snipping tool" }]}
+      title="A Snipping Tool alternative for when built in isn't quite enough."
+      lede="The Snipping Tool is fine. It's free, it's already there, and on Windows 11 it even records. QGN is for the moment you want a bit more."
+      ld={faqLd(qa)}
+    >
+      <p>
+        Let&apos;s be fair to it first. On Windows 11 the Snipping Tool does rectangle, freeform, window and full screen
+        snips, and video snips with <kbd>win</kbd>+<kbd>shift</kbd>+<kbd>r</kbd>. It has a pen, a highlighter, shapes,
+        a crop, and text actions that can pull text out of a snip or redact it. It saves to your Screenshots folder by
+        itself. For a lot of people that is the end of the search.
+      </p>
+      <p>
+        On Windows 10 it is thinner: pen, highlighter and eraser, no video, and you save by hand.
+      </p>
+      <p>
+        QGN starts where it stops. Press <kbd>ctrl</kbd>+<kbd>q</kbd>, drag, release, and the capture is on your
+        clipboard before the overlay closes. Then it sits on a card in the corner, so you can drag it straight into a chat
+        or an email, and the editor is one click away.
+      </p>
 
-      {/* Hero */}
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            Snipping Tool Alternative
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            A better
-            <br />
-            <span className="text-pink">Snipping Tool.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Windows Snipping Tool gets the basics right, but stops there. Quick
-            Gen starts where Snipping Tool ends — global hotkeys, instant
-            clipboard, floating previews, a full annotation editor, and screen
-            recording built in.
-          </p>
-        </div>
-      </section>
+      <h2>side by side</h2>
+      <Compare
+        cols={["Snipping Tool (Windows 11)", "QGN"]}
+        rows={[
+          ["capture", "rectangle, freeform, window, full screen", "region, window, or full display"],
+          ["window capture", "a separate mode", "hover any window and click it, edges snap while you drag"],
+          ["after capture", "a notification, then the app", "a floating card: drag out, pin, copy again"],
+          ["recent captures", "your Screenshots folder", "the last twelve in the tray menu, plus auto-save if you want it"],
+          ["editor", "pen, highlighter, shapes, crop", "arrows, shapes, text, callouts, redaction, crop, all editable later"],
+          ["backgrounds and frames", "no", "gradients, wallpapers, browser and window frames"],
+          ["screen recording", "yes, rectangle, edit in Clipchamp", "yes, mic and system audio, trim, zoom on clicks"],
+          ["recording export", "video", "MP4, WebM, GIF, animated WebP"],
+          ["text extraction", "yes", "no"],
+          ["price", "built in", "free, MIT"],
+        ]}
+      />
 
-      {/* Comparison */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Side by side
-          </h2>
+      <h2>what you gain</h2>
+      <ul>
+        <li>
+          <b>Instant by default.</b> Release and it is copied. Hold <kbd>alt</kbd> as you release to adjust the
+          selection first, with handles and arrow keys.
+        </li>
+        <li>
+          <b>Window snapping that tells you what it will do.</b> Hover a window and it is outlined and named, with its
+          size. Click and you get exactly that window.
+        </li>
+        <li>
+          <b>A pixel loupe.</b> A magnifier follows the cursor with live coordinates and colour, for when the edge has to
+          be exact.
+        </li>
+        <li>
+          <b>Marks you can still change.</b> Place an arrow, click it later, move it. Redaction is a solid block by
+          default, so it can&apos;t be undone by the reader. See <Link href="/features/screenshot-annotation">annotation</Link>.
+        </li>
+        <li>
+          <b>Screenshots that look finished.</b> Compose puts the capture on a gradient or in a browser frame. See{" "}
+          <Link href="/features/screenshot-mockup-tool">mockups</Link>.
+        </li>
+        <li>
+          <b>GIFs without another app.</b> Record, trim, add zooms from your clicks, export a GIF or WebP for the pull
+          request. See <Link href="/features/screen-recording">screen recording</Link>.
+        </li>
+      </ul>
 
-          <div className="border border-border rounded-3xl overflow-hidden">
-            <div className="grid grid-cols-3 border-b border-border text-sm font-bold">
-              <div className="p-5 text-dim">Feature</div>
-              <div className="p-5 text-dim border-l border-border">
-                Snipping Tool
-              </div>
-              <div className="p-5 text-pink border-l border-border">
-                Quick Gen
-              </div>
-            </div>
-            {[
-              ["Global hotkey", "Win+Shift+S", "Ctrl+Q (customizable)"],
-              ["Clipboard copy", "Yes", "Yes — instant, multiple formats"],
-              ["Region selection", "Yes", "Yes — with live dimensions"],
-              ["Snap to window", "Window mode", "Yes — with edge snapping and a pixel loupe"],
-              ["Floating previews", "No", "Yes — pin, stack, resize"],
-              ["Capture history", "No", "Last 12 in the tray"],
-              ["Annotation", "Basic", "Full — 9 tools, marks stay editable"],
-              [
-                "Backgrounds & frames",
-                "No",
-                "10 gradients, 6 wallpapers, browser frames",
-              ],
-              ["Screen recording", "Yes (Win 11)", "Yes — mic + system audio"],
-              ["Video editing", "No", "Trim + zoom-ins from your clicks"],
-              ["Multi-monitor", "Limited", "Seamless across displays"],
-              ["Custom hotkeys", "No", "Yes — fully rebindable"],
-              ["Auto-save", "Manual save", "Automatic with timestamps"],
-              ["Open source", "No", "MIT license"],
-              ["Cloud/account", "Microsoft account", "None required"],
-            ].map(([feature, snipping, qgn], i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 border-b border-border last:border-b-0 text-sm"
-              >
-                <div className="p-4 text-foreground font-medium">
-                  {feature}
-                </div>
-                <div className="p-4 text-muted border-l border-border">
-                  {snipping}
-                </div>
-                <div className="p-4 text-foreground border-l border-border">
-                  {qgn}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <h2>what you give up</h2>
+      <ul>
+        <li>Being built in. The Snipping Tool is already installed and updated by Windows. QGN is one more app.</li>
+        <li>Text extraction. The Snipping Tool can read text out of a snip. QGN can&apos;t.</li>
+        <li>Freeform snips. QGN captures rectangles, windows and displays only.</li>
+        <li>Size and signing. QGN is Electron, about 85 MB, and not code signed yet, so SmartScreen warns once.</li>
+      </ul>
 
-      {/* Why switch */}
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            Why developers
-            <br />
-            <span className="text-pink">switch from Snipping Tool.</span>
-          </h2>
+      <h2>using both</h2>
+      <p>
+        Nothing to uninstall. The Snipping Tool keeps <kbd>win</kbd>+<kbd>shift</kbd>+<kbd>s</kbd>, QGN takes{" "}
+        <kbd>ctrl</kbd>+<kbd>q</kbd>. Use each for what it is good at, and see which one you reach for after a week.
+      </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Speed</h3>
-              <p className="text-muted leading-relaxed">
-                Snipping Tool opens a window, then you select a mode, then you
-                draw your selection. Quick Gen skips all of that — one hotkey
-                and you&apos;re selecting. The screenshot is on your clipboard
-                before Snipping Tool finishes opening.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Floating previews</h3>
-              <p className="text-muted leading-relaxed">
-                Snipping Tool saves to a file or opens in its editor. Quick Gen
-                shows a floating preview card that stays on top of your windows.
-                You can reference it, annotate it, or just glance at it while
-                you work.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Better annotation
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Snipping Tool offers a pen and highlighter. Quick Gen gives you
-                arrows, shapes, text, numbered callouts, freehand drawing, and a
-                blur tool — all accessible via single-key shortcuts.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">No account</h3>
-              <p className="text-muted leading-relaxed">
-                The latest Snipping Tool versions push you toward OneDrive
-                integration and Microsoft account sign-in. Quick Gen has no
-                account, no cloud, no sign-in prompts. Just a local tool.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <RelatedFeatures current="/features/snipping-tool-alternative" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

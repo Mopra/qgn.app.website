@@ -1,160 +1,105 @@
-import type { Metadata } from "next";
-import {
-  Nav,
-  Breadcrumbs,
-  FeatureCTA,
-  FeatureFooter,
-  RelatedUseCases,
-} from "@/app/components/FeatureLayout";
+import Link from "next/link";
+import { Compare, Doc, faqLd, meta } from "@/app/site";
 
-export const metadata: Metadata = {
-  title: "Screenshot Tool for Documentation — Quick Gen",
-  description:
-    "Create documentation screenshots quickly. Capture UI states, annotate with arrows and callout numbers, auto-save to a folder. Perfect for guides, READMEs, knowledge bases, and tutorials.",
-  keywords: [
-    "screenshot for documentation",
-    "documentation screenshot tool",
-    "screenshot for tutorials",
-    "screenshot for guides",
-    "screenshot for knowledge base",
-    "annotated screenshots documentation",
-    "Quick Gen",
+export const metadata = meta(
+  "/use-cases/documentation",
+  "Screenshot tool for documentation on Windows: QGN",
+  "A free screenshot tool for documentation and tutorials on Windows. Exact window captures, numbered callouts, consistent frames and backgrounds, auto-save to a folder. Open source, no account.",
+);
+
+const qa: [string, string][] = [
+  [
+    "What is a good screenshot tool for documentation on Windows?",
+    "One that gives you clean, consistent captures quickly: exact window edges, numbered callouts for steps, redaction, and the same framing on every image. QGN does all of that, free and open source. If you need scrolling capture or scripted screenshots, Snagit or ShareX cover those and QGN does not.",
   ],
-  alternates: { canonical: "/use-cases/documentation" },
-  openGraph: {
-    title: "Screenshot Tool for Documentation — Quick Gen",
-    description:
-      "Fast documentation screenshots. Capture, annotate with callouts, auto-save to folder. Perfect for guides and tutorials.",
-    url: "https://qgn.app/use-cases/documentation",
-    images: [
-      {
-        url: "/logo/Logo%20Black%20BG.png",
-        width: 1200,
-        height: 630,
-        alt: "Quick Gen — Screenshot tool for Windows",
-      },
-    ],
-  },
-};
+  [
+    "Can QGN keep every screenshot the same size?",
+    "Window capture takes a window at its exact size, so resize the window once and every capture matches. In Compose you can fix an aspect ratio, padding and background, and save gradients and colours to reuse.",
+  ],
+  [
+    "Can QGN save every capture to a folder automatically?",
+    "Yes. Turn on auto-save in Settings and every capture is written to a folder with a timestamp, Pictures\\qgn by default.",
+  ],
+];
 
-export default function DocumentationPage() {
+export default function Page() {
   return (
-    <div className="noise">
-      <Nav />
-      <Breadcrumbs items={[
-        { label: "Use Cases" },
-        { label: "For Documentation" }
-      ]} />
+    <Doc
+      crumbs={[{ label: "for" }, { label: "documentation" }]}
+      title="Screenshots for documentation, without the busywork."
+      lede="Docs need dozens of screenshots that look like they belong together. QGN makes each one quick, and makes them match."
+      ld={faqLd(qa)}
+    >
+      <p>
+        Writing docs means taking the same kind of screenshot over and over: a window, a dialog, a setting, with a
+        number on the step and the private bits hidden. The capture should take a second. The consistency should come
+        for free. Here is how that works in QGN.
+      </p>
 
-      <section className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-10 pt-8">
-        <div className="relative max-w-5xl">
-          <p className="text-pink font-mono font-bold text-sm tracking-widest uppercase mb-6">
-            For Documentation
-          </p>
-          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[0.88] tracking-[-0.05em] mb-8">
-            Docs that actually
-            <br />
-            <span className="text-pink">show what to do.</span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-muted leading-relaxed">
-            Good documentation has screenshots. Great documentation has
-            annotated screenshots with numbered steps. Quick Gen makes both
-            fast enough that you&apos;ll actually do it instead of writing
-            another wall of text.
-          </p>
-        </div>
-      </section>
+      <h2>what docs need, and how</h2>
+      <Compare
+        cols={["in QGN"]}
+        rows={[
+          ["clean edges", "click a window, get exactly that window. Edges snap while you drag a region."],
+          ["the same size every time", "resize the window once, then window capture matches it on every shot"],
+          ["numbered steps", "callouts that count up by themselves (c)"],
+          ["pointing at things", "arrows (a), boxes and ellipses (s), text in three sizes (t)"],
+          ["hiding data", "solid block redaction that replaces the pixels (x), or pixelate"],
+          ["a cursor where you want it", "captures are cursor-free; stamp one in on purpose (p)"],
+          ["consistent framing", "Compose: background, padding, corners, shadow, fixed aspect ratio"],
+          ["a folder of images", "auto-save writes every capture with a timestamp"],
+          ["short how-to clips", "record a region, trim, zoom on clicks, export GIF or MP4"],
+        ]}
+      />
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-16">
-            The right tools for
-            <br />
-            <span className="text-pink">documentation screenshots.</span>
-          </h2>
+      <h2>a page of steps, start to finish</h2>
+      <ol>
+        <li>Turn on auto-save in Settings and point it at your docs&apos; image folder.</li>
+        <li>
+          Size the app you are documenting once. For each step, <kbd>ctrl</kbd>+<kbd>q</kbd> and click its window.
+        </li>
+        <li>
+          Need a dialog or a panel only? Drag over it. Hold <kbd>alt</kbd> as you release if you want to nudge the edges
+          with the arrow keys first, then <kbd>enter</kbd>.
+        </li>
+        <li>
+          Open a capture in Studio from its card. Add callouts with <kbd>c</kbd>, an arrow with <kbd>a</kbd>, redact with{" "}
+          <kbd>x</kbd>. Every mark stays editable, so a wrong number is a click, not a redo.
+        </li>
+        <li>
+          For the hero image at the top of the page, switch to Compose: a gradient or wallpaper, a window or browser
+          frame, padding and a shadow. Save the gradient, and the next page gets the same look.
+        </li>
+      </ol>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Numbered callouts</h3>
-              <p className="text-muted leading-relaxed">
-                Place auto-incrementing numbered markers on your screenshot to
-                label each step. &quot;Click 1, fill in 2, submit 3&quot;
-                reads instantly — no paragraph of instructions needed.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Arrows and shapes</h3>
-              <p className="text-muted leading-relaxed">
-                Point at the exact button, menu item, or field the user needs
-                to interact with. Circle important areas, draw rectangles
-                around sections. Visual directions that anyone can follow.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">Auto-save to folder</h3>
-              <p className="text-muted leading-relaxed">
-                Point Quick Gen at your docs asset folder. Every screenshot is
-                automatically saved with a timestamp. No manual &quot;save
-                as&quot; step — just capture and move on. Rename later.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Multiple output formats
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Save as PNG for lossless quality in docs, JPG for smaller file
-                sizes on the web, WebP for modern docs sites, or base64 for
-                inline embedding in markdown.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Blur sensitive content
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Documentation screenshots often show real user data, internal
-                URLs, or configuration values. Blur them before including in
-                public-facing docs.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <h3 className="text-lg font-black mb-2">
-                Video walkthroughs
-              </h3>
-              <p className="text-muted leading-relaxed">
-                Some processes are easier to show than describe. Record a screen
-                region with mic narration for tutorials, onboarding guides, or
-                complex multi-step workflows.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>clips beat paragraphs</h2>
+      <p>
+        Some steps are easier to show than to write. <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>q</kbd> records a region.
+        Studio makes zoom keyframes from your clicks, so a small button is readable in the export, and an optional
+        styled cursor shows a ripple on each click. Export GIF or animated WebP for docs that only take images, MP4 or
+        WebM where video plays. More in <Link href="/features/screen-recording">screen recording</Link>.
+      </p>
 
-      <section className="px-6 md:px-10 py-32 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[0.9] mb-8">
-            Works with any docs platform
-          </h2>
-          <div className="space-y-6 text-muted text-lg leading-relaxed">
-            <p>
-              Quick Gen outputs standard image formats that work everywhere —
-              Notion, Confluence, GitBook, Docusaurus, ReadMe, plain
-              markdown READMEs, or any CMS that accepts image pastes.
-            </p>
-            <p>
-              Since every capture goes to your clipboard, inserting a
-              screenshot into your docs is literally Ctrl+Q, select, switch to
-              your editor, Ctrl+V. The image is embedded.
-            </p>
-          </div>
-        </div>
-      </section>
+      <h2>what it doesn&apos;t do</h2>
+      <ul>
+        <li>No scrolling capture. A page longer than the screen needs several shots.</li>
+        <li>No automation. You can&apos;t script QGN to retake every screenshot after a UI change.</li>
+        <li>No templates or step-by-step document export. It makes images; your docs tool does the rest.</li>
+        <li>Windows only.</li>
+      </ul>
+      <p>
+        If those matter more than speed and price, Snagit has them. See{" "}
+        <Link href="/alternatives/snagit">QGN and Snagit</Link> for an honest comparison.
+      </p>
 
-      <RelatedUseCases current="/use-cases/documentation" />
-      <FeatureCTA />
-      <FeatureFooter />
-    </div>
+      <h2>questions</h2>
+      {qa.map(([q, a]) => (
+        <p key={q}>
+          <b>{q}</b>
+          <br />
+          {a}
+        </p>
+      ))}
+    </Doc>
   );
 }

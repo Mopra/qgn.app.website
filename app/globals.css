@@ -1,100 +1,148 @@
-@import "tailwindcss";
-
-@theme inline {
-  --color-background: #050505;
-  --color-foreground: #f0f0f0;
-  --color-pink: #AF226B;
-  --color-pink-light: #d42d82;
-  --color-pink-dark: #8a1a55;
-  --color-muted: #777777;
-  --color-dim: #444444;
-  --color-card: #0e0e0e;
-  --color-border: #1a1a1a;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --bg: #000;
+  --off: #121214;
+  --line: #222227;
+  --pink: #e0338a;
+  --text: #e8e9ed;
+  --dim: #6b6f78;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; }
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 13px; font-weight: 300; line-height: 1.6;
+  letter-spacing: .02em;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
-/* Selection */
-::selection {
-  background: #AF226B;
-  color: white;
+::selection { background: var(--pink); color: #fff; }
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--text); }
+:focus-visible { outline: 1px solid var(--pink); outline-offset: 4px; }
+b, strong { font-weight: 400; color: var(--text); }
+kbd {
+  font: inherit; color: var(--text);
+  border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px;
+  padding: 0 5px; background: var(--off);
 }
+code { font-family: inherit; color: var(--text); }
 
-/* Marquee */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+/* ── The hero: the page is the overlay. ── */
+.hero {
+  position: relative; min-height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: crosshair; user-select: none; -webkit-user-select: none;
 }
+.hero canvas.scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero .say { position: relative; text-align: center; padding: 0 24px; pointer-events: none; }
+.hero h1 { font-size: clamp(22px, 3.4vw, 40px); font-weight: 300; letter-spacing: -.01em; line-height: 1.25; }
+.hero h1 em { font-style: normal; color: var(--pink); }
+.hero .try { margin-top: 28px; color: var(--dim); z-index: 6; }
+.hero .try b { color: var(--pink); }
+.brand { position: absolute; top: 26px; left: 32px; display: flex; align-items: center; gap: 10px; color: var(--text); }
+.brand svg { width: 18px; height: 18px; }
+.corner { position: absolute; bottom: 28px; right: 32px; display: flex; gap: 28px; color: var(--dim); }
+.corner .get { color: var(--text); }
+.corner .get:hover { color: var(--pink); }
+.needs { position: absolute; bottom: 28px; left: 32px; color: var(--dim); }
+.hero a, .hero nav { cursor: pointer; }
 
-.animate-marquee {
-  animation: marquee 20s linear infinite;
+/* The selection, drawn over the scene. */
+.dim { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.sel {
+  position: absolute; pointer-events: none;
+  outline: 1px solid var(--pink);
+  box-shadow: 0 0 0 100vmax rgba(0,0,0,.55);
 }
-
-/* Key press animation */
-@keyframes key-press {
-  0%, 100% { transform: translateY(0); box-shadow: 0 4px 0 #1a1a1a; }
-  50% { transform: translateY(3px); box-shadow: 0 1px 0 #1a1a1a; }
+.sel span {
+  position: absolute; top: -24px; left: -1px; padding: 1px 6px; font-variant-numeric: tabular-nums;
+  background: var(--pink); color: #fff; border-radius: 3px; white-space: nowrap;
 }
-
-.key-animate {
-  animation: key-press 2s ease-in-out infinite;
+.loupe {
+  position: absolute; pointer-events: none; color: var(--dim); font-variant-numeric: tabular-nums;
+  transform: translate(14px, 14px); white-space: nowrap;
 }
+.flash { position: absolute; background: #fff; pointer-events: none; animation: flash .35s ease-out forwards; }
+@keyframes flash { from { opacity: .6; } to { opacity: 0; } }
 
-.key-animate-delay {
-  animation: key-press 2s ease-in-out 0.15s infinite;
+/* The floating preview card, as in the app. */
+.card {
+  position: fixed; right: 24px; bottom: 24px; z-index: 20; width: 260px;
+  background: var(--off); border: 1px solid var(--line); border-radius: 8px; padding: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  animation: rise .25s ease-out;
+  cursor: default; user-select: none;
 }
+.card img { display: block; width: 100%; max-height: 160px; object-fit: contain; background: #000; border-radius: 4px; cursor: grab; }
+.card p { margin-top: 8px; color: var(--dim); }
+.card p b { color: var(--text); }
+.card .row { display: flex; justify-content: space-between; margin-top: 6px; }
+.card button, .card a { font: inherit; letter-spacing: inherit; color: var(--dim); background: none; border: 0; cursor: pointer; padding: 0; }
+.card button:hover, .card a:hover { color: var(--text); }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
 
-/* Noise texture overlay */
-.noise::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  /* Below the nav (z-50) and the mobile menu (z-40): this is a texture over
-     the page, not over the chrome. */
-  z-index: 30;
-  opacity: 0.4;
+/* ── Everything below the fold: one narrow column, a label on the left. ── */
+.page { max-width: 680px; margin: 0 auto; padding: 120px 20px 80px; display: flex; flex-direction: column; gap: 72px; }
+.row2 { display: grid; grid-template-columns: 112px 1fr; gap: 24px; }
+.row2 > h2 { font: inherit; color: var(--text); }
+.row2 > div { color: var(--dim); display: flex; flex-direction: column; gap: 14px; }
+.row2 a, .prose a { color: var(--text); border-bottom: 1px solid var(--line); }
+.row2 a:hover, .prose a:hover { border-color: var(--pink); }
+.keys { list-style: none; display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; }
+.keys dt { color: var(--text); white-space: nowrap; }
+.list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.list li { position: relative; padding-left: 18px; }
+.list li::before { content: "·"; position: absolute; left: 4px; color: var(--pink); }
+ol.steps { list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 14px; }
+ol.steps li { counter-increment: s; position: relative; padding-left: 26px; }
+ol.steps li::before { content: counter(s); position: absolute; left: 0; color: var(--dim); opacity: .6; }
+.latest .v { color: var(--pink); }
+
+/* ── Subpages ── */
+.top { max-width: 680px; margin: 0 auto; padding: 26px 20px 0; display: flex; justify-content: space-between; align-items: center; color: var(--dim); }
+.top .brand { position: static; }
+.top nav { display: flex; gap: 24px; }
+.top .get { color: var(--text); }
+.top .get:hover { color: var(--pink); }
+.doc { max-width: 680px; margin: 0 auto; padding: 96px 20px 40px; }
+.doc .crumb { color: var(--dim); margin-bottom: 20px; }
+.doc .crumb a:hover { color: var(--text); }
+.doc h1 { font-size: clamp(22px, 3vw, 32px); font-weight: 300; letter-spacing: -.01em; line-height: 1.25; }
+.doc .lede { margin-top: 20px; color: var(--dim); font-size: 14px; }
+.prose { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; color: var(--dim); }
+.prose h2 { font: inherit; color: var(--text); margin-top: 40px; }
+.prose h2::before { content: "# "; color: var(--pink); }
+.prose p b { color: var(--text); }
+.prose ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.prose ul li { position: relative; padding-left: 18px; }
+.prose ul li::before { content: "·"; position: absolute; left: 4px; color: var(--pink); }
+.prose ol { padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+.prose pre { background: var(--off); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; color: var(--text); }
+.table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.table th, .table td { text-align: left; vertical-align: top; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--line); }
+.table th { font-weight: 300; color: var(--dim); }
+.table thead th { color: var(--text); }
+.table td { color: var(--dim); }
+.table td.q { color: var(--text); }
+.table-wrap { overflow-x: auto; }
+.cta { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 12px 28px; color: var(--dim); }
+.cta .get { color: var(--text); }
+.cta .get:hover { color: var(--pink); }
+
+footer.foot { max-width: 680px; margin: 0 auto; padding: 48px 20px 64px; color: var(--dim); display: flex; flex-direction: column; gap: 18px; }
+footer.foot .links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+footer.foot a:hover { color: var(--text); }
+footer.foot .group { display: grid; grid-template-columns: 112px 1fr; gap: 24px; }
+footer.foot .group > span { color: var(--text); }
+
+@media (max-width: 560px) {
+  .corner { right: 0; left: 0; justify-content: center; gap: 20px; }
+  .needs { left: 0; right: 0; bottom: 58px; text-align: center; }
+  .brand { left: 20px; }
+  .row2, footer.foot .group { grid-template-columns: 1fr; gap: 10px; }
+  .top nav .hide { display: none; }
+  .card { left: 16px; right: 16px; width: auto; }
 }
-
-/* Modal entrance */
-@keyframes modal-in {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.animate-in {
-  animation: modal-in 0.2s ease-out both;
-}
-
-/* Giant number style */
-.giant-number {
-  font-size: clamp(8rem, 20vw, 16rem);
-  line-height: 0.8;
-  -webkit-text-stroke: 2px #1a1a1a;
-  color: transparent;
-}
-
-/* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
-  .key-animate,
-  .key-animate-delay,
-  .animate-in {
-    animation: none !important;
-  }
+  .flash, .card { animation: none; }
 }

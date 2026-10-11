@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Cards, ToastPill, type Shot, type Toast } from "./cards";
 
 // The hero is a small copy of QGN's capture overlay. Drag a region and it is
 // cut out of the page and put on your clipboard as a real PNG, then shown on a
-// floating card, as the app does with your screen. Click for the whole hero,
+// floating preview card, as the app does with your screen. Click for the whole hero,
 // Ctrl+Q dims it the way the hotkey does, Space takes all of it.
 //
 // The page is drawn twice: the browser draws the HTML, and paint() draws the
 // same dots and text onto a canvas, which is what a capture cuts from.
 
 type Rect = { x: number; y: number; w: number; h: number };
-type Shot = { url: string; blob: Blob; w: number; h: number; copied: boolean };
 
 const GAP = 24;
 
@@ -22,7 +22,9 @@ export default function Capture({ children }: { children: React.ReactNode }) {
   const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
   const [armed, setArmed] = useState(false);
   const [flash, setFlash] = useState<Rect | null>(null);
-  const [shot, setShot] = useState<Shot | null>(null);
+  const [shots, setShots] = useState<Shot[]>([]);
+  const [toast, setToast] = useState<Toast | null>(null);
+  const ids = useRef(0);
   const [touch, setTouch] = useState(false);
   const drag = useRef<{ x: number; y: number; id: number } | null>(null);
 
@@ -140,19 +142,34 @@ export default function Capture({ children }: { children: React.ReactNode }) {
     }
     Promise.allSettled([png, write]).then(([b, w]) => {
       if (b.status !== "fulfilled") return;
-      setShot((old) => {
-        if (old) URL.revokeObjectURL(old.url);
-        return { url: URL.createObjectURL(b.value), blob: b.value, w: out.width, h: out.height, copied: w.status === "fulfilled" };
+      // At most four cards, as a screen would hold; the oldest goes first.
+      const shot = { id: ++ids.current, url: URL.createObjectURL(b.value), blob: b.value, w: out.width, h: out.height };
+      setShots((old) => {
+        old.slice(0, -3).forEach((o) => URL.revokeObjectURL(o.url));
+        return [...old.slice(-3), shot];
       });
+      say(w.status === "fulfilled" ? "Copied to clipboard" : null);
     });
   }
 
-  const again = () => {
-    if (!shot) return;
+  // The app's toast. A browser that refuses image writes gets told how else.
+  function say(text: string | null) {
+    const id = ++ids.current;
+    setToast(text ? { id, text } : { id, text: "This browser won't copy images. Drag the card out instead.", error: true });
+    setTimeout(() => setToast((t) => (t?.id === id ? null : t)), 3100);
+  }
+
+  const copy = (s: Shot) => {
     navigator.clipboard
-      .write([new ClipboardItem({ "image/png": shot.blob })])
-      .then(() => setShot({ ...shot, copied: true }), () => {});
+      .write([new ClipboardItem({ "image/png": s.blob })])
+      .then(() => say("Copied to clipboard"), () => say(null));
   };
+
+  const close = (id: number) =>
+    setShots((old) => {
+      old.filter((o) => o.id === id).forEach((o) => URL.revokeObjectURL(o.url));
+      return old.filter((o) => o.id !== id);
+    });
 
   return (
     <section
@@ -191,26 +208,8 @@ export default function Capture({ children }: { children: React.ReactNode }) {
         </div>
       )}
       {flash && <div className="flash" style={{ left: flash.x, top: flash.y, width: flash.w, height: flash.h }} />}
-      {shot && (
-        <div className="card" role="status" onPointerDown={(e) => e.stopPropagation()}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={shot.url} alt="Your capture of this page" draggable />
-          <p>
-            {shot.copied ? (
-              <>
-                <b>copied</b> {shot.w} × {shot.h} png. paste it anywhere, or drag the picture out.
-              </>
-            ) : (
-              <>this browser won&apos;t let a page put images on the clipboard. drag the picture out instead. the app has no such problem.</>
-            )}
-          </p>
-          <div className="row">
-            <button onClick={again}>copy again</button>
-            <a href={shot.url} download="qgn-capture.png">save</a>
-            <button onClick={() => { URL.revokeObjectURL(shot.url); setShot(null); }} aria-label="Close">close</button>
-          </div>
-        </div>
-      )}
+      <Cards shots={shots} onClose={close} onCopy={copy} />
+      <ToastPill toast={toast} />
     </section>
   );
 }
@@ -238,7 +237,7 @@ function text(ctx: CanvasRenderingContext2D, root: HTMLElement, box: DOMRect) {
     const s = n.textContent ?? "";
     if (!s.trim() || !n.parentElement) continue;
     const st = getComputedStyle(n.parentElement);
-    if (st.visibility === "hidden" || st.display === "none" || n.parentElement.closest(".card,.sel,.loupe")) continue;
+    if (st.visibility === "hidden" || st.display === "none" || n.parentElement.closest(".qcard,.qtoast-wrap,.sel,.loupe")) continue;
     ctx.font = `${st.fontWeight} ${st.fontSize} ${st.fontFamily}`;
     ctx.fillStyle = st.color;
     if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = st.letterSpacing === "normal" ? "0px" : st.letterSpacing;
